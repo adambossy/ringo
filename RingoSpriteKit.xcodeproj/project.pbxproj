@@ -510,6 +510,7 @@
 				664909BC1F44D51D000A0626 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		664909BD1F44D51D000A0626 /* Build configuration list for PBXNativeTarget "RingoSpriteKitTests" */ = {
 			isa = XCConfigurationList;
@@ -518,6 +519,7 @@
 				664909BF1F44D51D000A0626 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		664909C01F44D51D000A0626 /* Build configuration list for PBXNativeTarget "RingoSpriteKitUITests" */ = {
 			isa = XCConfigurationList;
@@ -526,6 +528,7 @@
 				664909C21F44D51D000A0626 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
