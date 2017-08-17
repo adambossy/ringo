@@ -23,7 +23,7 @@ class GameScene: SKScene {
 //        addChild(blankStaff)
 
         print("Loading...")
-        print(SongNotationReader().read("RushTomSawyer"))
+        print(SongReader().read("SporkTestSong"))
         
         run(SKAction.repeatForever(
             SKAction.sequence([
