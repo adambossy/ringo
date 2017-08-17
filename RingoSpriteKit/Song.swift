@@ -9,10 +9,10 @@
 import Foundation
 
 class Song {
-    var name : String
-    var artist : String
-    var bpm : Int
-    var notation : SongNotation
+    public var name : String
+    public var artist : String
+    public var bpm : Int
+    public var notation : SongNotation
     
     init(name _name: String, artist _artist: String, bpm _bpm: Int, notation _notation: SongNotation) {
         name = _name

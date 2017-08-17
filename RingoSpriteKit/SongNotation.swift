@@ -21,14 +21,16 @@ enum InstrumentType: String{
 
 class SongNotation {
 
-    var numInstruments : Int
     var noteSequenceByInstrument : Dictionary<InstrumentType, NoteSequence>
     
     init() {
-        numInstruments = 0
         noteSequenceByInstrument = [InstrumentType: NoteSequence]()
     }
 
+    func getInstruments() -> [InstrumentType] {
+        return Array(noteSequenceByInstrument.keys)
+    }
+    
     func addInstrument(_ type: InstrumentType) -> NoteSequence {
         noteSequenceByInstrument[type] = NoteSequence()
         return noteSequenceByInstrument[type]!

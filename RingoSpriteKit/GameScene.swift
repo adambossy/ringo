@@ -9,12 +9,32 @@
 import SpriteKit
 import GameplayKit
 
+enum InstrumentYPosition: CGFloat {
+    case HiHat = 70
+    case Snare = 60
+    case Tom1 = 50
+    case Tom2 = 40
+    case Tom3 = 30
+    case Tom4 = 20
+    case Kick = 10
+}
+
 class GameScene: SKScene {
     
-    private var bpm = 60
+    private var tick = 0
+    private var song : Song?
 
     private var blankStaff = SKSpriteNode(imageNamed: "BlankStaff")
 
+    override init(size: CGSize) {
+        super.init(size:size)
+        song = nil
+    }
+    
+    override required init?(coder aDecoder: NSCoder) {
+        super.init(coder:aDecoder)
+    }
+    
     override func didMove(to view: SKView) {
 
         // Render blank staff as background
@@ -23,20 +43,40 @@ class GameScene: SKScene {
 //        addChild(blankStaff)
 
         print("Loading...")
-        print(SongReader().read("SporkTestSong"))
-        
-        run(SKAction.repeatForever(
-            SKAction.sequence([
-                SKAction.run(addQuarterNote),
-                SKAction.wait(forDuration: TimeInterval(60/bpm)) // 1 sec = quarter notes at 60bpm
-            ])
-        ))
+
+        if let song = SongReader().read("SporkTestSong") {
+            
+            run(SKAction.repeatForever(
+                SKAction.sequence([
+                    SKAction.run(ingestTick),
+                    // 1 sec = quarter notes at 60bpm
+                    // 60/bpm/4 = sixteenth note ticks at 60 bpm
+                    SKAction.wait(forDuration: TimeInterval(60/song.bpm/4))
+    //                SKAction.run({ self.addQuarterNote(ofType: InstrumentYPosition.Snare) }),
+    //                SKAction.wait(forDuration: TimeInterval(60/bpm)) // 1 sec = quarter notes at 60bpm
+                ])
+            ))
+        }
     }
 
-    
-    func addQuarterNote() {
+    func ingestTick() {
+        // NOTE Unwrapping weirdness. Fix!
+        if let _song = song {
+            let notation = _song.notation
+            let instruments = notation.getInstruments()
 
-        let noteY = CGFloat(97)
+            for instrument in instruments {
+                let sequence = notation.getNoteSequence(forType: instrument)
+                sequence
+            }
+        }
+        
+        tick += 1
+    }
+    
+    func addQuarterNote(ofType type: InstrumentYPosition) {
+
+        let noteY : CGFloat = type.rawValue
         let noteDistanceX = CGFloat(200) // Desired distance between quarter notes
 
         let note = SKSpriteNode(imageNamed: "QuarterNoteUpright")

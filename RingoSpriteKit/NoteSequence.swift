@@ -21,6 +21,19 @@ class NoteSequence : CustomStringConvertible {
         tickOffset = 0
     }
 
+    // Ingestion
+    
+    func next() -> Note? {
+        head = head?.next
+        return head
+    }
+
+    func getNote(at tick: Int) {
+        
+    }
+    
+    // Construction
+    
     func addNote(_ tick: Int) {
         let note = Note(tick + tickOffset)
         
