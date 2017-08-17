@@ -18,12 +18,6 @@ enum InstrumentType: String{
     case Tom4 = "tom4"
 }
 
-//let instrumentMap = [
-//    "hihat": HiHat,
-//    "snare": Snare,
-//    "kick": Kick,
-//    "tom1": Tom1]
-
 
 class SongNotation {
 

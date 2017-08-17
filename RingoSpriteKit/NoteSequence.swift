@@ -24,8 +24,6 @@ class NoteSequence : CustomStringConvertible {
     func addNote(_ tick: Int) {
         let note = Note(tick + tickOffset)
         
-        print("Adding note at tick: %@", note.tick)
-        
         if nil == head {
             head = note
         }

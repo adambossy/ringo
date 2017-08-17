@@ -35,7 +35,6 @@ class SongReader {
             
             if eightBars.isEmpty { // Blank lines delimit eight bar chunks
                 tickBookmark = tick
-//                tick += 8 * 16 // Eight bars with sixteenth-note ticks
                 instrumentIndex = 0
             } else {
             
@@ -45,17 +44,12 @@ class SongReader {
 
                         if (note != nonNote) {
                             notation.addNote(type: instrumentType, tick: tick)
-                            print("Added note with tick %@", tick)
                         }
 
                         tick += 1
-                        
-//                        print(String(describing: notation.getNoteSequence(forType: instrumentType)))
                     }
                     
                     notation.closeBar(at: tick, forType: instrumentType)
-
-                    print(String(describing: notation.getNoteSequence(forType: instrumentType)))
 
                     instrumentIndex += 1
                     tick = tickBookmark
@@ -89,7 +83,6 @@ class SongReader {
             
             let instrumentData = songData[3] as String
             let instrumentTypes = instrumentData.components(separatedBy: .whitespaces)
-            //            let instrumentMap = readInstruments(instrumentData: songData[3] as String)
 
             let notation = readNotation(instrumentTypes: instrumentTypes, songData: songData)
 

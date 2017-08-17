@@ -36,8 +36,6 @@ class GameScene: SKScene {
     
     func addQuarterNote() {
 
-        print("Note")
-
         let noteY = CGFloat(97)
         let noteDistanceX = CGFloat(200) // Desired distance between quarter notes
 
