@@ -16,6 +16,9 @@
 		664909A01F44D51D000A0626 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6649099E1F44D51D000A0626 /* Main.storyboard */; };
 		664909AB1F44D51D000A0626 /* RingoSpriteKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664909AA1F44D51D000A0626 /* RingoSpriteKitTests.swift */; };
 		664909B61F44D51D000A0626 /* RingoSpriteKitUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664909B51F44D51D000A0626 /* RingoSpriteKitUITests.swift */; };
+		668E86781F451B030031F25F /* SongNotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668E86771F451B030031F25F /* SongNotation.swift */; };
+		668E867A1F451B1C0031F25F /* SongNotationReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668E86791F451B1C0031F25F /* SongNotationReader.swift */; };
+		668E867C1F451B790031F25F /* NoteSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668E867B1F451B790031F25F /* NoteSequence.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +54,9 @@
 		664909B11F44D51D000A0626 /* RingoSpriteKitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RingoSpriteKitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		664909B51F44D51D000A0626 /* RingoSpriteKitUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingoSpriteKitUITests.swift; sourceTree = "<group>"; };
 		664909B71F44D51D000A0626 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		668E86771F451B030031F25F /* SongNotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongNotation.swift; sourceTree = "<group>"; };
+		668E86791F451B1C0031F25F /* SongNotationReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongNotationReader.swift; sourceTree = "<group>"; };
+		668E867B1F451B790031F25F /* NoteSequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteSequence.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +107,7 @@
 		664909911F44D51D000A0626 /* RingoSpriteKit */ = {
 			isa = PBXGroup;
 			children = (
+				668E867D1F451B7E0031F25F /* Notation */,
 				664909921F44D51D000A0626 /* AppDelegate.swift */,
 				664909941F44D51D000A0626 /* GameScene.sks */,
 				664909961F44D51D000A0626 /* Actions.sks */,
@@ -129,6 +136,16 @@
 				664909B71F44D51D000A0626 /* Info.plist */,
 			);
 			path = RingoSpriteKitUITests;
+			sourceTree = "<group>";
+		};
+		668E867D1F451B7E0031F25F /* Notation */ = {
+			isa = PBXGroup;
+			children = (
+				668E86771F451B030031F25F /* SongNotation.swift */,
+				668E86791F451B1C0031F25F /* SongNotationReader.swift */,
+				668E867B1F451B790031F25F /* NoteSequence.swift */,
+			);
+			name = Notation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -266,9 +283,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				668E86781F451B030031F25F /* SongNotation.swift in Sources */,
 				6649099B1F44D51D000A0626 /* ViewController.swift in Sources */,
+				668E867C1F451B790031F25F /* NoteSequence.swift in Sources */,
 				664909991F44D51D000A0626 /* GameScene.swift in Sources */,
 				664909931F44D51D000A0626 /* AppDelegate.swift in Sources */,
+				668E867A1F451B1C0031F25F /* SongNotationReader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

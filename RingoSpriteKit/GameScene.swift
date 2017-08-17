@@ -21,6 +21,9 @@ class GameScene: SKScene {
 //        self.backgroundColor = SKColor.clear
 //        blankStaff.position = CGPoint.zero
 //        addChild(blankStaff)
+
+        print("Loading...")
+        print(SongNotationReader().read("RushTomSawyer"))
         
         run(SKAction.repeatForever(
             SKAction.sequence([
