@@ -1,8 +1,8 @@
 //
 //  ViewController.swift
-//  RingoSpriteKit
+//  RingoSceneDebugger
 //
-//  Created by Adam Bossy-Mendoza on 8/16/17.
+//  Created by Adam Bossy-Mendoza on 8/17/17.
 //  Copyright © 2017 Patreon. All rights reserved.
 //
 
@@ -17,14 +17,11 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.window?.styleMask.remove(.resizable)
-
         if let view = self.skView {
-
             // Load the SKScene from 'GameScene.sks'
             if let scene = SKScene(fileNamed: "GameScene") {
                 // Set the scale mode to scale to fit the window
-                scene.scaleMode = .aspectFit
+                scene.scaleMode = .aspectFill
                 
                 // Present the scene
                 view.presentScene(scene)

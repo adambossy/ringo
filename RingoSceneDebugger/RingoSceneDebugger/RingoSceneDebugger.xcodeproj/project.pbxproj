@@ -1,0 +1,533 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6614306C1F466933009FA47F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6614306B1F466933009FA47F /* AppDelegate.swift */; };
+		6614306E1F466933009FA47F /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 6614306D1F466933009FA47F /* GameScene.sks */; };
+		661430701F466933009FA47F /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 6614306F1F466933009FA47F /* Actions.sks */; };
+		661430721F466933009FA47F /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661430711F466933009FA47F /* GameScene.swift */; };
+		661430741F466933009FA47F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661430731F466933009FA47F /* ViewController.swift */; };
+		661430761F466933009FA47F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 661430751F466933009FA47F /* Assets.xcassets */; };
+		661430791F466933009FA47F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 661430771F466933009FA47F /* Main.storyboard */; };
+		661430841F466933009FA47F /* RingoSceneDebuggerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661430831F466933009FA47F /* RingoSceneDebuggerTests.swift */; };
+		6614308F1F466934009FA47F /* RingoSceneDebuggerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6614308E1F466934009FA47F /* RingoSceneDebuggerUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		661430801F466933009FA47F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 661430601F466933009FA47F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 661430671F466933009FA47F;
+			remoteInfo = RingoSceneDebugger;
+		};
+		6614308B1F466934009FA47F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 661430601F466933009FA47F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 661430671F466933009FA47F;
+			remoteInfo = RingoSceneDebugger;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		661430681F466933009FA47F /* RingoSceneDebugger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RingoSceneDebugger.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6614306B1F466933009FA47F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		6614306D1F466933009FA47F /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		6614306F1F466933009FA47F /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
+		661430711F466933009FA47F /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		661430731F466933009FA47F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		661430751F466933009FA47F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		661430781F466933009FA47F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		6614307A1F466933009FA47F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6614307F1F466933009FA47F /* RingoSceneDebuggerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RingoSceneDebuggerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		661430831F466933009FA47F /* RingoSceneDebuggerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingoSceneDebuggerTests.swift; sourceTree = "<group>"; };
+		661430851F466933009FA47F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6614308A1F466934009FA47F /* RingoSceneDebuggerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RingoSceneDebuggerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6614308E1F466934009FA47F /* RingoSceneDebuggerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingoSceneDebuggerUITests.swift; sourceTree = "<group>"; };
+		661430901F466934009FA47F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		661430651F466933009FA47F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6614307C1F466933009FA47F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		661430871F466934009FA47F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6614305F1F466933009FA47F = {
+			isa = PBXGroup;
+			children = (
+				6614306A1F466933009FA47F /* RingoSceneDebugger */,
+				661430821F466933009FA47F /* RingoSceneDebuggerTests */,
+				6614308D1F466934009FA47F /* RingoSceneDebuggerUITests */,
+				661430691F466933009FA47F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		661430691F466933009FA47F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				661430681F466933009FA47F /* RingoSceneDebugger.app */,
+				6614307F1F466933009FA47F /* RingoSceneDebuggerTests.xctest */,
+				6614308A1F466934009FA47F /* RingoSceneDebuggerUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6614306A1F466933009FA47F /* RingoSceneDebugger */ = {
+			isa = PBXGroup;
+			children = (
+				6614306B1F466933009FA47F /* AppDelegate.swift */,
+				6614306D1F466933009FA47F /* GameScene.sks */,
+				6614306F1F466933009FA47F /* Actions.sks */,
+				661430711F466933009FA47F /* GameScene.swift */,
+				661430731F466933009FA47F /* ViewController.swift */,
+				661430751F466933009FA47F /* Assets.xcassets */,
+				661430771F466933009FA47F /* Main.storyboard */,
+				6614307A1F466933009FA47F /* Info.plist */,
+			);
+			path = RingoSceneDebugger;
+			sourceTree = "<group>";
+		};
+		661430821F466933009FA47F /* RingoSceneDebuggerTests */ = {
+			isa = PBXGroup;
+			children = (
+				661430831F466933009FA47F /* RingoSceneDebuggerTests.swift */,
+				661430851F466933009FA47F /* Info.plist */,
+			);
+			path = RingoSceneDebuggerTests;
+			sourceTree = "<group>";
+		};
+		6614308D1F466934009FA47F /* RingoSceneDebuggerUITests */ = {
+			isa = PBXGroup;
+			children = (
+				6614308E1F466934009FA47F /* RingoSceneDebuggerUITests.swift */,
+				661430901F466934009FA47F /* Info.plist */,
+			);
+			path = RingoSceneDebuggerUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		661430671F466933009FA47F /* RingoSceneDebugger */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 661430931F466934009FA47F /* Build configuration list for PBXNativeTarget "RingoSceneDebugger" */;
+			buildPhases = (
+				661430641F466933009FA47F /* Sources */,
+				661430651F466933009FA47F /* Frameworks */,
+				661430661F466933009FA47F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RingoSceneDebugger;
+			productName = RingoSceneDebugger;
+			productReference = 661430681F466933009FA47F /* RingoSceneDebugger.app */;
+			productType = "com.apple.product-type.application";
+		};
+		6614307E1F466933009FA47F /* RingoSceneDebuggerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 661430961F466934009FA47F /* Build configuration list for PBXNativeTarget "RingoSceneDebuggerTests" */;
+			buildPhases = (
+				6614307B1F466933009FA47F /* Sources */,
+				6614307C1F466933009FA47F /* Frameworks */,
+				6614307D1F466933009FA47F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				661430811F466933009FA47F /* PBXTargetDependency */,
+			);
+			name = RingoSceneDebuggerTests;
+			productName = RingoSceneDebuggerTests;
+			productReference = 6614307F1F466933009FA47F /* RingoSceneDebuggerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		661430891F466934009FA47F /* RingoSceneDebuggerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 661430991F466934009FA47F /* Build configuration list for PBXNativeTarget "RingoSceneDebuggerUITests" */;
+			buildPhases = (
+				661430861F466934009FA47F /* Sources */,
+				661430871F466934009FA47F /* Frameworks */,
+				661430881F466934009FA47F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6614308C1F466934009FA47F /* PBXTargetDependency */,
+			);
+			name = RingoSceneDebuggerUITests;
+			productName = RingoSceneDebuggerUITests;
+			productReference = 6614308A1F466934009FA47F /* RingoSceneDebuggerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		661430601F466933009FA47F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0830;
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = Patreon;
+				TargetAttributes = {
+					661430671F466933009FA47F = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+					};
+					6614307E1F466933009FA47F = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 661430671F466933009FA47F;
+					};
+					661430891F466934009FA47F = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 661430671F466933009FA47F;
+					};
+				};
+			};
+			buildConfigurationList = 661430631F466933009FA47F /* Build configuration list for PBXProject "RingoSceneDebugger" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 6614305F1F466933009FA47F;
+			productRefGroup = 661430691F466933009FA47F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				661430671F466933009FA47F /* RingoSceneDebugger */,
+				6614307E1F466933009FA47F /* RingoSceneDebuggerTests */,
+				661430891F466934009FA47F /* RingoSceneDebuggerUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		661430661F466933009FA47F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6614306E1F466933009FA47F /* GameScene.sks in Resources */,
+				661430761F466933009FA47F /* Assets.xcassets in Resources */,
+				661430701F466933009FA47F /* Actions.sks in Resources */,
+				661430791F466933009FA47F /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6614307D1F466933009FA47F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		661430881F466934009FA47F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		661430641F466933009FA47F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				661430741F466933009FA47F /* ViewController.swift in Sources */,
+				661430721F466933009FA47F /* GameScene.swift in Sources */,
+				6614306C1F466933009FA47F /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6614307B1F466933009FA47F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				661430841F466933009FA47F /* RingoSceneDebuggerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		661430861F466934009FA47F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6614308F1F466934009FA47F /* RingoSceneDebuggerUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		661430811F466933009FA47F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 661430671F466933009FA47F /* RingoSceneDebugger */;
+			targetProxy = 661430801F466933009FA47F /* PBXContainerItemProxy */;
+		};
+		6614308C1F466934009FA47F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 661430671F466933009FA47F /* RingoSceneDebugger */;
+			targetProxy = 6614308B1F466934009FA47F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		661430771F466933009FA47F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				661430781F466933009FA47F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		661430911F466934009FA47F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		661430921F466934009FA47F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+			};
+			name = Release;
+		};
+		661430941F466934009FA47F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = RingoSceneDebugger/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.patreon.RingoSceneDebugger;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		661430951F466934009FA47F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = RingoSceneDebugger/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.patreon.RingoSceneDebugger;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		661430971F466934009FA47F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = RingoSceneDebuggerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.patreon.RingoSceneDebuggerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RingoSceneDebugger.app/Contents/MacOS/RingoSceneDebugger";
+			};
+			name = Debug;
+		};
+		661430981F466934009FA47F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = RingoSceneDebuggerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.patreon.RingoSceneDebuggerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RingoSceneDebugger.app/Contents/MacOS/RingoSceneDebugger";
+			};
+			name = Release;
+		};
+		6614309A1F466934009FA47F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = RingoSceneDebuggerUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.patreon.RingoSceneDebuggerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = RingoSceneDebugger;
+			};
+			name = Debug;
+		};
+		6614309B1F466934009FA47F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = RingoSceneDebuggerUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.patreon.RingoSceneDebuggerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = RingoSceneDebugger;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		661430631F466933009FA47F /* Build configuration list for PBXProject "RingoSceneDebugger" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				661430911F466934009FA47F /* Debug */,
+				661430921F466934009FA47F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		661430931F466934009FA47F /* Build configuration list for PBXNativeTarget "RingoSceneDebugger" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				661430941F466934009FA47F /* Debug */,
+				661430951F466934009FA47F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		661430961F466934009FA47F /* Build configuration list for PBXNativeTarget "RingoSceneDebuggerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				661430971F466934009FA47F /* Debug */,
+				661430981F466934009FA47F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		661430991F466934009FA47F /* Build configuration list for PBXNativeTarget "RingoSceneDebuggerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6614309A1F466934009FA47F /* Debug */,
+				6614309B1F466934009FA47F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 661430601F466933009FA47F /* Project object */;
+}

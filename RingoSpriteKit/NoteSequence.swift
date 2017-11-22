@@ -1,5 +1,5 @@
-//
-//  NoteSequence.swift
+    //
+//  ticksequence.swift
 //  RingoSpriteKit
 //
 //  Created by Adam Bossy-Mendoza on 8/16/17.
@@ -11,39 +11,38 @@ import Foundation
 
 class NoteSequence : CustomStringConvertible {
 
-    var head : Note?
-    var tail : Note?
+    public var ticks : [Int]
+
     var tickOffset : Int
 
     init() {
-        head = nil
-        tail = nil
+        ticks = [Int]()
         tickOffset = 0
     }
 
     // Ingestion
     
-    func next() -> Note? {
-        head = head?.next
-        return head
+    func hasNote(at tick: Int) -> Bool {
+        if let noteIndex = binarySearch(ticks, key: tick, range: 0 ..< ticks.count) {
+            if tick == ticks[noteIndex] {
+                return true
+            }
+        }
+        return false
     }
-
-    func getNote(at tick: Int) {
-        
+    
+    func noteRange(from: Int, to: Int) -> [Int] {
+        if let noteFrom : Int = binarySearch(ticks, key: from, range: 0 ..< ticks.count),
+           let noteTo : Int = binarySearch(ticks, key: to, range: 0 ..< ticks.count) {
+            return Array(ticks[noteFrom ..< noteTo])
+        }
+        return [Int]()
     }
     
     // Construction
     
     func addNote(_ tick: Int) {
-        let note = Note(tick + tickOffset)
-        
-        if nil == head {
-            head = note
-        }
-
-        tail?.next = note
-
-        tail = note
+        ticks.append(tick + tickOffset)
     }
 
     func closeBar(at tick: Int) {
@@ -53,25 +52,22 @@ class NoteSequence : CustomStringConvertible {
     public var description: String {
         
         var s = ""
-        var _current = head
-
         var tick = 0
-        while let current = _current {
-            
-            if current.tick > tick {
-                for _ in 0..<current.tick - tick - 1 {
+
+        for currentTick in ticks {
+
+            if currentTick > tick {
+                for _ in 0 ..< currentTick - tick - 1 {
                     s += "-"
                 }
             }
             s += "o"
-
-            tick = current.tick
-
-            _current = current.next
+            
+            tick = currentTick
         }
 
         if tickOffset > tick {
-            for _ in 0..<tickOffset - tick - 1 {
+            for _ in 0 ..< tickOffset - tick - 1 {
                 s += "-"
             }
         }

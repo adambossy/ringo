@@ -53,6 +53,8 @@ class SongReader {
 
                     instrumentIndex += 1
                     tick = tickBookmark
+
+                    print(String(describing: notation.getNoteSequence(forType: instrumentType)))
                 }
             }
         }

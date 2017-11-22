@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6614305E1F4653C5009FA47F /* StaffNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6614305D1F4653C5009FA47F /* StaffNode.swift */; };
+		661B41AA1F4636D900A3BE14 /* BinarySearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661B41A91F4636D900A3BE14 /* BinarySearch.swift */; };
 		664909931F44D51D000A0626 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664909921F44D51D000A0626 /* AppDelegate.swift */; };
 		664909951F44D51D000A0626 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 664909941F44D51D000A0626 /* GameScene.sks */; };
 		664909971F44D51D000A0626 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 664909961F44D51D000A0626 /* Actions.sks */; };
@@ -41,6 +43,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6614305D1F4653C5009FA47F /* StaffNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaffNode.swift; sourceTree = "<group>"; };
+		661B41A91F4636D900A3BE14 /* BinarySearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinarySearch.swift; sourceTree = "<group>"; };
 		6649098F1F44D51D000A0626 /* RingoSpriteKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RingoSpriteKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		664909921F44D51D000A0626 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		664909941F44D51D000A0626 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -88,6 +92,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		661B41A81F4636CA00A3BE14 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				661B41A91F4636D900A3BE14 /* BinarySearch.swift */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
 		664909861F44D51D000A0626 = {
 			isa = PBXGroup;
 			children = (
@@ -111,15 +123,17 @@
 		664909911F44D51D000A0626 /* RingoSpriteKit */ = {
 			isa = PBXGroup;
 			children = (
+				661B41A81F4636CA00A3BE14 /* Utilities */,
 				668E867D1F451B7E0031F25F /* Notation */,
 				664909921F44D51D000A0626 /* AppDelegate.swift */,
 				664909941F44D51D000A0626 /* GameScene.sks */,
 				664909961F44D51D000A0626 /* Actions.sks */,
-				664909981F44D51D000A0626 /* GameScene.swift */,
-				6649099A1F44D51D000A0626 /* ViewController.swift */,
 				6649099C1F44D51D000A0626 /* Assets.xcassets */,
 				6649099E1F44D51D000A0626 /* Main.storyboard */,
 				664909A11F44D51D000A0626 /* Info.plist */,
+				6649099A1F44D51D000A0626 /* ViewController.swift */,
+				664909981F44D51D000A0626 /* GameScene.swift */,
+				6614305D1F4653C5009FA47F /* StaffNode.swift */,
 			);
 			path = RingoSpriteKit;
 			sourceTree = "<group>";
@@ -289,8 +303,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6614305E1F4653C5009FA47F /* StaffNode.swift in Sources */,
 				668E86781F451B030031F25F /* SongNotation.swift in Sources */,
 				6649099B1F44D51D000A0626 /* ViewController.swift in Sources */,
+				661B41AA1F4636D900A3BE14 /* BinarySearch.swift in Sources */,
 				668E867F1F452D4D0031F25F /* Note.swift in Sources */,
 				668E867C1F451B790031F25F /* NoteSequence.swift in Sources */,
 				668E86811F452F8A0031F25F /* Song.swift in Sources */,
