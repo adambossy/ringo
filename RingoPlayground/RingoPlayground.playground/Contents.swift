@@ -96,76 +96,7 @@ for _ in 0 ..< 16 {
 
 print(xPositions)
 
-func makeTwoEighthNotes(at position: CGPoint) -> SKNode {
-    let beamedPair = SKShapeNode(rect: CGRect(x: position.x, y: position.y, width: 1, height: 1))
-    beamedPair.fillColor = SKColor.clear // Make invisible
-    beamedPair.strokeColor = SKColor.clear
 
-    let offsetX = position.x
-    let offsetY = position.y
-    
-    let pairDistanceX = sixteenthNoteDistance * 2
-    
-    let note1 = NoteNode(at: CGPoint(x: offsetX, y: offsetY))
-    let note2 = NoteNode(at: CGPoint(x: offsetX + pairDistanceX, y: offsetY))
-    
-    beamedPair.addChild(note1)
-    beamedPair.addChild(note2)
-
-    // THIS CODE BLOCK TRIGGERS THIS CRYPTIC MESSAGE:
-    //  Context leak detected, msgtracer returned -1
-    let stem = SKShapeNode()
-    let path = CGMutablePath.init()
-    path.move(to: CGPoint(x: offsetX + noteHeadRadius, y: offsetY + (noteHeadRadius * 6)))
-    path.addLine(to: CGPoint(x: offsetX + noteHeadRadius + pairDistanceX + 2, y: offsetY + (noteHeadRadius * 6)))
-    stem.path = path
-    stem.strokeColor = SKColor.black
-    stem.lineWidth = 12
-    beamedPair.addChild(stem)
-
-    return beamedPair
-}
-
-func makeFourSixteenthNotes(at position: CGPoint) -> SKNode {
-    let beamedQuadruplet = SKShapeNode(rect: CGRect(x: position.x, y: position.y, width: 1, height: 1))
-    beamedQuadruplet.fillColor = SKColor.clear // Make invisible
-    beamedQuadruplet.strokeColor = SKColor.clear
-    
-    let offsetX = position.x
-    let offsetY = position.y
-    
-    let note1 = NoteNode(at: CGPoint(x: offsetX, y: offsetY))
-    let note2 = NoteNode(at: CGPoint(x: offsetX + sixteenthNoteDistance, y: offsetY))
-    let note3 = NoteNode(at: CGPoint(x: offsetX + (sixteenthNoteDistance * 2), y: offsetY))
-    let note4 = NoteNode(at: CGPoint(x: offsetX + (sixteenthNoteDistance * 3), y: offsetY))
-    
-    beamedQuadruplet.addChild(note1)
-    beamedQuadruplet.addChild(note2)
-    beamedQuadruplet.addChild(note3)
-    beamedQuadruplet.addChild(note4)
-    
-    // THIS CODE BLOCK TRIGGERS THIS CRYPTIC MESSAGE:
-    //  Context leak detected, msgtracer returned -1
-    let stem = SKShapeNode()
-    let path = CGMutablePath.init()
-    path.move(to: CGPoint(x: offsetX + noteHeadRadius, y: offsetY + (noteHeadRadius * 6)))
-    path.addLine(to: CGPoint(x: offsetX + noteHeadRadius + (sixteenthNoteDistance * 3) + 2, y: offsetY + (noteHeadRadius * 6)))
-    stem.path = path
-    stem.strokeColor = SKColor.black
-    stem.lineWidth = 12
-    beamedQuadruplet.addChild(stem)
-
-    let stem2 = SKShapeNode()
-    let path2 = CGMutablePath.init()
-    path2.move(to: CGPoint(x: offsetX + noteHeadRadius, y: offsetY + (noteHeadRadius * 4)))
-    path2.addLine(to: CGPoint(x: offsetX + noteHeadRadius + (sixteenthNoteDistance * 3) + 2, y: offsetY + (noteHeadRadius * 4)))
-    stem2.path = path2
-    stem2.strokeColor = SKColor.black
-    stem2.lineWidth = 12
-    beamedQuadruplet.addChild(stem2)
-    
-    return beamedQuadruplet
-}
 
 var eighthNoteG4 = Note()
 eighthNoteG4.pitch = NotePitch.G4
