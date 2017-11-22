@@ -52,11 +52,6 @@ sceneView.showsFPS = true
 sceneView.presentScene(scene)
 PlaygroundSupport.PlaygroundPage.current.liveView = sceneView
 
-//let circle = SKSpriteNode(imageNamed: "BlankStaff")
-//circle.name = "shape"
-//circle.position = CGPoint(x: scene.size.width * 0.50, y: scene.size.height * 0.5)
-//scene.addChild(circle)
-
 
 // Staff Canvas
 let staff = SKShapeNode(rect: CGRect(x: 0, y:0, width: sceneWidth, height: sceneHeight / 2))
@@ -100,28 +95,6 @@ for _ in 0 ..< 16 {
 }
 
 print(xPositions)
-
-
-//func makeNote(at position: CGPoint) -> SKNode {
-//    let note = SKShapeNode(circleOfRadius: noteHeadRadius)
-//    note.position = position
-//    note.lineWidth = 2
-//    note.strokeColor = SKColor.black
-//    note.fillColor = SKColor.black
-//    
-//    // THIS CODE BLOCK TRIGGERS THIS CRYPTIC MESSAGE:
-//    //  Context leak detected, msgtracer returned -1
-//    let stem = SKShapeNode()
-//    let path = CGMutablePath.init()
-//    path.move(to: CGPoint(x: noteHeadRadius + 1, y: 0))
-//    path.addLine(to: CGPoint(x: noteHeadRadius + 1, y: noteHeadRadius * 6))
-//    stem.path = path
-//    stem.strokeColor = SKColor.black
-//    stem.lineWidth = 1
-//    note.addChild(stem)
-//
-//    return note
-//}
 
 func makeTwoEighthNotes(at position: CGPoint) -> SKNode {
     let beamedPair = SKShapeNode(rect: CGRect(x: position.x, y: position.y, width: 1, height: 1))
@@ -194,11 +167,6 @@ func makeFourSixteenthNotes(at position: CGPoint) -> SKNode {
     return beamedQuadruplet
 }
 
-// Sixteenth note positioning
-//for tick in 0 ..< 16 {
-//    makeNote(at: CGPoint(x: xPositions[tick], y: HiHatY))
-//}
-
 var eighthNoteG4 = Note()
 eighthNoteG4.pitch = NotePitch.G4
 eighthNoteG4.value = 8
@@ -226,21 +194,3 @@ scene.addChild(beamedNotes)
 beamedNotes = BeamedNotes(withNotes: [true, true, true, false], at: CGPoint(x: xPositions[12], y: G5))
 
 scene.addChild(beamedNotes)
-
-
-//scene.addChild(makeTwoEighthNotes(at: CGPoint(x: xPositions[0], y: G5)))
-/*
-scene.addChild(makeTwoEighthNotes(at: CGPoint(x: xPositions[4], y: G5)))
-scene.addChild(makeFourSixteenthNotes(at: CGPoint(x: xPositions[8], y: G5)))
-scene.addChild(makeFourSixteenthNotes(at: CGPoint(x: xPositions[12], y: G5)))
-
-// Quarter note positioning
-let quarterNoteDistance = barDistance / 4
-for i in stride(from: 0, to: 16, by: 4) {
-    print(i)
-    scene.addChild(NoteNode(at: CGPoint(x: xPositions[i], y: KickY), radius: noteHeadRadius))
-}
-*/
-
-//makeNote(at: CGPoint(x: xPos, y: SnareY))
-
