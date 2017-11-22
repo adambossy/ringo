@@ -51,9 +51,6 @@ public class BeamedNotes : SKShapeNode {
                 maxNote = maxNote == nil ? i : max(maxNote!, i)
             case false:
                 break;
-//                self.addChild(
-//                    NoteNode(at: CGPoint(x: position.x + (sixteenthNoteDistance * i), y: offsetY), noteHeadRadius: noteHeadRadius)
-//                )
             }
             i += 1;
         }
@@ -63,36 +60,5 @@ public class BeamedNotes : SKShapeNode {
                 self.drawBeam(fromTick: minNote, toTick: maxNote)
             }
         }
-/*
-        let note1 = NoteNode(at: CGPoint(x: offsetX, y: offsetY), noteHeadRadius: noteHeadRadius)
-        let note2 = NoteNode(at: CGPoint(x: offsetX + sixteenthNoteDistance, y: offsetY), noteHeadRadius: noteHeadRadius)
-        let note3 = NoteNode(at: CGPoint(x: offsetX + (sixteenthNoteDistance * 2), y: offsetY), noteHeadRadius: noteHeadRadius)
-        let note4 = NoteNode(at: CGPoint(x: offsetX + (sixteenthNoteDistance * 3), y: offsetY), noteHeadRadius: noteHeadRadius)
- 
-        self.addChild(note1)
-        self.addChild(note2)
-        self.addChild(note3)
-        self.addChild(note4)
-*/
-//        // THIS CODE BLOCK TRIGGERS THIS CRYPTIC MESSAGE:
-//        //  Context leak detected, msgtracer returned -1
-//        let stem = SKShapeNode()
-//        let path = CGMutablePath.init()
-//        path.move(to: CGPoint(x: offsetX + noteHeadnoteHeadRadius, y: offsetY + (noteHeadnoteHeadRadius * 6)))
-//        path.addLine(to: CGPoint(x: offsetX + noteHeadnoteHeadRadius + (sixteenthNoteDistance * 3) + 2, y: offsetY + (noteHeadnoteHeadRadius * 6)))
-//        stem.path = path
-//        stem.strokeColor = SKColor.black
-//        stem.lineWidth = 12
-//        beamedQuadruplet.addChild(stem)
-//        
-//        let stem2 = SKShapeNode()
-//        let path2 = CGMutablePath.init()
-//        path2.move(to: CGPoint(x: offsetX + noteHeadnoteHeadRadius, y: offsetY + (noteHeadnoteHeadRadius * 4)))
-//        path2.addLine(to: CGPoint(x: offsetX + noteHeadnoteHeadRadius + (sixteenthNoteDistance * 3) + 2, y: offsetY + (noteHeadnoteHeadRadius * 4)))
-//        stem2.path = path2
-//        stem2.strokeColor = SKColor.black
-//        stem2.lineWidth = 12
-//        beamedQuadruplet.addChild(stem2)
     }
-
 }
