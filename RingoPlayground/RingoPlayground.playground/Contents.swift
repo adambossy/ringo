@@ -1,12 +1,12 @@
 import PlaygroundSupport
 import SpriteKit
 
-let sceneWidth : CGFloat = 800
-let sceneHeight : CGFloat = 600
+let sceneWidth : CGFloat = 400
+let sceneHeight : CGFloat = 300
 
 let staffHeight : CGFloat = 100
 
-let numBars : Int = 2
+let numBars : Int = 1
 let barWidth : CGFloat = 2
 var barX : CGFloat = barWidth / 2
 
@@ -47,44 +47,15 @@ let sixteenthNoteDistance = (barDistance - (staffXPadding * 2)) / 16
 let sceneView = SKView(frame: CGRect(x:0 , y:0, width: sceneWidth, height: sceneHeight))
 
 let scene = SKScene(size: CGSize(width: sceneWidth, height: sceneHeight))
-scene.backgroundColor = SKColor.white
+scene.backgroundColor = SKColor.systemOrange
 sceneView.showsFPS = true
 sceneView.presentScene(scene)
 PlaygroundSupport.PlaygroundPage.current.liveView = sceneView
 
 
 // Staff Canvas
-let staff = SKShapeNode(rect: CGRect(x: 0, y:0, width: sceneWidth, height: sceneHeight / 2))
-staff.fillColor = SKColor.lightGray
+let staff = StaffNode(at: CGPoint(x: 0, y: 0))
 scene.addChild(staff)
-
-
-for _ in 0 ..< numBars + 1 {
-    let path = CGMutablePath.init()
-    let line = SKShapeNode()
-    path.move(to: CGPoint(x: barX, y: 0))
-    path.addLine(to: CGPoint(x: barX, y: staffHeight))
-    line.path = path
-    line.strokeColor = SKColor.black
-    line.lineWidth = barWidth
-    scene.addChild(line)
-    
-    barX += barDistance
-}
-
-
-for _ in 0 ..< numHLines {
-    let path = CGMutablePath.init()
-    let line = SKShapeNode()
-    path.move(to: CGPoint(x: 0, y: hLineY))
-    path.addLine(to: CGPoint(x: staff.frame.size.width, y: hLineY))
-    line.path = path
-    line.strokeColor = SKColor.black
-    line.lineWidth = barWidth
-    scene.addChild(line)
-    
-    hLineY += hLineDistance
-}
 
 
 var xPositions : [CGFloat] = [CGFloat]()
@@ -96,32 +67,29 @@ for _ in 0 ..< 16 {
 
 print(xPositions)
 
+// ---
 
+//var eighthNoteG4 = Note()
+//eighthNoteG4.pitch = NotePitch.G4
+//eighthNoteG4.value = 8
+//
+//var eighthNoteG5 = Note()
+//eighthNoteG5.pitch = NotePitch.G5
+//eighthNoteG5.value = 8
 
-var eighthNoteG4 = Note()
-eighthNoteG4.pitch = NotePitch.G4
-eighthNoteG4.value = 8
+// 1 2 3 4
+// 1e 2e 3e 4e
+// 1& 2& 3& 4&
+// 1a 2a 3a 4a
 
-var eighthNoteG5 = Note()
-eighthNoteG5.pitch = NotePitch.G5
-eighthNoteG5.value = 8
+var beamedNotes = BeamedNotesNode(withNotes: [true, false, false, false])
+staff.addNotes(beamedNotes, atTick: 0, atPitch: HiHatY)
 
-var beamedNotes = BeamedNotes(withNotes: [true, false, false, false], at: CGPoint(x: xPositions[0], y: G5))
+beamedNotes = BeamedNotesNode(withNotes: [true, false, true, false])
+staff.addNotes(beamedNotes, atTick: 4, atPitch: HiHatY)
 
-scene.addChild(beamedNotes)
+beamedNotes = BeamedNotesNode(withNotes: [true, false, true, true])
+staff.addNotes(beamedNotes, atTick: 8, atPitch: HiHatY)
 
-
-beamedNotes = BeamedNotes(withNotes: [true, false, true, false], at: CGPoint(x: xPositions[4], y: G5))
-
-scene.addChild(beamedNotes)
-
-
-beamedNotes = BeamedNotes(withNotes: [true, false, true, true], at: CGPoint(x: xPositions[8], y: G5))
-
-scene.addChild(beamedNotes)
-
-
-
-beamedNotes = BeamedNotes(withNotes: [true, true, true, false], at: CGPoint(x: xPositions[12], y: G5))
-
-scene.addChild(beamedNotes)
+beamedNotes = BeamedNotesNode(withNotes: [true, true, true, false])
+staff.addNotes(beamedNotes, atTick: 12, atPitch: HiHatY)

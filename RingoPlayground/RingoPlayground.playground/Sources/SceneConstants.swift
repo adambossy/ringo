@@ -1,17 +1,14 @@
 import Foundation
 
-let sceneWidth : CGFloat = 800
-let sceneHeight : CGFloat = 600
+let sceneWidth : CGFloat = 400
+let sceneHeight : CGFloat = 300
 
-let staffHeight : CGFloat = 100
-
-let numBars : Int = 2
+let numBars : Int = 1
 let barWidth : CGFloat = 2
 var barX : CGFloat = barWidth / 2
 
 let barDistance = (sceneWidth - (CGFloat(numBars) * barWidth)) / CGFloat(numBars)
 
-let numHLines : Int = 5
 let hLineHeight : CGFloat = 1
 var hLineY : CGFloat = hLineHeight / 2
 

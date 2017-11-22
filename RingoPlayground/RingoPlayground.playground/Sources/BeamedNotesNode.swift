@@ -3,7 +3,7 @@ import SpriteKit
 
 
 // This operates on quarter note-level (in 4/4 time) groupings of notes
-public class BeamedNotes : SKShapeNode {
+public class BeamedNotesNode: SKShapeNode {
 
     var notes : [Bool]!
     var offsetX : CGFloat!
@@ -24,9 +24,8 @@ public class BeamedNotes : SKShapeNode {
     }
     
     convenience public init(
-        withNotes notes: [Bool],
-        at position: CGPoint) {
-        self.init(rect: CGRect(x: position.x, y: position.y, width: 1, height: 1))
+        withNotes notes: [Bool]) {
+        self.init(rect: CGRect(x: 0, y: 0, width: 1, height: 1))
 
         self.notes = notes
         self.offsetX = position.x
@@ -39,25 +38,25 @@ public class BeamedNotes : SKShapeNode {
         self.strokeColor = SKColor.clear
 
         var i = 0
-        var minNote: Int? = nil // Rename minTick
-        var maxNote: Int? = nil // Rename maxTick
+        var minTick: Int? = nil // Rename minTick
+        var maxTick: Int? = nil // Rename maxTick
         for note in self.notes {
             switch note {
             case true:
                 self.addChild(
                     NoteNode(at: CGPoint(x: self.offsetX + (sixteenthNoteDistance * CGFloat(i)), y: self.offsetY))
                 )
-                minNote = minNote == nil ? i : min(minNote!, i)
-                maxNote = maxNote == nil ? i : max(maxNote!, i)
+                minTick = minTick == nil ? i : min(minTick!, i)
+                maxTick = maxTick == nil ? i : max(maxTick!, i)
             case false:
                 break;
             }
             i += 1;
         }
 
-        if let minNote = minNote, let maxNote = maxNote {
-            if (maxNote > minNote) {
-                self.drawBeam(fromTick: minNote, toTick: maxNote)
+        if let minTick = minTick, let maxTick = maxTick {
+            if (maxTick > minTick) {
+                self.drawBeam(fromTick: minTick, toTick: maxTick)
             }
         }
     }
