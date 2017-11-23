@@ -10,7 +10,7 @@ enum BeamRank {
 // This operates on quarter note-level (in 4/4 time) groupings of notes
 public class BeamedNotesNode: SKShapeNode {
 
-    var notes : [Bool]!
+    var ticks : [Bool]!
     var offsetX : CGFloat!
     var offsetY : CGFloat!
 
@@ -22,8 +22,6 @@ public class BeamedNotesNode: SKShapeNode {
             return self.offsetY + (noteHeadRadius * 4)
         case .Tertiary:
             return self.offsetY + (noteHeadRadius * 2)
-        default:
-            return 0
         }
     }
     
@@ -41,11 +39,10 @@ public class BeamedNotesNode: SKShapeNode {
         self.addChild(stem)
     }
     
-    convenience public init(
-        withNotes notes: [Bool]) {
+    convenience public init(withTicks ticks: [Bool]) {
         self.init(rect: CGRect(x: 0, y: 0, width: 1, height: 1))
 
-        self.notes = notes
+        self.ticks = ticks
         self.offsetX = position.x
         self.offsetY = position.y
         self.draw()
@@ -67,8 +64,8 @@ public class BeamedNotesNode: SKShapeNode {
         var i : CGFloat = 0
         var minTick: CGFloat? = nil // Rename minTick
         var maxTick: CGFloat? = nil // Rename maxTick
-        for note in self.notes {
-            switch note {
+        for tick in self.ticks {
+            switch tick {
             case true:
                 self.addChild(
                     NoteNode(at: CGPoint(x: self.offsetX + (sixteenthNoteDistance * CGFloat(i)), y: self.offsetY))
@@ -89,7 +86,7 @@ public class BeamedNotesNode: SKShapeNode {
         }
         
         // Draw the sixteenth note beams based on beaming rules which I can't find generalized rules for
-        let tickMask = self.tickMask(forTicks: self.notes)
+        let tickMask = self.tickMask(forTicks: self.ticks)
         switch tickMask {
         case 0b1011:
             self.drawBeam(fromTick: 2, toTick: 3, rank: BeamRank.Secondary) // FIXME Make ticks symbolic

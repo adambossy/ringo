@@ -70,14 +70,14 @@ for _ in 0 ..< 16 {
 // 1& 2& 3& 4&
 // 1a 2a 3a 4a
 
-var beamedNotes = BeamedNotesNode(withNotes: [true, true, false, true])
+var beamedNotes = BeamedNotesNode(withTicks: [true, true, false, true])
 staff.addNotes(beamedNotes, atTick: 0, atPitch: HiHatY)
 
-beamedNotes = BeamedNotesNode(withNotes: [true, true, false, false])
+beamedNotes = BeamedNotesNode(withTicks: [true, true, false, false])
 staff.addNotes(beamedNotes, atTick: 4, atPitch: HiHatY)
 
-beamedNotes = BeamedNotesNode(withNotes: [true, false, true, true])
+beamedNotes = BeamedNotesNode(withTicks: [true, false, true, true])
 staff.addNotes(beamedNotes, atTick: 8, atPitch: HiHatY)
 
-beamedNotes = BeamedNotesNode(withNotes: [true, true, true, false])
+beamedNotes = BeamedNotesNode(withTicks: [true, true, true, false])
 staff.addNotes(beamedNotes, atTick: 12, atPitch: HiHatY)
