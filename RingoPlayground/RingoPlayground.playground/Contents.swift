@@ -65,27 +65,15 @@ for _ in 0 ..< 16 {
     xPos += sixteenthNoteDistance
 }
 
-print(xPositions)
-
-// ---
-
-//var eighthNoteG4 = Note()
-//eighthNoteG4.pitch = NotePitch.G4
-//eighthNoteG4.value = 8
-//
-//var eighthNoteG5 = Note()
-//eighthNoteG5.pitch = NotePitch.G5
-//eighthNoteG5.value = 8
-
 // 1 2 3 4
 // 1e 2e 3e 4e
 // 1& 2& 3& 4&
 // 1a 2a 3a 4a
 
-var beamedNotes = BeamedNotesNode(withNotes: [true, false, false, false])
+var beamedNotes = BeamedNotesNode(withNotes: [true, true, false, true])
 staff.addNotes(beamedNotes, atTick: 0, atPitch: HiHatY)
 
-beamedNotes = BeamedNotesNode(withNotes: [true, false, true, false])
+beamedNotes = BeamedNotesNode(withNotes: [true, true, false, false])
 staff.addNotes(beamedNotes, atTick: 4, atPitch: HiHatY)
 
 beamedNotes = BeamedNotesNode(withNotes: [true, false, true, true])
