@@ -11,31 +11,32 @@ enum BeamRank {
 public class BeamedNotesNode: SKShapeNode {
 
     var ticks : [Bool]!
-    var offsetX : CGFloat!
-    var offsetY : CGFloat!
 
     func yOffset(forBeamRank beamRank: BeamRank) -> CGFloat {
         switch beamRank {
         case .Primary:
-            return self.offsetY + (noteHeadRadius * 6)
+            return noteHeadRadius * 6
         case .Secondary:
-            return self.offsetY + (noteHeadRadius * 4)
+            return noteHeadRadius * 4
         case .Tertiary:
-            return self.offsetY + (noteHeadRadius * 2)
+            return noteHeadRadius * 2
         }
     }
     
     func drawBeam(fromTick: CGFloat, toTick: CGFloat, rank: BeamRank) {
-        let stem = SKShapeNode()
         let path = CGMutablePath.init()
         
-        let leftBound : CGFloat = self.offsetX + noteHeadRadius + (sixteenthNoteDistance * CGFloat(fromTick))
-        let rightBound : CGFloat = self.offsetX + noteHeadRadius + (sixteenthNoteDistance * CGFloat(toTick)) + 2
+        let leftBound : CGFloat = noteHeadRadius + (sixteenthNoteDistance * CGFloat(fromTick))
+        let rightBound : CGFloat = noteHeadRadius + (sixteenthNoteDistance * CGFloat(toTick)) + 2
+
         path.move(to: CGPoint(x: leftBound, y: self.yOffset(forBeamRank:rank)))
         path.addLine(to: CGPoint(x: rightBound, y: self.yOffset(forBeamRank:rank)))
+
+        let stem = SKShapeNode()
         stem.path = path
         stem.strokeColor = SKColor.black
         stem.lineWidth = 12
+
         self.addChild(stem)
     }
     
@@ -43,8 +44,6 @@ public class BeamedNotesNode: SKShapeNode {
         self.init(rect: CGRect(x: 0, y: 0, width: 1, height: 1))
 
         self.ticks = ticks
-        self.offsetX = position.x
-        self.offsetY = position.y
         self.draw()
     }
 
@@ -68,7 +67,7 @@ public class BeamedNotesNode: SKShapeNode {
             switch tick {
             case true:
                 self.addChild(
-                    NoteNode(at: CGPoint(x: self.offsetX + (sixteenthNoteDistance * CGFloat(i)), y: self.offsetY))
+                    NoteNode(at: CGPoint(x: sixteenthNoteDistance * CGFloat(i), y: 0))
                 )
                 minTick = minTick == nil ? i : min(minTick!, i)
                 maxTick = maxTick == nil ? i : max(maxTick!, i)
