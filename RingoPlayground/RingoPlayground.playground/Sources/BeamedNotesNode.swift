@@ -1,6 +1,5 @@
 import Foundation
 import SpriteKit
-import UIKit
 
 let beamWidth : CGFloat = 12
 
@@ -38,22 +37,22 @@ public class BeamedNotesNode: SKShapeNode {
         let leftY : CGFloat = self.yOffset(forNotePitch: fromNote.pitch) + self.yOffset(forBeamRank:rank)
         let rightY : CGFloat = self.yOffset(forNotePitch: toNote.pitch) + self.yOffset(forBeamRank:rank)
         
-//        let path = NSBezierPath()
-//        path.move(to: CGPoint(x: leftX, y: leftY - (beamWidth / 2)))
-//        path.line(to: CGPoint(x: leftX, y: leftY + (beamWidth / 2)))
-//        path.line(to: CGPoint(x: rightX, y: rightY + (beamWidth / 2)))
-//        path.line(to: CGPoint(x: rightX, y: rightY - (beamWidth / 2)))
-//        path.close()
-
-        let path = UIBezierPath()
+        let path = NSBezierPath()
         path.move(to: CGPoint(x: leftX, y: leftY - (beamWidth / 2)))
-        path.addLine(to: CGPoint(x: leftX, y: leftY + (beamWidth / 2)))
-        path.addLine(to: CGPoint(x: rightX, y: rightY + (beamWidth / 2)))
-        path.addLine(to: CGPoint(x: rightX, y: rightY - (beamWidth / 2)))
+        path.line(to: CGPoint(x: leftX, y: leftY + (beamWidth / 2)))
+        path.line(to: CGPoint(x: rightX, y: rightY + (beamWidth / 2)))
+        path.line(to: CGPoint(x: rightX, y: rightY - (beamWidth / 2)))
         path.close()
+
+//        let path = UIBezierPath()
+//        path.move(to: CGPoint(x: leftX, y: leftY - (beamWidth / 2)))
+//        path.addLine(to: CGPoint(x: leftX, y: leftY + (beamWidth / 2)))
+//        path.addLine(to: CGPoint(x: rightX, y: rightY + (beamWidth / 2)))
+//        path.addLine(to: CGPoint(x: rightX, y: rightY - (beamWidth / 2)))
+//        path.close()
         
         let beam = SKShapeNode()
-        beam.path = path.cgPath
+        beam.path = path.CGPath
         beam.lineJoin = CGLineJoin.miter
         beam.strokeColor = SKColor.black
         beam.fillColor = SKColor.black

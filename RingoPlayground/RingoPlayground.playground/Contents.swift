@@ -100,4 +100,4 @@ staff.addNotes(beamedNotes!, atTick: 4, atPitch: 0)
 //
 //beamedNotes = BeamedNotesNode(withTicks: [true, true, true, false])
 //staff.addNotes(beamedNotes, atTick: 12, atPitch: HiHatY)
-
+//
