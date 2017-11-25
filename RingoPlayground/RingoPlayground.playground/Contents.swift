@@ -70,14 +70,21 @@ for _ in 0 ..< 16 {
 // 1& 2& 3& 4&
 // 1a 2a 3a 4a
 
-var beamedNotes = BeamedNotesNode(withTicks: [true, true, false, true])
-staff.addNotes(beamedNotes, atTick: 0, atPitch: HiHatY)
+var notes : [Note]
+notes = [
+    Note(pitch: SnarePitch, value: .Eighth),
+    Note(pitch: KickPitch, value: .Eighth),
+]
 
-beamedNotes = BeamedNotesNode(withTicks: [true, true, false, false])
-staff.addNotes(beamedNotes, atTick: 4, atPitch: HiHatY)
+var beamedNotes = BeamedNotesNode(withTicks: notes)
+staff.addNotes(beamedNotes, atTick: 0, atPitch: 9)
 
-beamedNotes = BeamedNotesNode(withTicks: [true, false, true, true])
-staff.addNotes(beamedNotes, atTick: 8, atPitch: HiHatY)
+//beamedNotes = BeamedNotesNode(withTicks: [true, true, false, false])
+//staff.addNotes(beamedNotes, atTick: 4, atPitch: HiHatY)
+//
+//beamedNotes = BeamedNotesNode(withTicks: [true, false, true, true])
+//staff.addNotes(beamedNotes, atTick: 8, atPitch: HiHatY)
+//
+//beamedNotes = BeamedNotesNode(withTicks: [true, true, true, false])
+//staff.addNotes(beamedNotes, atTick: 12, atPitch: HiHatY)
 
-beamedNotes = BeamedNotesNode(withTicks: [true, true, true, false])
-staff.addNotes(beamedNotes, atTick: 12, atPitch: HiHatY)

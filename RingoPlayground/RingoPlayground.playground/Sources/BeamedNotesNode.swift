@@ -10,8 +10,12 @@ enum BeamRank {
 // This operates on quarter note-level (in 4/4 time) groupings of notes
 public class BeamedNotesNode: SKShapeNode {
 
-    var ticks : [Bool]!
+    var notes : [Note]!
 
+    func yOffset(forNotePitch notePitch: NotePitch) -> CGFloat {
+        return lineOffset + (hLineDistance / 2) * CGFloat(notePitch.rawValue)
+    }
+    
     func yOffset(forBeamRank beamRank: BeamRank) -> CGFloat {
         switch beamRank {
         case .Primary:
@@ -22,15 +26,40 @@ public class BeamedNotesNode: SKShapeNode {
             return noteHeadRadius * 2
         }
     }
-    
-    func drawBeam(fromTick: CGFloat, toTick: CGFloat, rank: BeamRank) {
+
+    func drawBeam(fromNote: Note, toNote: Note, rank: BeamRank) {
+        //FIXME Validate that .tick is set on each note
+
         let path = CGMutablePath.init()
         
-        let leftBound : CGFloat = noteHeadRadius + (sixteenthNoteDistance * CGFloat(fromTick))
-        let rightBound : CGFloat = noteHeadRadius + (sixteenthNoteDistance * CGFloat(toTick)) + 2
+        let leftX : CGFloat = noteHeadRadius + (sixteenthNoteDistance * CGFloat(fromNote.tick!))
+        let rightX : CGFloat = noteHeadRadius + (sixteenthNoteDistance * CGFloat(toNote.tick!)) + 2
+        let leftY : CGFloat = self.yOffset(forNotePitch: fromNote.pitch) + self.yOffset(forBeamRank:rank)
+        let rightY : CGFloat = self.yOffset(forNotePitch: toNote.pitch) + self.yOffset(forBeamRank:rank)
+        
+        path.move(to: CGPoint(x: leftX, y: leftY))
+        path.addLine(to: CGPoint(x: rightX, y: rightY))
+        
+        let stem = SKShapeNode()
+        stem.path = path
+        stem.strokeColor = SKColor.black
+        stem.lineWidth = 12
+        
+        self.addChild(stem)
+    }
 
-        path.move(to: CGPoint(x: leftBound, y: self.yOffset(forBeamRank:rank)))
-        path.addLine(to: CGPoint(x: rightBound, y: self.yOffset(forBeamRank:rank)))
+    func drawBeam(fromTick: CGFloat, toTick: CGFloat, rank: BeamRank) {
+        self.drawBeam(fromTick: fromTick, toTick: toTick, rank: rank, pitchOffset: 0)
+    }
+    
+    func drawBeam(fromTick: CGFloat, toTick: CGFloat, rank: BeamRank, pitchOffset: CGFloat) {
+        let path = CGMutablePath.init()
+        
+        let leftX : CGFloat = noteHeadRadius + (sixteenthNoteDistance * CGFloat(fromTick))
+        let rightX : CGFloat = noteHeadRadius + (sixteenthNoteDistance * CGFloat(toTick)) + 2
+
+        path.move(to: CGPoint(x: leftX, y: self.yOffset(forBeamRank:rank)))
+        path.addLine(to: CGPoint(x: rightX, y: (pitchOffset * hLineDistance) + self.yOffset(forBeamRank:rank)))
 
         let stem = SKShapeNode()
         stem.path = path
@@ -39,19 +68,38 @@ public class BeamedNotesNode: SKShapeNode {
 
         self.addChild(stem)
     }
-    
-    convenience public init(withTicks ticks: [Bool]) {
+
+    /* Compute at which tick each note lands.  Compute this once and use it over and over.
+ 
+     Don't burden the user with being responsible for this, and don't create a hard validation problem for this class.
+     */
+    func annotateTicks(forNotes: [Note]) {
+        if notes.count == 0 {
+            return
+        }
+
+        var tick : Int = 0
+        // Use enumerated() so we can mutate note in the for loop
+        for (index, _) in notes.enumerated() {
+            notes[index].tick = tick
+            print(tick)
+            tick += 16 / notes[index].value.rawValue // FIXME Meter class
+        }
+    }
+
+    convenience public init(withTicks notes: [Note]) {
         self.init(rect: CGRect(x: 0, y: 0, width: 1, height: 1))
 
-        self.ticks = ticks
+        self.notes = notes
+        self.annotateTicks(forNotes: notes)
+        
         self.draw()
     }
 
-    func tickMask(forTicks ticks: [Bool]) -> Int {
+    func tickMask(forNotes notes: [Note]) -> Int {
         var tickMask : Int = 0
-        for tick in ticks {
-            tickMask <<= 1
-            tickMask |= tick ? 1 : 0
+        for note in notes {
+            tickMask <<= 16 / note.value.rawValue // FIXME Meter class
         }
         return tickMask
     }
@@ -60,32 +108,23 @@ public class BeamedNotesNode: SKShapeNode {
         self.fillColor = SKColor.clear // Make invisible
         self.strokeColor = SKColor.clear
 
-        var i : CGFloat = 0
-        var minTick: CGFloat? = nil // Rename minTick
-        var maxTick: CGFloat? = nil // Rename maxTick
-        for tick in self.ticks {
-            switch tick {
-            case true:
-                self.addChild(
-                    NoteNode(at: CGPoint(x: sixteenthNoteDistance * CGFloat(i), y: 0))
-                )
-                minTick = minTick == nil ? i : min(minTick!, i)
-                maxTick = maxTick == nil ? i : max(maxTick!, i)
-            case false:
-                break;
-            }
-            i += 1;
+        for note in self.notes {
+            let noteX = sixteenthNoteDistance * CGFloat(note.tick!)
+            let noteY = self.yOffset(forNotePitch: note.pitch)
+            let position = CGPoint(x: noteX, y: noteY)
+            let node = NoteNode(withNote: note, at: position)
+            self.addChild(node)
         }
-
+        
         // Draw the primary (eighth note) beam connecting the first note to the last note in the set
-        if let minTick = minTick, let maxTick = maxTick {
-            if (maxTick > minTick) {
-                self.drawBeam(fromTick: minTick, toTick: maxTick, rank: BeamRank.Primary)
-            }
+        if notes.count > 1 {
+            let firstNote = notes[0]
+            let lastNote = notes[notes.count - 1]
+            self.drawBeam(fromNote: firstNote, toNote: lastNote, rank: BeamRank.Primary)
         }
         
         // Draw the sixteenth note beams based on beaming rules which I can't find generalized rules for
-        let tickMask = self.tickMask(forTicks: self.ticks)
+        let tickMask = self.tickMask(forNotes: self.notes)
         switch tickMask {
         case 0b1011:
             self.drawBeam(fromTick: 2, toTick: 3, rank: BeamRank.Secondary) // FIXME Make ticks symbolic
