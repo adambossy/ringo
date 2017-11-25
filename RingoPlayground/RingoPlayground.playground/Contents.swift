@@ -47,7 +47,7 @@ let sixteenthNoteDistance = (barDistance - (staffXPadding * 2)) / 16
 let sceneView = SKView(frame: CGRect(x:0 , y:0, width: sceneWidth, height: sceneHeight))
 
 let scene = SKScene(size: CGSize(width: sceneWidth, height: sceneHeight))
-scene.backgroundColor = SKColor.systemOrange
+scene.backgroundColor = SKColor.white
 sceneView.showsFPS = true
 sceneView.presentScene(scene)
 PlaygroundSupport.PlaygroundPage.current.liveView = sceneView
@@ -71,13 +71,26 @@ for _ in 0 ..< 16 {
 // 1a 2a 3a 4a
 
 var notes : [Note]
+var beamedNotes : BeamedNotesNode?
+
 notes = [
     Note(pitch: SnarePitch, value: .Eighth),
     Note(pitch: KickPitch, value: .Eighth),
 ]
 
-var beamedNotes = BeamedNotesNode(withTicks: notes)
-staff.addNotes(beamedNotes, atTick: 0, atPitch: 9)
+beamedNotes = BeamedNotesNode(withTicks: notes)
+staff.addNotes(beamedNotes!, atTick: 0, atPitch: 0)
+
+notes = [
+    Note(pitch: SnarePitch, value: .Eighth),
+    Note(pitch: KickPitch, value: .Sixteenth),
+    Note(pitch: KickPitch, value: .Sixteenth),
+]
+
+beamedNotes = BeamedNotesNode(withTicks: notes)
+staff.addNotes(beamedNotes!, atTick: 4, atPitch: 0)
+
+
 
 //beamedNotes = BeamedNotesNode(withTicks: [true, true, false, false])
 //staff.addNotes(beamedNotes, atTick: 4, atPitch: HiHatY)

@@ -1,5 +1,8 @@
 import Foundation
 import SpriteKit
+import UIKit
+
+let beamWidth : CGFloat = 12
 
 enum BeamRank {
     case Primary // Eight notes
@@ -30,22 +33,33 @@ public class BeamedNotesNode: SKShapeNode {
     func drawBeam(fromNote: Note, toNote: Note, rank: BeamRank) {
         //FIXME Validate that .tick is set on each note
 
-        let path = CGMutablePath.init()
-        
-        let leftX : CGFloat = noteHeadRadius + (sixteenthNoteDistance * CGFloat(fromNote.tick!))
-        let rightX : CGFloat = noteHeadRadius + (sixteenthNoteDistance * CGFloat(toNote.tick!)) + 2
+        let leftX : CGFloat = noteHeadRadius + (sixteenthNoteDistance * CGFloat(fromNote.tick!)) + 1
+        let rightX : CGFloat = noteHeadRadius + (sixteenthNoteDistance * CGFloat(toNote.tick!)) + 1
         let leftY : CGFloat = self.yOffset(forNotePitch: fromNote.pitch) + self.yOffset(forBeamRank:rank)
         let rightY : CGFloat = self.yOffset(forNotePitch: toNote.pitch) + self.yOffset(forBeamRank:rank)
         
-        path.move(to: CGPoint(x: leftX, y: leftY))
-        path.addLine(to: CGPoint(x: rightX, y: rightY))
+//        let path = NSBezierPath()
+//        path.move(to: CGPoint(x: leftX, y: leftY - (beamWidth / 2)))
+//        path.line(to: CGPoint(x: leftX, y: leftY + (beamWidth / 2)))
+//        path.line(to: CGPoint(x: rightX, y: rightY + (beamWidth / 2)))
+//        path.line(to: CGPoint(x: rightX, y: rightY - (beamWidth / 2)))
+//        path.close()
+
+        let path = UIBezierPath()
+        path.move(to: CGPoint(x: leftX, y: leftY - (beamWidth / 2)))
+        path.addLine(to: CGPoint(x: leftX, y: leftY + (beamWidth / 2)))
+        path.addLine(to: CGPoint(x: rightX, y: rightY + (beamWidth / 2)))
+        path.addLine(to: CGPoint(x: rightX, y: rightY - (beamWidth / 2)))
+        path.close()
         
-        let stem = SKShapeNode()
-        stem.path = path
-        stem.strokeColor = SKColor.black
-        stem.lineWidth = 12
+        let beam = SKShapeNode()
+        beam.path = path.cgPath
+        beam.lineJoin = CGLineJoin.miter
+        beam.strokeColor = SKColor.black
+        beam.fillColor = SKColor.black
+//        beam.lineWidth = beamWidth
         
-        self.addChild(stem)
+        self.addChild(beam)
     }
 
     func drawBeam(fromTick: CGFloat, toTick: CGFloat, rank: BeamRank) {
@@ -82,7 +96,6 @@ public class BeamedNotesNode: SKShapeNode {
         // Use enumerated() so we can mutate note in the for loop
         for (index, _) in notes.enumerated() {
             notes[index].tick = tick
-            print(tick)
             tick += 16 / notes[index].value.rawValue // FIXME Meter class
         }
     }
@@ -111,6 +124,7 @@ public class BeamedNotesNode: SKShapeNode {
         for note in self.notes {
             let noteX = sixteenthNoteDistance * CGFloat(note.tick!)
             let noteY = self.yOffset(forNotePitch: note.pitch)
+            print(noteY)
             let position = CGPoint(x: noteX, y: noteY)
             let node = NoteNode(withNote: note, at: position)
             self.addChild(node)
