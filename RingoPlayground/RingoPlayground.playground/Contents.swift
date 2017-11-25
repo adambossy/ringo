@@ -90,7 +90,13 @@ notes = [
 beamedNotes = BeamedNotesNode(withTicks: notes)
 staff.addNotes(beamedNotes!, atTick: 4, atPitch: 0)
 
+notes = [
+    Note(pitch: SnarePitch, value: .Eighth),
+    Note(pitch: .E4, value: .Sixteenth),
+]
 
+beamedNotes = BeamedNotesNode(withTicks: notes)
+staff.addNotes(beamedNotes!, atTick: 8, atPitch: 0)
 
 //beamedNotes = BeamedNotesNode(withTicks: [true, true, false, false])
 //staff.addNotes(beamedNotes, atTick: 4, atPitch: HiHatY)
@@ -101,3 +107,18 @@ staff.addNotes(beamedNotes!, atTick: 4, atPitch: 0)
 //beamedNotes = BeamedNotesNode(withTicks: [true, true, true, false])
 //staff.addNotes(beamedNotes, atTick: 12, atPitch: HiHatY)
 //
+
+//func beamYPos(from: CGPoint, to: CGPoint) -> CGFloat {
+//    return 1 / (a.y - b.y)
+//}
+//
+//var a, b : CGPoint
+//
+//for i in stride(from: -100.0, to: 100.0, by: 1) {
+//    a = CGPoint(x: 0, y: 0)
+//    b = CGPoint(x: 1, y: i)
+//    print("y = %@, yPos = %@", i, beamYPos(from: a, to: b))
+//}
+
+
+

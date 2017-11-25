@@ -29,36 +29,71 @@ public class BeamedNotesNode: SKShapeNode {
         }
     }
 
-    func drawBeam(fromNote: Note, toNote: Note, rank: BeamRank) {
+    func notePosition(_ note: Note) -> CGPoint {
+        return CGPoint(
+            x: noteHeadRadius + (sixteenthNoteDistance * CGFloat(note.tick!)) + 1,
+            y: self.yOffset(forNotePitch: note.pitch)
+        )
+    }
+
+    func noteEndpoints(fromNote: Note, toNote: Note) -> (CGPoint, CGPoint) {
+        return (notePosition(fromNote), notePosition(toNote))
+    }
+
+    func beamYPos(from: CGPoint, to: CGPoint) -> CGFloat {
+        return (from.y - to.y) / 2.0
+    }
+
+    func interpolatedNoteEndpoints(fromNote: Note, toNote: Note) -> (CGPoint, CGPoint) {
+        let (left, right) = noteEndpoints(fromNote: fromNote, toNote: toNote)
+
+        if left.y == right.y {
+            return (left, right)
+        }
+
+        var myLeft = left
+        var myRight = right
+
+        if myLeft.y > myRight.y {
+            myRight.y += self.beamYPos(from: left, to: right)
+        } else if myRight.y > myLeft.y {
+            myLeft.y -= self.beamYPos(from: left, to: right)
+        }
+
+        return (myLeft, myRight)
+    }
+    
+    func beamEndpoints(fromNote: Note, toNote: Note, rank: BeamRank) -> (CGPoint, CGPoint) {
+        let (left, right) = interpolatedNoteEndpoints(fromNote: fromNote, toNote: toNote)
+
+        var myLeft = left
+        var myRight = right
+
+        myLeft.y += self.yOffset(forBeamRank:rank)
+        myRight.y += self.yOffset(forBeamRank:rank)
+
+        return (myLeft, myRight)
+    }
+
+    func drawBeam(fromNote: Note, toNote: Note, rank: BeamRank) -> (CGPoint, CGPoint) {
         //FIXME Validate that .tick is set on each note
+        let (left, right) = beamEndpoints(fromNote: fromNote, toNote: toNote, rank: rank)
 
-        let leftX : CGFloat = noteHeadRadius + (sixteenthNoteDistance * CGFloat(fromNote.tick!)) + 1
-        let rightX : CGFloat = noteHeadRadius + (sixteenthNoteDistance * CGFloat(toNote.tick!)) + 1
-        let leftY : CGFloat = self.yOffset(forNotePitch: fromNote.pitch) + self.yOffset(forBeamRank:rank)
-        let rightY : CGFloat = self.yOffset(forNotePitch: toNote.pitch) + self.yOffset(forBeamRank:rank)
-        
         let path = NSBezierPath()
-        path.move(to: CGPoint(x: leftX, y: leftY - (beamWidth / 2)))
-        path.line(to: CGPoint(x: leftX, y: leftY + (beamWidth / 2)))
-        path.line(to: CGPoint(x: rightX, y: rightY + (beamWidth / 2)))
-        path.line(to: CGPoint(x: rightX, y: rightY - (beamWidth / 2)))
+        path.move(to: CGPoint(x: left.x + noteHeadRadius + 1, y: left.y - (beamWidth / 2)))
+        path.line(to: CGPoint(x: left.x + noteHeadRadius + 1, y: left.y + (beamWidth / 2)))
+        path.line(to: CGPoint(x: right.x + noteHeadRadius + 1, y: right.y + (beamWidth / 2)))
+        path.line(to: CGPoint(x: right.x + noteHeadRadius + 1, y: right.y - (beamWidth / 2)))
         path.close()
-
-//        let path = UIBezierPath()
-//        path.move(to: CGPoint(x: leftX, y: leftY - (beamWidth / 2)))
-//        path.addLine(to: CGPoint(x: leftX, y: leftY + (beamWidth / 2)))
-//        path.addLine(to: CGPoint(x: rightX, y: rightY + (beamWidth / 2)))
-//        path.addLine(to: CGPoint(x: rightX, y: rightY - (beamWidth / 2)))
-//        path.close()
         
         let beam = SKShapeNode()
         beam.path = path.CGPath
         beam.lineJoin = CGLineJoin.miter
         beam.strokeColor = SKColor.black
         beam.fillColor = SKColor.black
-//        beam.lineWidth = beamWidth
-        
         self.addChild(beam)
+
+        return (left, right)
     }
 
     func drawBeam(fromTick: CGFloat, toTick: CGFloat, rank: BeamRank) {
@@ -116,26 +151,34 @@ public class BeamedNotesNode: SKShapeNode {
         return tickMask
     }
 
-    func draw() {
-        self.fillColor = SKColor.clear // Make invisible
-        self.strokeColor = SKColor.clear
-
+    func stemHeight(notePosition: CGPoint, beamLeft: CGPoint, beamRight: CGPoint) -> CGFloat {
+        let slope = (beamRight.y - beamLeft.y) / (beamRight.x - beamLeft.x)
+        let xDelta = notePosition.x - beamLeft.x
+        let yAtNoteX = slope * xDelta
+        return yAtNoteX + (beamLeft.y - notePosition.y)
+    }
+    
+    func drawNotes(beamLeft: CGPoint, beamRight: CGPoint) {
         for note in self.notes {
-            let noteX = sixteenthNoteDistance * CGFloat(note.tick!)
-            let noteY = self.yOffset(forNotePitch: note.pitch)
-            print(noteY)
-            let position = CGPoint(x: noteX, y: noteY)
-            let node = NoteNode(withNote: note, at: position)
+            let position = self.notePosition(note)
+            let stemHeight = self.stemHeight(notePosition: position, beamLeft: beamLeft, beamRight: beamRight)
+            let node = NoteNode(withNote: note, at: position, stemHeight: stemHeight)
             self.addChild(node)
         }
-        
-        // Draw the primary (eighth note) beam connecting the first note to the last note in the set
+    }
+    
+    func drawPrimaryBeams() -> (CGPoint, CGPoint)? {
+        /* Draw the primary (eighth note) beam connecting the first note to the last note in the set */
         if notes.count > 1 {
             let firstNote = notes[0]
             let lastNote = notes[notes.count - 1]
-            self.drawBeam(fromNote: firstNote, toNote: lastNote, rank: BeamRank.Primary)
+            return self.drawBeam(fromNote: firstNote, toNote: lastNote, rank: BeamRank.Primary)
         }
-        
+
+        return nil
+    }
+
+    func drawSecondaryBeams() {
         // Draw the sixteenth note beams based on beaming rules which I can't find generalized rules for
         let tickMask = self.tickMask(forNotes: self.notes)
         switch tickMask {
@@ -150,6 +193,16 @@ public class BeamedNotesNode: SKShapeNode {
             self.drawBeam(fromTick: 2.5, toTick: 3, rank: BeamRank.Secondary)
         default:
             break
+        }
+    }
+    
+    func draw() {
+        self.fillColor = SKColor.clear // Make invisible
+        self.strokeColor = SKColor.clear
+
+        if let (left, right) = self.drawPrimaryBeams() {
+//            self.drawSecondaryBeams()
+            self.drawNotes(beamLeft: left, beamRight: right)
         }
     }
 }

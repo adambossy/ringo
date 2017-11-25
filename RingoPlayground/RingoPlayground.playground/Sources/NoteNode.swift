@@ -50,8 +50,12 @@ public struct Rest {
 public class NoteNode : SKShapeNode {
 
     var note : Note?
-    
+
     convenience public init(withNote myNote: Note, at myPosition: CGPoint) {
+        self.init(withNote: myNote, at: myPosition, stemHeight: noteHeadRadius * 6)
+    }
+
+    convenience public init(withNote myNote: Note, at myPosition: CGPoint, stemHeight: CGFloat) {
         self.init(circleOfRadius: noteHeadRadius)
 
         note = myNote
@@ -62,7 +66,7 @@ public class NoteNode : SKShapeNode {
 
         let path = CGMutablePath.init()
         path.move(to: CGPoint(x: noteHeadRadius + 1, y: 0))
-        path.addLine(to: CGPoint(x: noteHeadRadius + 1, y: noteHeadRadius * 6))
+        path.addLine(to: CGPoint(x: noteHeadRadius + 1, y: stemHeight))
 
         let stem = SKShapeNode()
         stem.path = path

@@ -7,7 +7,7 @@ let numHLines : Int = 5
 public class StaffNode : SKShapeNode {
     
     convenience public init(at position: CGPoint) {
-        self.init(rect: CGRect(x: position.x, y:position.y, width: barDistance, height: sceneHeight / 2))
+        self.init(rect: CGRect(x: position.x, y: position.y, width: barDistance, height: sceneHeight / 2))
         
         self.fillColor = SKColor.white
 
