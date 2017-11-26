@@ -91,7 +91,7 @@ notes = [
 ]
 
 beamedNotes = BeamedNotesNode(withTicks: notes)
-staff.addNotes(beamedNotes!, atTick: 0, atPitch: 0)
+staff.addNotes(beamedNotes!, atTick: 0)
 
 notes = [
     Note(pitch: SnarePitch, value: .Eighth),
@@ -100,15 +100,16 @@ notes = [
 ]
 
 beamedNotes = BeamedNotesNode(withTicks: notes)
-staff.addNotes(beamedNotes!, atTick: 4, atPitch: 0)
+staff.addNotes(beamedNotes!, atTick: 4)
 
 tickMask(forNotes: notes)
 
 notes = [
-    Note(pitch: SnarePitch, value: .Eighth),
+    Note(pitch: SnarePitch, value: .Sixteenth),
     Note(pitch: .E4, value: .Sixteenth),
+    Note(pitch: .E4, value: .Eighth),
 ]
 
 beamedNotes = BeamedNotesNode(withTicks: notes)
-staff.addNotes(beamedNotes!, atTick: 8, atPitch: 0)
+staff.addNotes(beamedNotes!, atTick: 8)
 

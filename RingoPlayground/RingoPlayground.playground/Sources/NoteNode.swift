@@ -15,6 +15,10 @@ public enum NotePitch : Int {
     case G5
 }
 
+public let HitHatPitch = NotePitch.G5
+public let SnarePitch = NotePitch.C5
+public let KickPitch = NotePitch.F4
+
 // FIXME Make a Meter class to calculate the tick values of all these
 public enum NoteValue : Int {
     case Whole = 1
@@ -24,10 +28,6 @@ public enum NoteValue : Int {
     case Sixteenth = 16
     case ThirtySecond = 32
 }
-
-public let HitHatPitch = NotePitch.G4
-public let SnarePitch = NotePitch.B5
-public let KickPitch = NotePitch.G5
 
 public struct Note {
     public init(pitch: NotePitch, value: NoteValue) {

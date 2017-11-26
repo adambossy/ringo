@@ -15,7 +15,8 @@ public class BeamedNotesNode: SKShapeNode {
     var notes : [Note]!
 
     func yOffset(forNotePitch notePitch: NotePitch) -> CGFloat {
-        return lineOffset + (hLineDistance / 2) * CGFloat(notePitch.rawValue)
+        // Subtract 1 from rawValue, since the NotePitch enum starts at E4 and we have to adjust by (hLineDistance / 2). If we add more pitches in the 4th octave, we should adjust by more.
+        return lineOffset + (hLineDistance / 2) * CGFloat(notePitch.rawValue - 1)
     }
     
     func yOffset(forBeamRank beamRank: BeamRank) -> CGFloat {
@@ -41,7 +42,7 @@ public class BeamedNotesNode: SKShapeNode {
     }
 
     func beamYPos(from: CGPoint, to: CGPoint) -> CGFloat {
-        return (from.y - to.y) / 1.5
+        return (from.y - to.y) / 1.3
     }
 
     func interpolatedNoteEndpoints(fromNote: Note, toNote: Note) -> (CGPoint, CGPoint) {
@@ -90,15 +91,6 @@ public class BeamedNotesNode: SKShapeNode {
         let rightXDelta = fragmentRightX - beamLeft.x
         let yAtRightX = beamLeft.y + (slope * rightXDelta)
 
-        print(slope)
-        print(beamLeft.y)
-        print(beamRight.y)
-        print(leftXDelta)
-        print(rightXDelta)
-        print(yAtLeftX)
-        print(yAtRightX)
-        print()
-
         return (
             CGPoint(x: fragmentLeftX, y: yAtLeftX),
             CGPoint(x: fragmentRightX, y: yAtRightX)
@@ -127,6 +119,24 @@ public class BeamedNotesNode: SKShapeNode {
         return (myLeft, myRight)
     }
     
+    func drawSecondaryBeams(
+        beamLeft: CGPoint,
+        beamRight: CGPoint,
+        fromIndex: Int,
+        toIndex: Int)
+    {
+        // TODO Validate fromIndex and toIndex
+        if let notes = self.notes {
+            let (left, right) = self.secondaryBeamEndpoints(
+                beamLeft: beamLeft,
+                beamRight: beamRight,
+                fromNote: notes[fromIndex],
+                toNote: notes[toIndex],
+                rank: BeamRank.Secondary)
+            self.drawBeam(from: left, to: right)
+        }
+    }
+
     func drawBeam(fromNote: Note, toNote: Note, rank: BeamRank) -> (CGPoint, CGPoint) {
         let (left, right) = beamEndpoints(fromNote: fromNote, toNote: toNote, rank: rank)
 
@@ -206,7 +216,6 @@ public class BeamedNotesNode: SKShapeNode {
             tickMask |= 1
             // FIXME Meter class
             tickMask <<= (16 / note.value.rawValue) - 1
-//            print(String(tickMask, radix: 2))
         }
         return tickMask
     }
@@ -241,22 +250,21 @@ public class BeamedNotesNode: SKShapeNode {
     func drawSecondaryBeams(beamLeft: CGPoint, beamRight: CGPoint) {
         // Draw the sixteenth note beams based on beaming rules which I can't find generalized rules for, hence the switch case
         let tickMask = self.tickMask(forNotes: self.notes)
-//        print("tickMask", tickMask)
         switch tickMask {
         case 0b1011:
-            if let notes = self.notes {
-                let (left, right) = self.secondaryBeamEndpoints(
-                    beamLeft: beamLeft,
-                    beamRight: beamRight,
-                    fromNote: notes[1],
-                    toNote: notes[2],
-                    rank: BeamRank.Secondary)
-                self.drawBeam(from: left, to: right)
-            }
+            self.drawSecondaryBeams(
+                beamLeft: beamLeft,
+                beamRight: beamRight,
+                fromIndex: 1,
+                toIndex: 2)
 //        case 0b1100:
 //            self.drawBeam(fromTick: 0, toTick: 1, rank: BeamRank.Secondary)
-//        case 0b1110:
-//            self.drawBeam(fromTick: 0, toTick: 1, rank: BeamRank.Secondary)
+        case 0b1110:
+            self.drawSecondaryBeams(
+                beamLeft: beamLeft,
+                beamRight: beamRight,
+                fromIndex: 0,
+                toIndex: 1)
 //        case 0b1101:
 //            self.drawBeam(fromTick: 0, toTick: 0.5, rank: BeamRank.Secondary)
 //            self.drawBeam(fromTick: 2.5, toTick: 3, rank: BeamRank.Secondary)

@@ -49,9 +49,8 @@ public class StaffNode : SKShapeNode {
      */
     public func addNotes(
         _ notesNode: BeamedNotesNode,
-        atTick tick: Int, // FIXME Represent this symbolically
-        atPitch pitch: CGFloat) { // FIXME Represent this symbolically
-        notesNode.position = CGPoint(x: self.xPos(atTick: tick), y: pitch)
+        atTick tick: Int) {
+        notesNode.position = CGPoint(x: self.xPos(atTick: tick), y: 0)
         self.addChild(notesNode)
     }
 }
