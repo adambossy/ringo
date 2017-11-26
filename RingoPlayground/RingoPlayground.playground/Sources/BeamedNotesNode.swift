@@ -162,27 +162,6 @@ public class BeamedNotesNode: SKShapeNode {
         self.addChild(beam)
     }
 
-//    func drawBeam(fromTick: CGFloat, toTick: CGFloat, rank: BeamRank) {
-//        self.drawBeam(fromTick: fromTick, toTick: toTick, rank: rank, pitchOffset: 0)
-//    }
-//    
-//    func drawBeam(fromTick: CGFloat, toTick: CGFloat, rank: BeamRank, pitchOffset: CGFloat) {
-//        let path = CGMutablePath.init()
-//        
-//        let leftX : CGFloat = noteHeadRadius + (sixteenthNoteDistance * CGFloat(fromTick))
-//        let rightX : CGFloat = noteHeadRadius + (sixteenthNoteDistance * CGFloat(toTick)) + 2
-//
-//        path.move(to: CGPoint(x: leftX, y: self.yOffset(forBeamRank:rank)))
-//        path.addLine(to: CGPoint(x: rightX, y: (pitchOffset * hLineDistance) + self.yOffset(forBeamRank:rank)))
-//
-//        let stem = SKShapeNode()
-//        stem.path = path
-//        stem.strokeColor = SKColor.black
-//        stem.lineWidth = 12
-//
-//        self.addChild(stem)
-//    }
-
     /* Compute at which tick each note lands.  Compute this once and use it over and over.
  
      Don't burden the user with being responsible for this, and don't create a hard validation problem for this class.
