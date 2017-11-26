@@ -15,7 +15,7 @@ public enum NotePitch : Int {
     case G5
 }
 
-public let HitHatPitch = NotePitch.G5
+public let HiHatPitch = NotePitch.G5
 public let SnarePitch = NotePitch.C5
 public let KickPitch = NotePitch.F4
 

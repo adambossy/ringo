@@ -86,8 +86,9 @@ var notes : [Note]
 var beamedNotes : BeamedNotesNode?
 
 notes = [
-    Note(pitch: SnarePitch, value: .Eighth),
+    Note(pitch: SnarePitch, value: .Sixteenth),
     Note(pitch: KickPitch, value: .Eighth),
+    Note(pitch: SnarePitch, value: .Sixteenth),
 ]
 
 beamedNotes = BeamedNotesNode(withTicks: notes)

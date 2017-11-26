@@ -9,6 +9,12 @@ enum BeamRank {
     case Tertiary // Thirty-second notes
 }
 
+enum BeamHalf {
+    case Whole
+    case FirstHalf
+    case SecondHalf
+}
+
 // This operates on quarter note-level (in 4/4 time) groupings of notes
 public class BeamedNotesNode: SKShapeNode {
 
@@ -81,19 +87,30 @@ public class BeamedNotesNode: SKShapeNode {
         beamLeft: CGPoint,
         beamRight: CGPoint,
         fragmentLeftX: CGFloat,
-        fragmentRightX: CGFloat) -> (CGPoint, CGPoint)
+        fragmentRightX: CGFloat,
+        whichHalf beamHalf: BeamHalf = .Whole) -> (CGPoint, CGPoint)
     {
+        var myFragmentLeftX = fragmentLeftX
+        var myFragmentRightX = fragmentRightX
+        
+        // Maybe factor the `half` logic into its own function
+        if beamHalf == .FirstHalf {
+            myFragmentRightX = myFragmentLeftX + (sixteenthNoteDistance / 2)
+        } else if beamHalf == .SecondHalf {
+            myFragmentLeftX = myFragmentRightX - (sixteenthNoteDistance / 2)
+        }
+        
         let slope = (beamRight.y - beamLeft.y) / (beamRight.x - beamLeft.x)
         
-        let leftXDelta = fragmentLeftX - beamLeft.x
+        let leftXDelta = myFragmentLeftX - beamLeft.x
         let yAtLeftX = beamLeft.y + (slope * leftXDelta)
 
-        let rightXDelta = fragmentRightX - beamLeft.x
+        let rightXDelta = myFragmentRightX - beamLeft.x
         let yAtRightX = beamLeft.y + (slope * rightXDelta)
 
         return (
-            CGPoint(x: fragmentLeftX, y: yAtLeftX),
-            CGPoint(x: fragmentRightX, y: yAtRightX)
+            CGPoint(x: myFragmentLeftX, y: yAtLeftX),
+            CGPoint(x: myFragmentRightX, y: yAtRightX)
         )
     }
     
@@ -102,13 +119,15 @@ public class BeamedNotesNode: SKShapeNode {
         beamRight: CGPoint,
         fromNote: Note,
         toNote: Note,
-        rank: BeamRank) -> (CGPoint, CGPoint)
+        rank: BeamRank,
+        whichHalf beamHalf: BeamHalf = .Whole) -> (CGPoint, CGPoint)
     {
         let (left, right) = self.beamFragmentEndpoints(
             beamLeft: beamLeft,
             beamRight: beamRight,
             fragmentLeftX: self.notePosition(fromNote).x,
-            fragmentRightX: self.notePosition(toNote).x)
+            fragmentRightX: self.notePosition(toNote).x,
+            whichHalf: beamHalf)
         
         var myLeft = left
         var myRight = right
@@ -123,7 +142,8 @@ public class BeamedNotesNode: SKShapeNode {
         beamLeft: CGPoint,
         beamRight: CGPoint,
         fromIndex: Int,
-        toIndex: Int)
+        toIndex: Int,
+        whichHalf beamHalf: BeamHalf = .Whole)
     {
         // TODO Validate fromIndex and toIndex
         if let notes = self.notes {
@@ -132,7 +152,8 @@ public class BeamedNotesNode: SKShapeNode {
                 beamRight: beamRight,
                 fromNote: notes[fromIndex],
                 toNote: notes[toIndex],
-                rank: BeamRank.Secondary)
+                rank: BeamRank.Secondary,
+                whichHalf: beamHalf)
             self.drawBeam(from: left, to: right)
         }
     }
@@ -244,9 +265,19 @@ public class BeamedNotesNode: SKShapeNode {
                 beamRight: beamRight,
                 fromIndex: 0,
                 toIndex: 1)
-//        case 0b1101:
-//            self.drawBeam(fromTick: 0, toTick: 0.5, rank: BeamRank.Secondary)
-//            self.drawBeam(fromTick: 2.5, toTick: 3, rank: BeamRank.Secondary)
+        case 0b1101:
+            self.drawSecondaryBeams(
+                beamLeft: beamLeft,
+                beamRight: beamRight,
+                fromIndex: 0,
+                toIndex: 1,
+                whichHalf: .FirstHalf)
+            self.drawSecondaryBeams(
+                beamLeft: beamLeft,
+                beamRight: beamRight,
+                fromIndex: 1,
+                toIndex: 2,
+                whichHalf: .SecondHalf)
         default:
             break
         }
