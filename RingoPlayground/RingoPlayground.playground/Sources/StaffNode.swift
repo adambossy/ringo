@@ -5,9 +5,10 @@ let staffHeight : CGFloat = 100
 let numHLines : Int = 5
 
 public class StaffNode : SKShapeNode {
-    
-    convenience public init(at position: CGPoint) {
-        self.init(rect: CGRect(x: position.x, y: position.y, width: barDistance, height: sceneHeight / 2))
+
+    convenience public init(at _position: CGPoint) {
+        self.init(rect: CGRect(x: _position.x, y: _position.y, width: barDistance, height: sceneHeight / 2))
+        self.position = _position
         
         self.fillColor = SKColor.white
 

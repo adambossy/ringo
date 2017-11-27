@@ -51,11 +51,12 @@ public class NoteNode : SKShapeNode {
 
     var note : Note?
 
-    convenience public init(withNote myNote: Note, at myPosition: CGPoint) {
-        self.init(withNote: myNote, at: myPosition, stemHeight: noteHeadRadius * 6)
-    }
-
-    convenience public init(withNote myNote: Note, at myPosition: CGPoint, stemHeight: CGFloat) {
+    convenience public init(
+        withNote myNote: Note,
+        at myPosition: CGPoint,
+        stemHeight: CGFloat? = nil,
+        reverse: Bool = false)
+    {
         self.init(circleOfRadius: noteHeadRadius)
 
         note = myNote
@@ -66,7 +67,14 @@ public class NoteNode : SKShapeNode {
 
         let path = CGMutablePath.init()
         path.move(to: CGPoint(x: noteHeadRadius + 1, y: 0))
-        path.addLine(to: CGPoint(x: noteHeadRadius + 1, y: stemHeight))
+
+        let myStemHeight = stemHeight ?? noteHeadRadius * 6
+        path.addLine(
+            to: CGPoint(
+                x: noteHeadRadius + 1,
+                y: myStemHeight * (reverse ? -1.0 : 1.0)
+            )
+        )
 
         let stem = SKShapeNode()
         stem.path = path

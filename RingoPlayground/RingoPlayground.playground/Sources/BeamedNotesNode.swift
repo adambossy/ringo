@@ -19,27 +19,36 @@ enum BeamHalf {
 public class BeamedNotesNode: SKShapeNode {
 
     var notes : [Note]!
+    var reverse : Bool?
 
     func yOffset(forNotePitch notePitch: NotePitch) -> CGFloat {
         // Subtract 1 from rawValue, since the NotePitch enum starts at E4 and we have to adjust by (hLineDistance / 2). If we add more pitches in the 4th octave, we should adjust by more.
+        // FIXME Codify magic constants
         return lineOffset + (hLineDistance / 2) * CGFloat(notePitch.rawValue - 1)
     }
     
     func yOffset(forBeamRank beamRank: BeamRank) -> CGFloat {
+        var y : CGFloat = noteHeadRadius
+
         switch beamRank {
         case .Primary:
-            return noteHeadRadius * 8
+            y *= 8
         case .Secondary:
-            return noteHeadRadius * 2
+            y *= 2
         case .Tertiary:
-            return noteHeadRadius * 2
+            y *= 2
         }
+
+        y *= (self.reverse! ? -1 : 1)
+
+        return y
     }
+
 
     func notePosition(_ note: Note) -> CGPoint {
         return CGPoint(
             x: noteHeadRadius + (sixteenthNoteDistance * CGFloat(note.tick!)) + 1,
-            y: self.yOffset(forNotePitch: note.pitch)
+            y: position.y + self.yOffset(forNotePitch: note.pitch)
         )
     }
 
@@ -48,11 +57,17 @@ public class BeamedNotesNode: SKShapeNode {
     }
 
     func beamYPos(from: CGPoint, to: CGPoint) -> CGFloat {
-        return (from.y - to.y) / 1.3
+        // FIXME Make magic 1.3 constant named `slopeDampeningFactor` or something to that effect
+        return ((from.y - to.y) / 1.3) * (self.reverse! ? -1 : 1)
     }
 
-    func interpolatedNoteEndpoints(fromNote: Note, toNote: Note) -> (CGPoint, CGPoint) {
-        let (left, right) = noteEndpoints(fromNote: fromNote, toNote: toNote)
+    // FIXME Maybe rename `angledEndpoints`
+    func interpolatedNoteEndpoints() -> (CGPoint, CGPoint)? {
+        if self.notes.count <= 1 {
+            return nil
+        }
+
+        let (left, right) = noteEndpoints(fromNote: notes[0], toNote: notes[self.notes.count - 1])
 
         if left.y == right.y {
             return (left, right)
@@ -60,6 +75,14 @@ public class BeamedNotesNode: SKShapeNode {
 
         var myLeft = left
         var myRight = right
+
+//        if let reverse = self.reverse {
+//            if (myLeft.y > myRight.y && !reverse) || (myLeft.y < myRight.y && reverse) {
+//                myRight.y += self.beamYPos(from: left, to: right)
+//            } else if (myRight.y > myLeft.y && !reverse) || (myRight.y < myLeft.y && reverse) {
+//                myLeft.y -= self.beamYPos(from: left, to: right)
+//            }
+//        }
 
         if myLeft.y > myRight.y {
             myRight.y += self.beamYPos(from: left, to: right)
@@ -69,18 +92,45 @@ public class BeamedNotesNode: SKShapeNode {
 
         return (myLeft, myRight)
     }
+
+    func ensureMinimumStemHeight (
+        beamLeft: CGPoint,
+        beamRight: CGPoint) -> (CGPoint, CGPoint)
+    {
+        let minStemHeight = noteHeadRadius * 5
+        var newYOffset : CGFloat = 0
+        
+        for note in notes {
+            let notePosition = self.notePosition(note)
+            let stemHeight = self.stemHeight(
+                notePosition: notePosition,
+                beamLeft: beamLeft,
+                beamRight: beamRight
+            )
+            if stemHeight < minStemHeight {
+                newYOffset = max(newYOffset, minStemHeight - stemHeight)
+            }
+        }
+        
+        var myLeft = beamLeft
+        var myRight = beamRight
+        
+        myLeft.y += newYOffset * (self.reverse! ? -1 : 1)
+        myRight.y += newYOffset * (self.reverse! ? -1 : 1)
+        
+        return (myLeft, myRight)
+    }
     
     // FIXME This function might be useless for secondary and tertiary beams
-    func beamEndpoints(fromNote: Note, toNote: Note, rank: BeamRank) -> (CGPoint, CGPoint) {
-        let (left, right) = interpolatedNoteEndpoints(fromNote: fromNote, toNote: toNote)
+    func beamEndpoints(rank: BeamRank) -> (CGPoint, CGPoint)? {
+        if var (left, right) = interpolatedNoteEndpoints() {
+            left.y += self.yOffset(forBeamRank: rank)
+            right.y += self.yOffset(forBeamRank: rank)
 
-        var myLeft = left
-        var myRight = right
-
-        myLeft.y += self.yOffset(forBeamRank: rank)
-        myRight.y += self.yOffset(forBeamRank: rank)
-
-        return (myLeft, myRight)
+//            return (left, right)
+            return ensureMinimumStemHeight(beamLeft: left, beamRight: right)
+        }
+        return nil;
     }
 
     func beamFragmentEndpoints(
@@ -158,12 +208,12 @@ public class BeamedNotesNode: SKShapeNode {
         }
     }
 
-    func drawBeam(fromNote: Note, toNote: Note, rank: BeamRank) -> (CGPoint, CGPoint) {
-        let (left, right) = beamEndpoints(fromNote: fromNote, toNote: toNote, rank: rank)
-
-        self.drawBeam(from: left, to: right)
-
-        return (left, right)
+    func drawBeam(rank: BeamRank) -> (CGPoint, CGPoint)? {
+        if let (left, right) = beamEndpoints(rank: rank) {
+            self.drawBeam(from: left, to: right)
+            return (left, right)
+        }
+        return nil;
     }
     
     func drawBeam(from: CGPoint, to: CGPoint) {
@@ -200,12 +250,16 @@ public class BeamedNotesNode: SKShapeNode {
         }
     }
 
-    convenience public init(withTicks notes: [Note]) {
-        self.init(rect: CGRect(x: 0, y: 0, width: 1, height: 1))
+    convenience public init(
+        withTicks notes: [Note],
+        reverse: Bool = false)
+    {
+        self.init(rect: CGRect(x: 0, y: 0, width: 100, height: 100))
 
         self.notes = notes
         self.annotateTicks(forNotes: notes)
-        
+        self.reverse = reverse
+
         self.draw()
     }
 
@@ -220,18 +274,30 @@ public class BeamedNotesNode: SKShapeNode {
         return tickMask
     }
 
-    func stemHeight(notePosition: CGPoint, beamLeft: CGPoint, beamRight: CGPoint) -> CGFloat {
+    func stemHeight(
+        notePosition: CGPoint,
+        beamLeft: CGPoint,
+        beamRight: CGPoint) -> CGFloat
+    {
         let slope = (beamRight.y - beamLeft.y) / (beamRight.x - beamLeft.x)
         let xDelta = notePosition.x - beamLeft.x
         let yAtNoteX = slope * xDelta
-        return yAtNoteX + (beamLeft.y - notePosition.y)
+        return abs(yAtNoteX + (beamLeft.y - notePosition.y))
     }
     
     func drawNotes(beamLeft: CGPoint, beamRight: CGPoint) {
         for note in self.notes {
             let position = self.notePosition(note)
-            let stemHeight = self.stemHeight(notePosition: position, beamLeft: beamLeft, beamRight: beamRight)
-            let node = NoteNode(withNote: note, at: position, stemHeight: stemHeight)
+            let stemHeight = self.stemHeight(
+                notePosition: position,
+                beamLeft: beamLeft,
+                beamRight: beamRight)
+            let node = NoteNode(
+                withNote: note,
+                at: position,
+                stemHeight: stemHeight,
+                reverse: self.reverse!
+            )
             self.addChild(node)
         }
     }
@@ -239,9 +305,7 @@ public class BeamedNotesNode: SKShapeNode {
     func drawPrimaryBeams() -> (CGPoint, CGPoint)? {
         /* Draw the primary (eighth note) beam connecting the first note to the last note in the set */
         if notes.count > 1 {
-            let firstNote = notes[0]
-            let lastNote = notes[notes.count - 1]
-            return self.drawBeam(fromNote: firstNote, toNote: lastNote, rank: BeamRank.Primary)
+            return self.drawBeam(rank: BeamRank.Primary)
         }
 
         return nil

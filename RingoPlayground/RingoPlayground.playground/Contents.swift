@@ -44,7 +44,7 @@ let sixteenthNoteDistance = (barDistance - (staffXPadding * 2)) / 16
 
 
 
-let sceneView = SKView(frame: CGRect(x:0 , y:0, width: sceneWidth, height: sceneHeight))
+let sceneView = SKView(frame: CGRect(x: 0, y: 0, width: sceneWidth, height: sceneHeight))
 
 let scene = SKScene(size: CGSize(width: sceneWidth, height: sceneHeight))
 scene.backgroundColor = SKColor.white
@@ -54,7 +54,7 @@ PlaygroundSupport.PlaygroundPage.current.liveView = sceneView
 
 
 // Staff Canvas
-let staff = StaffNode(at: CGPoint(x: 0, y: 0))
+let staff = StaffNode(at: CGPoint(x: 0, y: sceneHeight / 4))
 scene.addChild(staff)
 
 
@@ -91,12 +91,12 @@ notes = [
     Note(pitch: SnarePitch, value: .Sixteenth),
 ]
 
-beamedNotes = BeamedNotesNode(withTicks: notes)
+beamedNotes = BeamedNotesNode(withTicks: notes, reverse: true)
 staff.addNotes(beamedNotes!, atTick: 0)
 
 notes = [
-    Note(pitch: SnarePitch, value: .Eighth),
-    Note(pitch: KickPitch, value: .Sixteenth),
+    Note(pitch: KickPitch, value: .Eighth),
+    Note(pitch: SnarePitch, value: .Sixteenth),
     Note(pitch: KickPitch, value: .Sixteenth),
 ]
 
@@ -106,11 +106,20 @@ staff.addNotes(beamedNotes!, atTick: 4)
 tickMask(forNotes: notes)
 
 notes = [
-    Note(pitch: SnarePitch, value: .Sixteenth),
+    Note(pitch: .G5, value: .Sixteenth),
     Note(pitch: .E4, value: .Sixteenth),
     Note(pitch: .E4, value: .Eighth),
 ]
 
-beamedNotes = BeamedNotesNode(withTicks: notes)
+beamedNotes = BeamedNotesNode(withTicks: notes, reverse: true)
 staff.addNotes(beamedNotes!, atTick: 8)
+
+notes = [
+    Note(pitch: KickPitch, value: .Eighth),
+    Note(pitch: KickPitch, value: .Sixteenth),
+    Note(pitch: SnarePitch, value: .Sixteenth),
+]
+
+beamedNotes = BeamedNotesNode(withTicks: notes)
+staff.addNotes(beamedNotes!, atTick: 12)
 
