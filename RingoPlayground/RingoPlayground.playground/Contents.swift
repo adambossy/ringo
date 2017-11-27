@@ -65,18 +65,6 @@ for _ in 0 ..< 16 {
     xPos += sixteenthNoteDistance
 }
 
-func tickMask(forNotes notes: [Note]) -> Int {
-    var tickMask : Int = 0
-    for note in notes {
-        tickMask <<= 1
-        tickMask |= 1
-        // FIXME Meter class
-        tickMask <<= (16 / note.value.rawValue) - 1
-//        print(String(tickMask, radix: 2))
-    }
-    return tickMask
-}
-
 // 1 2 3 4
 // 1e 2e 3e 4e
 // 1& 2& 3& 4&
@@ -88,22 +76,20 @@ var beamedNotes : BeamedNotesNode?
 notes = [
     Note(pitch: SnarePitch, value: .Sixteenth),
     Note(pitch: KickPitch, value: .Eighth),
-    Note(pitch: SnarePitch, value: .Sixteenth),
-]
-
-beamedNotes = BeamedNotesNode(withTicks: notes, reverse: true)
-staff.addNotes(beamedNotes!, atTick: 0)
-
-notes = [
-    Note(pitch: KickPitch, value: .Eighth),
-    Note(pitch: SnarePitch, value: .Sixteenth),
     Note(pitch: KickPitch, value: .Sixteenth),
 ]
 
 beamedNotes = BeamedNotesNode(withTicks: notes)
-staff.addNotes(beamedNotes!, atTick: 4)
+staff.addNotes(beamedNotes!, atTick: 0)
 
-tickMask(forNotes: notes)
+notes = [
+    Note(pitch: .E4, value: .Eighth),
+    Note(pitch: .E4, value: .Sixteenth),
+    Note(pitch: .G5, value: .Sixteenth),
+]
+
+beamedNotes = BeamedNotesNode(withTicks: notes)
+staff.addNotes(beamedNotes!, atTick: 4)
 
 notes = [
     Note(pitch: .G5, value: .Sixteenth),

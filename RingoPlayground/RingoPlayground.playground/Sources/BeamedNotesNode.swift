@@ -68,6 +68,7 @@ public class BeamedNotesNode: SKShapeNode {
         }
 
         let (left, right) = noteEndpoints(fromNote: notes[0], toNote: notes[self.notes.count - 1])
+        print("left", left, "right", right)
 
         if left.y == right.y {
             return (left, right)
@@ -76,19 +77,25 @@ public class BeamedNotesNode: SKShapeNode {
         var myLeft = left
         var myRight = right
 
-//        if let reverse = self.reverse {
-//            if (myLeft.y > myRight.y && !reverse) || (myLeft.y < myRight.y && reverse) {
-//                myRight.y += self.beamYPos(from: left, to: right)
-//            } else if (myRight.y > myLeft.y && !reverse) || (myRight.y < myLeft.y && reverse) {
-//                myLeft.y -= self.beamYPos(from: left, to: right)
-//            }
-//        }
-
+        if let reverse = self.reverse {
+            if myLeft.y > myRight.y && !reverse {
+                myRight.y += self.beamYPos(from: left, to: right)
+            } else if myLeft.y < myRight.y && reverse {
+                myRight.y -= self.beamYPos(from: left, to: right)
+            } else if myRight.y > myLeft.y && !reverse {
+                myLeft.y -= self.beamYPos(from: left, to: right)
+            } else if myRight.y < myLeft.y && reverse {
+                myLeft.y += self.beamYPos(from: left, to: right)
+            }
+        }
+/*
         if myLeft.y > myRight.y {
             myRight.y += self.beamYPos(from: left, to: right)
         } else if myRight.y > myLeft.y {
             myLeft.y -= self.beamYPos(from: left, to: right)
         }
+*/
+        print("y myLeft", myLeft, "myRight", myRight)
 
         return (myLeft, myRight)
     }
@@ -97,7 +104,7 @@ public class BeamedNotesNode: SKShapeNode {
         beamLeft: CGPoint,
         beamRight: CGPoint) -> (CGPoint, CGPoint)
     {
-        let minStemHeight = noteHeadRadius * 5
+        let minStemHeight = noteHeadRadius * 4
         var newYOffset : CGFloat = 0
         
         for note in notes {
@@ -111,13 +118,17 @@ public class BeamedNotesNode: SKShapeNode {
                 newYOffset = max(newYOffset, minStemHeight - stemHeight)
             }
         }
-        
+
+        print("beamLeft", beamLeft, "beamRight", beamRight)
+
         var myLeft = beamLeft
         var myRight = beamRight
         
         myLeft.y += newYOffset * (self.reverse! ? -1 : 1)
         myRight.y += newYOffset * (self.reverse! ? -1 : 1)
-        
+
+        print("x myLeft", myLeft, "myRight", myRight)
+
         return (myLeft, myRight)
     }
     
