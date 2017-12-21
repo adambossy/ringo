@@ -8,11 +8,10 @@
 
 import Foundation
 
-
 class Note {
     var next: Note?
     var tick: Int
-    
+
     init(_ _tick: Int) {
         tick = _tick
     }

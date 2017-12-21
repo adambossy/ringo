@@ -1,4 +1,4 @@
-    //
+//
 //  StaffNode.swift
 //  RingoSpriteKit
 //
@@ -8,18 +8,17 @@
 
 import SpriteKit
 
-
 class StaffNode: SKShapeNode {
 
     func renderBars(forSong song: Song, count: Int, start: Int) {
 
         let notation = song.notation
         let instruments = notation.getInstruments()
-        
+
         for instrument in instruments {
             print("instrument:", instrument)
             let sequence = notation.getNoteSequence(forType: instrument)
-            
+
             let tickStart = start * 16
             let tickEnd = tickStart + (count * 16)
             print("tickStart", tickStart, "tickEnd", tickEnd)
@@ -38,7 +37,7 @@ class StaffNode: SKShapeNode {
         blankStaff.position = CGPoint(x: blankStaff.size.width / 2, y: -blankStaff.size.height / 2)
         addChild(blankStaff)
     }
-    
+
     func instrumentYPosition(forType type: InstrumentType) -> CGFloat {
         switch type {
         case .HiHat:
@@ -57,15 +56,15 @@ class StaffNode: SKShapeNode {
             return 300
         }
     }
-    
+
     func addQuarterNote(ofType type: InstrumentType, atRelativeTick tick: Int) {
         let staffSize = frame.size // staff!.calculateAccumulatedFrame()
-        
+
         let notesOnScreen = 4 * 16 // 4 bars with 16 notes each
         let noteDistance = staffSize.width / CGFloat(notesOnScreen)
-        
+
         let note = SKSpriteNode(imageNamed: "QuarterNoteUpright")
-        
+
         // Crudely shrink
         //        note.size = CGSize(width: note.size.width / 4, height: note.size.height / 4)
         note.xScale = 0.5
@@ -80,7 +79,7 @@ class StaffNode: SKShapeNode {
 //        note.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         note.position = CGPoint(x: noteX, y: noteY)
         note.zPosition = 1
-        
+
         addChild(note)
     }
 }

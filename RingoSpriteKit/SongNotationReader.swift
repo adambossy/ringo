@@ -9,7 +9,6 @@
 import AppKit
 import Foundation
 
-
 let nonNote: Character = "-"
 
 class SongReader {
@@ -29,26 +28,26 @@ class SongReader {
         var instrumentIndex = 0
 
         let startIndex = 4 // This is based on the format described in read()
-        for index in startIndex...songData.count - 1 {
+        for index in startIndex ... songData.count - 1 {
 
-            let eightBars : String = songData[index] // Read eight bars (or less) per line for easy editing
-            
+            let eightBars: String = songData[index] // Read eight bars (or less) per line for easy editing
+
             if eightBars.isEmpty { // Blank lines delimit eight bar chunks
                 tickBookmark = tick
                 instrumentIndex = 0
             } else {
-            
+
                 if let instrumentType = InstrumentType(rawValue: instrumentTypes[instrumentIndex]) {
 
                     for note in eightBars.characters {
 
-                        if (note != nonNote) {
+                        if note != nonNote {
                             notation.addNote(type: instrumentType, tick: tick)
                         }
 
                         tick += 1
                     }
-                    
+
                     notation.closeBar(at: tick, forType: instrumentType)
 
                     instrumentIndex += 1
@@ -61,7 +60,7 @@ class SongReader {
 
         return notation
     }
-    
+
     func read(_ name: String) -> Song? {
         /**
          Format:
@@ -70,19 +69,19 @@ class SongReader {
          Tom Sawyer
          88
          hihat snare kick
-         
+
          x-x-x-x-
          o---o---
          --o---o-
          */
 
         if let file = readFile(name) {
-            let songData : [String] = file.components(separatedBy: .newlines)
+            let songData: [String] = file.components(separatedBy: .newlines)
 
             let name = songData[0]
             let artist = songData[1]
             let bpm = Int(songData[2])!
-            
+
             let instrumentData = songData[3] as String
             let instrumentTypes = instrumentData.components(separatedBy: .whitespaces)
 

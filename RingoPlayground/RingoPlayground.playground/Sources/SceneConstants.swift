@@ -1,16 +1,16 @@
 import Foundation
 
-let sceneWidth : CGFloat = 400
-let sceneHeight : CGFloat = 300
+let sceneWidth: CGFloat = 400
+let sceneHeight: CGFloat = 300
 
-let numBars : Int = 1
-let barWidth : CGFloat = 2
-var barX : CGFloat = barWidth / 2
+let numBars: Int = 1
+let barWidth: CGFloat = 2
+var barX: CGFloat = barWidth / 2
 
 let barDistance = (sceneWidth - (CGFloat(numBars) * barWidth)) / CGFloat(numBars)
 
-let hLineHeight : CGFloat = 1
-var hLineY : CGFloat = hLineHeight / 2
+let hLineHeight: CGFloat = 1
+var hLineY: CGFloat = hLineHeight / 2
 
 let hLineDistance = (staffHeight - (CGFloat(numHLines) * (hLineHeight - 1))) / CGFloat(numHLines - 1)
 
@@ -31,8 +31,7 @@ let HiHatY = G5
 let SnareY = C5
 let KickY = F4
 
-let noteHeadRadius : CGFloat = (hLineDistance / 2) - hLineHeight - 2 // - 2 for lineWidth (e.g., stroke width)
+let noteHeadRadius: CGFloat = (hLineDistance / 2) - hLineHeight - 2 // - 2 for lineWidth (e.g., stroke width)
 
-
-let staffXPadding : CGFloat = barDistance / 16 / 4 // Trailing "/ 4" is fudge factor
+let staffXPadding: CGFloat = barDistance / 16 / 4 // Trailing "/ 4" is fudge factor
 let sixteenthNoteDistance = (barDistance - (staffXPadding * 2)) / 16

@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum InstrumentType: String{
+enum InstrumentType: String {
     case HiHat = "hihat"
     case Snare = "snare"
     case Kick = "kick"
@@ -18,11 +18,10 @@ enum InstrumentType: String{
     case Tom4 = "tom4"
 }
 
-
 class SongNotation {
 
-    var noteSequenceByInstrument : Dictionary<InstrumentType, NoteSequence>
-    
+    var noteSequenceByInstrument: Dictionary<InstrumentType, NoteSequence>
+
     init() {
         noteSequenceByInstrument = [InstrumentType: NoteSequence]()
     }
@@ -30,7 +29,7 @@ class SongNotation {
     func getInstruments() -> [InstrumentType] {
         return Array(noteSequenceByInstrument.keys)
     }
-    
+
     func addInstrument(_ type: InstrumentType) -> NoteSequence {
         noteSequenceByInstrument[type] = NoteSequence()
         return noteSequenceByInstrument[type]!
@@ -54,4 +53,3 @@ class SongNotation {
         getNoteSequence(forType: type).closeBar(at: tick)
     }
 }
-

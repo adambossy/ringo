@@ -7,13 +7,13 @@
 //
 
 import Cocoa
-import SpriteKit
 import GameplayKit
+import SpriteKit
 
 class ViewController: NSViewController {
 
     @IBOutlet var skView: SKView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -25,16 +25,15 @@ class ViewController: NSViewController {
             if let scene = SKScene(fileNamed: "GameScene") {
                 // Set the scale mode to scale to fit the window
                 scene.scaleMode = .aspectFit
-                
+
                 // Present the scene
                 view.presentScene(scene)
             }
-            
+
             view.ignoresSiblingOrder = true
-            
+
             view.showsFPS = true
             view.showsNodeCount = true
         }
     }
 }
-

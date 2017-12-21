@@ -1,4 +1,4 @@
-    //
+//
 //  ticksequence.swift
 //  RingoSpriteKit
 //
@@ -8,12 +8,11 @@
 
 import Foundation
 
+class NoteSequence: CustomStringConvertible {
 
-class NoteSequence : CustomStringConvertible {
+    public var ticks: [Int]
 
-    public var ticks : [Int]
-
-    var tickOffset : Int
+    var tickOffset: Int
 
     init() {
         ticks = [Int]()
@@ -21,7 +20,7 @@ class NoteSequence : CustomStringConvertible {
     }
 
     // Ingestion
-    
+
     func hasNote(at tick: Int) -> Bool {
         if let noteIndex = binarySearch(ticks, key: tick, range: 0 ..< ticks.count) {
             if tick == ticks[noteIndex] {
@@ -30,17 +29,17 @@ class NoteSequence : CustomStringConvertible {
         }
         return false
     }
-    
+
     func noteRange(from: Int, to: Int) -> [Int] {
-        if let noteFrom : Int = binarySearch(ticks, key: from, range: 0 ..< ticks.count),
-           let noteTo : Int = binarySearch(ticks, key: to, range: 0 ..< ticks.count) {
+        if let noteFrom: Int = binarySearch(ticks, key: from, range: 0 ..< ticks.count),
+            let noteTo: Int = binarySearch(ticks, key: to, range: 0 ..< ticks.count) {
             return Array(ticks[noteFrom ..< noteTo])
         }
         return [Int]()
     }
-    
+
     // Construction
-    
+
     func addNote(_ tick: Int) {
         ticks.append(tick + tickOffset)
     }
@@ -50,7 +49,7 @@ class NoteSequence : CustomStringConvertible {
     }
 
     public var description: String {
-        
+
         var s = ""
         var tick = 0
 
@@ -62,7 +61,7 @@ class NoteSequence : CustomStringConvertible {
                 }
             }
             s += "o"
-            
+
             tick = currentTick
         }
 
@@ -71,7 +70,7 @@ class NoteSequence : CustomStringConvertible {
                 s += "-"
             }
         }
-        
+
         return s
     }
 }
