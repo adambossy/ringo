@@ -39,11 +39,8 @@ class BeamNode : SKShapeNode {
         self.right = self.notePosition(notes[self.notes.count - 1])
 
         self.massageEndpoints()
-        print(left.y, right.y)
         self.setYOffset()
-        print(left.y, right.y)
         self.fixStemHeights()
-        print(left.y, right.y)
     }
 
     func massageEndpoints() {

@@ -85,14 +85,14 @@ staff.addNotes(beamedNotes!, atTick: 0)
 notes = [
     Note(pitch: .E4, value: .Eighth),
     Note(pitch: .E4, value: .Sixteenth),
-    Note(pitch: .G5, value: .Sixteenth),
+    Note(pitch: .G5, value: .Sixteenth, style: .HiHat),
 ]
 
 beamedNotes = BeamedNotesNode(withTicks: notes)
 staff.addNotes(beamedNotes!, atTick: 4)
 
 notes = [
-    Note(pitch: .G5, value: .Sixteenth),
+    Note(pitch: .G5, value: .Sixteenth, style: .HiHat),
     Note(pitch: .E4, value: .Sixteenth),
     Note(pitch: .E4, value: .Eighth),
 ]

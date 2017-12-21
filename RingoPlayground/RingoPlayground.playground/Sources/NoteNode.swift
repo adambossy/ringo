@@ -29,14 +29,21 @@ public enum NoteValue : Int {
     case ThirtySecond = 32
 }
 
+public enum NoteStyle : Int {
+    case Default
+    case HiHat
+}
+
 public struct Note {
-    public init(pitch: NotePitch, value: NoteValue) {
+    public init(pitch: NotePitch, value: NoteValue, style: NoteStyle = .Default) {
         self.pitch = pitch
         self.value = value
+        self.style = style
     } // For Playground only
 
     public var pitch : NotePitch // A, B, C, D, E..
     public var value : NoteValue // Quarter, Eighth, Sixteenth, etc
+    public var style : NoteStyle // Normal, HiHat, etc
 
     var tick : Int? // The tick that the note is assigned to, only to be set programmatically
 }
@@ -50,6 +57,7 @@ public struct Rest {
 public class NoteNode : SKShapeNode {
 
     var note : Note?
+    private(set) var reverse : Bool = false
 
     convenience public init(
         withNote myNote: Note,
@@ -57,16 +65,54 @@ public class NoteNode : SKShapeNode {
         stemHeight: CGFloat? = nil,
         reverse: Bool = false)
     {
-        self.init(circleOfRadius: noteHeadRadius)
+        switch myNote.style
+        {
+        case .HiHat:
+            let path = CGMutablePath.init()
 
-        note = myNote
-        position = myPosition
-        lineWidth = 2
-        strokeColor = SKColor.black
-        fillColor = SKColor.black
+            path.move(to: CGPoint(x: -noteHeadRadius, y: -noteHeadRadius))
+            path.addLine(
+                to: CGPoint(
+                    x: noteHeadRadius,
+                    y: noteHeadRadius
+                )
+            )
+            
+            path.move(to: CGPoint(x: -noteHeadRadius, y: noteHeadRadius))
+            path.addLine(
+                to: CGPoint(
+                    x: noteHeadRadius,
+                    y: -noteHeadRadius
+                )
+            )
 
+            self.init(path: path)
+        case .Default:
+            self.init(circleOfRadius: noteHeadRadius)
+        }
+
+        self.note = myNote
+        self.reverse = reverse
+        self.position = myPosition
+        self.lineWidth = 2
+        self.strokeColor = SKColor.black
+        self.fillColor = SKColor.black
+
+        self.drawStem(stemHeight: stemHeight)
+    }
+    
+    func drawStem(stemHeight: CGFloat? = nil) {
         let path = CGMutablePath.init()
-        path.move(to: CGPoint(x: noteHeadRadius + 1, y: 0))
+
+        if let note = self.note {
+            switch note.style {
+            case .HiHat:
+                let y = noteHeadRadius * (self.reverse ? -1 : 1)
+                path.move(to: CGPoint(x: noteHeadRadius + 1, y: y))
+            case .Default:
+                path.move(to: CGPoint(x: noteHeadRadius + 1, y: 0))
+            }
+        }
 
         let myStemHeight = stemHeight ?? noteHeadRadius * 6
         path.addLine(
