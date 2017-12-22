@@ -65,17 +65,81 @@ for _ in 0 ..< 16 {
 // 1a 2a 3a 4a
 
 var notes: [Note]
-var beamedNotes: BeamedNotesNode?
+
+// 0
 
 notes = [
-    Note(pitch: SnarePitch, value: .Sixteenth),
-    Note(pitch: KickPitch, value: .Eighth),
-    Note(pitch: KickPitch, value: .Sixteenth),
+    Note(pitch: CrashPitch, value: .Quarter, style: .HiHat),
+]
+
+var beamedNotes = BeamedNotesNode(withTicks: notes)
+staff.addNotes(beamedNotes, atTick: 0)
+
+notes = [
+    Note(pitch: KickPitch, value: .Quarter),
 ]
 
 beamedNotes = BeamedNotesNode(withTicks: notes)
-staff.addNotes(beamedNotes!, atTick: 0)
+staff.addNotes(beamedNotes, atTick: 0)
 
+// 4
+
+notes = [
+    Note(pitch: HiHatPitch, value: .Sixteenth),
+    Note(pitch: HiHatPitch, value: .Sixteenth),
+    Note(pitch: HiHatPitch, value: .Sixteenth),
+    Note(pitch: HiHatPitch, value: .Sixteenth),
+]
+
+beamedNotes = BeamedNotesNode(withTicks: notes)
+staff.addNotes(beamedNotes, atTick: 4)
+
+notes = [
+    Note(pitch: SnarePitch, value: .Quarter),
+]
+
+beamedNotes = BeamedNotesNode(withTicks: notes)
+staff.addNotes(beamedNotes, atTick: 4)
+
+// 8
+
+notes = [
+    Note(pitch: HiHatPitch, value: .Sixteenth),
+    Note(pitch: HiHatPitch, value: .Sixteenth),
+    Note(pitch: HiHatPitch, value: .Sixteenth),
+    Note(pitch: HiHatPitch, value: .Sixteenth),
+]
+
+beamedNotes = BeamedNotesNode(withTicks: notes)
+staff.addNotes(beamedNotes, atTick: 8)
+
+notes = [
+    Note(pitch: KickPitch, value: .Eighth),
+]
+
+beamedNotes = BeamedNotesNode(withTicks: notes)
+staff.addNotes(beamedNotes, atTick: 10)
+
+// 12
+
+notes = [
+    Note(pitch: HiHatPitch, value: .Sixteenth),
+    Note(pitch: HiHatPitch, value: .Sixteenth),
+    Note(pitch: HiHatPitch, value: .Sixteenth),
+    Note(pitch: HiHatPitch, value: .Sixteenth),
+]
+
+beamedNotes = BeamedNotesNode(withTicks: notes)
+staff.addNotes(beamedNotes, atTick: 12)
+
+notes = [
+    Note(pitch: SnarePitch, value: .Quarter),
+]
+
+beamedNotes = BeamedNotesNode(withTicks: notes)
+staff.addNotes(beamedNotes, atTick: 12)
+
+/*
 notes = [
     Note(pitch: .E4, value: .Eighth),
     Note(pitch: .E4, value: .Sixteenth),
@@ -102,3 +166,4 @@ notes = [
 
 beamedNotes = BeamedNotesNode(withTicks: notes)
 staff.addNotes(beamedNotes!, atTick: 12)
+*/

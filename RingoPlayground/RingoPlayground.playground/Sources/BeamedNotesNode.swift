@@ -77,21 +77,22 @@ public class BeamedNotesNode: SKShapeNode {
     }
 
     func drawNotes() {
-        if let beam = self.beam {
-            for note in notes {
-                let position = notePosition(note)
-                let stemHeight = BeamedNotesNode.stemHeight(
+        for note in notes {
+            let position = notePosition(note)
+            var stemHeight : CGFloat?
+            if let beam = self.beam {
+                stemHeight = BeamedNotesNode.stemHeight(
                     notePosition: position,
                     beamLeft: beam.left,
                     beamRight: beam.right)
-                let node = NoteNode(
-                    withNote: note,
-                    at: position,
-                    stemHeight: stemHeight,
-                    reverse: reverse
-                )
-                addChild(node)
             }
+            let node = NoteNode(
+                withNote: note,
+                at: position,
+                stemHeight: stemHeight,
+                reverse: reverse
+            )
+            addChild(node)
         }
     }
 
@@ -129,6 +130,10 @@ public class BeamedNotesNode: SKShapeNode {
                 fromIndex: 1,
                 toIndex: 2,
                 whichHalf: .SecondHalf)
+        case 0b1111:
+            drawSecondaryBeams(
+                fromIndex: 0,
+                toIndex: 3)
         default:
             break
         }
