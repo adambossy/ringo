@@ -14,7 +14,7 @@ public class BeamedNotesNode: SKShapeNode {
     private(set) var reverse: Bool = false
 
     public convenience init(withTicks notes: [Note], reverse: Bool = false) {
-        self.init(rect: CGRect(x: 0, y: 0, width: 1, height: 1))
+        self.init(rect: CGRect(x: 0, y: 0, width: 0, height: 0))
 
         self.notes = notes
         annotateTicks(forNotes: notes)
