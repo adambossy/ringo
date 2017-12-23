@@ -15,17 +15,18 @@ public class StaffNode: SKShapeNode {
         drawHorizontalLine(atX: 0)
         drawHorizontalLine(atX: barDistance)
 
+        var localHLineY = hLineY
         for _ in 0 ..< numHLines {
             let path = CGMutablePath()
             let line = SKShapeNode()
-            path.move(to: CGPoint(x: 0, y: hLineY))
-            path.addLine(to: CGPoint(x: barDistance, y: hLineY))
+            path.move(to: CGPoint(x: 0, y: localHLineY))
+            path.addLine(to: CGPoint(x: barDistance, y: localHLineY))
             line.path = path
             line.strokeColor = SKColor.black
             line.lineWidth = barWidth
             addChild(line)
 
-            hLineY += hLineDistance
+            localHLineY -= hLineDistance
         }
     }
 
@@ -33,7 +34,7 @@ public class StaffNode: SKShapeNode {
         let path = CGMutablePath()
         let line = SKShapeNode()
         path.move(to: CGPoint(x: x, y: 0))
-        path.addLine(to: CGPoint(x: x, y: staffHeight))
+        path.addLine(to: CGPoint(x: x, y: -staffHeight))
         line.path = path
         line.strokeColor = SKColor.black
         line.lineWidth = hLineHeight
@@ -51,7 +52,7 @@ public class StaffNode: SKShapeNode {
     public func addNotes(
         _ notesNode: BeamedNotesNode,
         atTick tick: Int) {
-        notesNode.position = CGPoint(x: xPos(atTick: tick), y: 0)
+        notesNode.position = CGPoint(x: xPos(atTick: tick), y: -staffHeight)
         addChild(notesNode)
     }
 }

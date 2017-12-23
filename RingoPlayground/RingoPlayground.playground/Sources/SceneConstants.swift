@@ -1,9 +1,9 @@
 import Foundation
 
-let sceneWidth: CGFloat = 400
-let sceneHeight: CGFloat = 300
+let sceneWidth: CGFloat = 800
+let sceneHeight: CGFloat = 600
 
-let numBars: Int = 1
+let numBars: Int = 3
 let barWidth: CGFloat = 2
 var barX: CGFloat = barWidth / 2
 
