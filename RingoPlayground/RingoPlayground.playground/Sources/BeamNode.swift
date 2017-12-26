@@ -1,6 +1,8 @@
 import Foundation
 import SpriteKit
 
+let noteHeadRadius: CGFloat = (hLineDistance / 2) - hLineHeight - 2 // - 2 for lineWidth (e.g., stroke width)
+
 enum BeamRank {
     case Primary // Eight notes
     case Secondary // Sixteenth notes

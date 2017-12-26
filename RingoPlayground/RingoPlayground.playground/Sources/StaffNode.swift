@@ -51,7 +51,7 @@ public class StaffNode: SKShapeNode {
             path.addLine(to: CGPoint(x: frame.size.width, y: localHLineY))
             line.path = path
             line.strokeColor = SKColor.black
-            line.lineWidth = barWidth
+            line.lineWidth = 2
             addChild(line)
             
             localHLineY -= hLineDistance
