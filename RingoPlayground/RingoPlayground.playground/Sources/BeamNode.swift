@@ -127,10 +127,10 @@ class BeamNode: SKShapeNode {
     func draw(from: CGPoint, to: CGPoint) {
         // FIXME: Validate that .tick is set on each note
         let path = NSBezierPath()
-        path.move(to: CGPoint(x: from.x + noteHeadRadius + 1, y: from.y - (beamWidth / 2)))
-        path.line(to: CGPoint(x: from.x + noteHeadRadius + 1, y: from.y + (beamWidth / 2)))
-        path.line(to: CGPoint(x: to.x + noteHeadRadius + 1, y: to.y + (beamWidth / 2)))
-        path.line(to: CGPoint(x: to.x + noteHeadRadius + 1, y: to.y - (beamWidth / 2)))
+        path.move(to: CGPoint(x: from.x + noteHeadRadius + 0.5, y: from.y - (beamWidth / 2)))
+        path.line(to: CGPoint(x: from.x + noteHeadRadius + 0.5, y: from.y + (beamWidth / 2)))
+        path.line(to: CGPoint(x: to.x + noteHeadRadius + 1.5, y: to.y + (beamWidth / 2)))
+        path.line(to: CGPoint(x: to.x + noteHeadRadius + 1.5, y: to.y - (beamWidth / 2)))
         path.close()
 
         let beam = SKShapeNode()

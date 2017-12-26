@@ -109,13 +109,16 @@ public class BeamedNotesNode: SKShapeNode {
 
     func drawPrimaryBeams() {
         /* Draw the primary (eighth note) beam connecting the first note to the last note in the set */
-        if notes.count > 1 {
+        if notes.count > 1 && notes[0].tick != notes[notes.count - 1].tick {
             beam = BeamNode(
                 owner: self,
                 withNotes: notes,
 //                rank: .Primary,
                 reverse: reverse
             )
+            if let beam = beam {
+                addChild(beam)
+            }
         }
     }
 
