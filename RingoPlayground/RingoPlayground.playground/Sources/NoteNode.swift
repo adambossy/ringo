@@ -36,17 +36,19 @@ public enum NoteStyle: Int {
 }
 
 public struct Note {
-    public init(pitch: NotePitch, value: NoteValue, style: NoteStyle = .Default) {
+    public init(tick: Int, pitch: NotePitch, style: NoteStyle = .Default) {
+        self.tick = tick
         self.pitch = pitch
-        self.value = value
+//        self.value = value
         self.style = style
     } // For Playground only
 
     public var pitch: NotePitch // A, B, C, D, E..
-    public var value: NoteValue // Quarter, Eighth, Sixteenth, etc
+//    public var value: NoteValue // Quarter, Eighth, Sixteenth, etc
     public var style: NoteStyle // Normal, HiHat, etc
 
-    var tick: Int? // The tick that the note is assigned to, only to be set programmatically
+    // FIXME: This is currently being doubly-used at separate times during the program's control flow
+    public var tick: Int // The tick that the note is assigned to, only to be set programmatically
 }
 
 public struct Rest {

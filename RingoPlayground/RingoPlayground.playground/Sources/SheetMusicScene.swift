@@ -4,15 +4,27 @@ import SpriteKit
 let kSheetMusicPaddingX: CGFloat = 100.0
 let kSheetMusicPaddingY: CGFloat = 100.0
 
+let staffsPerLine : Int = 3
+
+public struct Song {
+    public init(measures: [Measure]) {
+        self.measures = measures
+    }
+    var measures: [Measure]
+}
+
 public class SheetMusicScene : SKScene {
- 
-    let staffsPerLine : Int = 3
+
     var numStaffs : Int = 0
+    var song : Song?
     
-    public override init(size: CGSize) {
-        super.init(size: size)
+    public convenience init(song: Song, size: CGSize) {
+        self.init(size: size)
         self.anchorPoint = CGPoint(x: 0, y: 1)
         self.backgroundColor = SKColor.white
+
+        self.song = song
+        parseSong()
     }
     
     // Declare the number of staffs to render on each line instead of a pixel width (and then size to fit parent)
@@ -20,22 +32,38 @@ public class SheetMusicScene : SKScene {
 //
 //    }
 
-    public required init?(coder: NSCoder) {
-        super.init(coder: coder)
+//    public required init?(coder: NSCoder) {
+//        super.init(coder: coder)
+//    }
+    
+    func parseSong() {
+        for measure in song!.measures {
+            add(measure: measure)
+        }
+    }
+
+    public func add(measure: Measure) {
+        let position = self.nextPosition()
+        let rect = CGRect(
+            x: position.x,
+            y: position.y,
+            width: self.staffWidth(),
+            height: staffHeight
+        )
+        let staff = StaffNode(measure: measure, rect: rect)
+        addChild(staff)
+        
+        numStaffs += 1
     }
     
     func nextPosition() -> CGPoint {
         return CGPoint(
-            x: CGFloat(numStaffs % staffsPerLine) * barDistance + kSheetMusicPaddingX,
+            x: CGFloat(numStaffs % staffsPerLine) * staffWidth() + kSheetMusicPaddingX,
             y: -CGFloat((numStaffs / staffsPerLine) + 1) * (staffHeight * 2)
         )
     }
     
-    public func add(staff: StaffNode) {
-        staff.position = self.nextPosition()
-        addChild(staff)
-        
-        numStaffs += 1
-        print(staff.position)
+    func staffWidth() -> CGFloat {
+        return self.size.width / CGFloat(numStaffs) - (kSheetMusicPaddingX * 2)
     }
 }

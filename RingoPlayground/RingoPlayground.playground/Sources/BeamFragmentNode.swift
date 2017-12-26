@@ -14,6 +14,7 @@ class BeamFragmentNode: BeamNode {
     var beamHalf: BeamHalf = .Whole
 
     public convenience init(
+        owner: BeamedNotesNode,
         notes: [Note], // FIXME: this shouldn't be necessary to construct this class
         parentBeam: BeamNode,
         fromIndex: Int,
@@ -21,7 +22,7 @@ class BeamFragmentNode: BeamNode {
         rank: BeamRank = BeamRank.Primary,
         whichHalf beamHalf: BeamHalf = .Whole,
         reverse: Bool = false) {
-        self.init(withNotes: notes, reverse: reverse) // FIXME: Weird to pass an empty array here
+        self.init(owner: owner, withNotes: notes, reverse: reverse) // FIXME: Weird to pass an empty array here
 
         self.parentBeam = parentBeam
         self.fromIndex = fromIndex
@@ -34,16 +35,16 @@ class BeamFragmentNode: BeamNode {
 
     func endpoints(rank: BeamRank) {
         let fromNote = notes[self.fromIndex]
-        var leftX = notePosition(fromNote).x
+        var leftX = owner!.notePosition(fromNote).x
 
         let toNote = notes[self.toIndex]
-        var rightX = notePosition(toNote).x
+        var rightX = owner!.notePosition(toNote).x
 
         // Maybe factor the `half` logic into its own function
         if beamHalf == .FirstHalf {
-            rightX = leftX + (sixteenthNoteDistance / 2)
+            rightX = leftX + (owner!.sixteenthNoteDistance() / 2)
         } else if beamHalf == .SecondHalf {
-            leftX = rightX - (sixteenthNoteDistance / 2)
+            leftX = rightX - (owner!.sixteenthNoteDistance() / 2)
         }
 
         if let parentBeam = self.parentBeam {

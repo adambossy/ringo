@@ -1,46 +1,37 @@
 import PlaygroundSupport
 import SpriteKit
 
+var measures = [Measure]()
+for tick in stride(from: 0, to: 16, by: 16) {
+    let measure = Measure(
+        notes: [
+            Note(tick: 0, pitch: CrashPitch, style: .HiHat),
+            Note(tick: 0, pitch: KickPitch),
+            Note(tick: 4, pitch: SnarePitch),
+            Note(tick: 4, pitch: HiHatPitch, style: .HiHat),
+            Note(tick: 5, pitch: HiHatPitch, style: .HiHat),
+            Note(tick: 6, pitch: HiHatPitch, style: .HiHat),
+            Note(tick: 7, pitch: HiHatPitch, style: .HiHat),
+            Note(tick: 8, pitch: HiHatPitch, style: .HiHat),
+            Note(tick: 9, pitch: HiHatPitch, style: .HiHat),
+            Note(tick: 10, pitch: KickPitch),
+            Note(tick: 10, pitch: HiHatPitch, style: .HiHat),
+            Note(tick: 11, pitch: HiHatPitch, style: .HiHat),
+            Note(tick: 12, pitch: SnarePitch),
+            Note(tick: 12, pitch: HiHatPitch, style: .HiHat),
+            Note(tick: 13, pitch: HiHatPitch, style: .HiHat),
+            Note(tick: 14, pitch: HiHatPitch, style: .HiHat),
+            Note(tick: 15, pitch: HiHatPitch, style: .HiHat),
+        ],
+        tick: tick
+    )
+    measures.append(measure)
+}
+let song = Song(measures: measures)
+
 let sceneWidth: CGFloat = 800
 let sceneHeight: CGFloat = 600
-
-let staffHeight: CGFloat = 100
-
-let numBars: Int = 1
-let barWidth: CGFloat = 2
-var barX: CGFloat = barWidth / 2
-
-let barDistance = (sceneWidth - (CGFloat(numBars) * barWidth)) / CGFloat(numBars)
-
-let numHLines: Int = 5
-let hLineHeight: CGFloat = 1
-var hLineY: CGFloat = hLineHeight / 2
-
-let hLineDistance = (staffHeight - (CGFloat(numHLines) * (hLineHeight - 1))) / CGFloat(numHLines - 1)
-
-// Every Good Boy Deserves Fudge
-let lineOffset = hLineHeight / 2
-let E4 = lineOffset
-let F4 = lineOffset + (hLineDistance / 2)
-let G4 = lineOffset + hLineDistance
-let A4 = lineOffset + hLineDistance + (hLineDistance / 2)
-let B5 = lineOffset + (hLineDistance * 2)
-let C5 = lineOffset + (hLineDistance * 2) + (hLineDistance / 2)
-let D5 = lineOffset + (hLineDistance * 3)
-let E5 = lineOffset + (hLineDistance * 3) + (hLineDistance / 2)
-let F5 = lineOffset + (hLineDistance * 4)
-let G5 = lineOffset + (hLineDistance * 4) + (hLineDistance / 2)
-
-let HiHatY = G5
-let SnareY = C5
-let KickY = F4
-
-let noteHeadRadius: CGFloat = (hLineDistance / 2) - hLineHeight - 2 // - 2 for lineWidth (e.g., stroke width)
-
-let staffXPadding: CGFloat = barDistance / 16 / 4 // Trailing "/ 4" is fudge factor
-let sixteenthNoteDistance = (barDistance - (staffXPadding * 2)) / 16
-
-let scene = SheetMusicScene(size: CGSize(width: sceneWidth, height: sceneHeight))
+let scene = SheetMusicScene(song: song, size: CGSize(width: sceneWidth, height: sceneHeight))
 
 // Playground sturf
 let sceneView = SKView(frame: CGRect(x: 0, y: 0, width: sceneWidth, height: sceneHeight))
@@ -48,125 +39,3 @@ sceneView.showsFPS = true
 sceneView.presentScene(scene)
 PlaygroundSupport.PlaygroundPage.current.liveView = sceneView
 
-// Staff Canvas
-for i in 0...2 {
-    
-    let staff = StaffNode(at: CGPoint(x: 0, y: 0))
-    scene.add(staff: staff)
-
-    var xPositions: [CGFloat] = [CGFloat]()
-    var xPos = staffXPadding + sixteenthNoteDistance / 2
-    for _ in 0 ..< 16 {
-        xPositions.append(xPos)
-        xPos += sixteenthNoteDistance
-    }
-
-    // 1 2 3 4
-    // 1e 2e 3e 4e
-    // 1& 2& 3& 4&
-    // 1a 2a 3a 4a
-
-    var notes: [Note]
-
-    // 0
-
-    notes = [
-        Note(pitch: CrashPitch, value: .Quarter, style: .HiHat),
-    ]
-
-    var beamedNotes = BeamedNotesNode(withTicks: notes)
-    staff.addNotes(beamedNotes, atTick: 0)
-
-    notes = [
-        Note(pitch: KickPitch, value: .Quarter),
-    ]
-
-    beamedNotes = BeamedNotesNode(withTicks: notes)
-    staff.addNotes(beamedNotes, atTick: 0)
-
-    // 4
-
-    notes = [
-        Note(pitch: HiHatPitch, value: .Sixteenth, style: .HiHat),
-        Note(pitch: HiHatPitch, value: .Sixteenth, style: .HiHat),
-        Note(pitch: HiHatPitch, value: .Sixteenth, style: .HiHat),
-        Note(pitch: HiHatPitch, value: .Sixteenth, style: .HiHat),
-    ]
-
-    beamedNotes = BeamedNotesNode(withTicks: notes)
-    staff.addNotes(beamedNotes, atTick: 4)
-
-    notes = [
-        Note(pitch: SnarePitch, value: .Quarter),
-    ]
-
-    beamedNotes = BeamedNotesNode(withTicks: notes)
-    staff.addNotes(beamedNotes, atTick: 4)
-
-    // 8
-
-    notes = [
-        Note(pitch: HiHatPitch, value: .Sixteenth, style: .HiHat),
-        Note(pitch: HiHatPitch, value: .Sixteenth, style: .HiHat),
-        Note(pitch: HiHatPitch, value: .Sixteenth, style: .HiHat),
-        Note(pitch: HiHatPitch, value: .Sixteenth, style: .HiHat),
-    ]
-
-    beamedNotes = BeamedNotesNode(withTicks: notes)
-    staff.addNotes(beamedNotes, atTick: 8)
-
-    notes = [
-        Note(pitch: KickPitch, value: .Eighth),
-    ]
-
-    beamedNotes = BeamedNotesNode(withTicks: notes)
-    staff.addNotes(beamedNotes, atTick: 10)
-
-    // 12
-
-    notes = [
-        Note(pitch: HiHatPitch, value: .Sixteenth, style: .HiHat),
-        Note(pitch: HiHatPitch, value: .Sixteenth, style: .HiHat),
-        Note(pitch: HiHatPitch, value: .Sixteenth, style: .HiHat),
-        Note(pitch: HiHatPitch, value: .Sixteenth, style: .HiHat),
-    ]
-
-    beamedNotes = BeamedNotesNode(withTicks: notes)
-    staff.addNotes(beamedNotes, atTick: 12)
-
-    notes = [
-        Note(pitch: SnarePitch, value: .Quarter),
-    ]
-
-    beamedNotes = BeamedNotesNode(withTicks: notes)
-    staff.addNotes(beamedNotes, atTick: 12)
-}
-
-/*
-notes = [
-    Note(pitch: .E4, value: .Eighth),
-    Note(pitch: .E4, value: .Sixteenth),
-    Note(pitch: .G5, value: .Sixteenth, style: .HiHat),
-]
-
-beamedNotes = BeamedNotesNode(withTicks: notes)
-staff.addNotes(beamedNotes!, atTick: 4)
-
-notes = [
-    Note(pitch: .G5, value: .Sixteenth, style: .HiHat),
-    Note(pitch: .E4, value: .Sixteenth),
-    Note(pitch: .E4, value: .Eighth),
-]
-
-beamedNotes = BeamedNotesNode(withTicks: notes, reverse: true)
-staff.addNotes(beamedNotes!, atTick: 8)
-
-notes = [
-    Note(pitch: KickPitch, value: .Eighth),
-    Note(pitch: KickPitch, value: .Sixteenth),
-    Note(pitch: SnarePitch, value: .Sixteenth),
-]
-
-beamedNotes = BeamedNotesNode(withTicks: notes)
-staff.addNotes(beamedNotes!, atTick: 12)
-*/

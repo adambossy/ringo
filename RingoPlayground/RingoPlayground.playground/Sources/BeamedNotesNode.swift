@@ -10,14 +10,14 @@ public class BeamedNotesNode: SKShapeNode {
     var beam: BeamNode?
 //    var childBeams : [BeamNode]?
 
-    private(set) var notes: [Note] = [Note]()
-    private(set) var reverse: Bool = false
+    var notes: [Note] = [Note]()
+    var reverse: Bool = false
 
-    public convenience init(withTicks notes: [Note], reverse: Bool = false) {
-        self.init(rect: CGRect(x: 0, y: 0, width: 0, height: 0))
+    public convenience init(notes: [Note], rect: CGRect, reverse: Bool = false) {
+        self.init(rect: rect)
 
         self.notes = notes
-        annotateTicks(forNotes: notes)
+//        annotateTicks(forNotes: notes)
         self.reverse = reverse
 
         draw()
@@ -37,26 +37,31 @@ public class BeamedNotesNode: SKShapeNode {
 
      Don't burden the user with being responsible for this, and don't create a hard validation problem for this class.
      */
-    func annotateTicks(forNotes _: [Note]) {
-        if notes.count == 0 {
-            return
-        }
+//    func annotateTicks(forNotes _: [Note]) {
+//        if notes.count == 0 {
+//            return
+//        }
+//
+//        var tick: Int = 0
+//        // Use enumerated() so we can mutate note in the for loop
+//        for (index, _) in notes.enumerated() {
+//            notes[index].tick = tick
+//            tick += 16 / notes[index].value.rawValue // FIXME: Meter class
+//        }
+//    }
 
-        var tick: Int = 0
-        // Use enumerated() so we can mutate note in the for loop
-        for (index, _) in notes.enumerated() {
-            notes[index].tick = tick
-            tick += 16 / notes[index].value.rawValue // FIXME: Meter class
-        }
-    }
-
-    func tickMask(forNotes notes: [Note]) -> Int {
+    func tickMask() -> Int {
         var tickMask: Int = 0
+        var lastTick: Int = (notes[0].tick / 4) * 4
         for note in notes {
+            if note.tick == lastTick {
+                continue
+            }
             tickMask <<= 1
             tickMask |= 1
             // FIXME: Meter class
-            tickMask <<= (16 / note.value.rawValue) - 1
+            tickMask <<= lastTick - note.tick
+            lastTick = note.tick
         }
         return tickMask
     }
@@ -71,7 +76,7 @@ public class BeamedNotesNode: SKShapeNode {
     // FIXME: Duplicated, don't change one without the others
     func notePosition(_ note: Note) -> CGPoint {
         return CGPoint(
-            x: noteHeadRadius + (sixteenthNoteDistance * CGFloat(note.tick!)) + 1,
+            x: noteHeadRadius + (sixteenthNoteDistance() * CGFloat(note.tick)) + 1,
             y: position.y + yOffset(forNotePitch: note.pitch)
         )
     }
@@ -100,6 +105,7 @@ public class BeamedNotesNode: SKShapeNode {
         /* Draw the primary (eighth note) beam connecting the first note to the last note in the set */
         if notes.count > 1 {
             beam = BeamNode(
+                owner: self,
                 withNotes: notes,
 //                rank: .Primary,
                 reverse: reverse
@@ -109,7 +115,7 @@ public class BeamedNotesNode: SKShapeNode {
 
     func drawSecondaryBeams() {
         // Draw the sixteenth note beams based on beaming rules which I can't find generalized rules for, hence the switch case
-        let tickMask = self.tickMask(forNotes: notes)
+        let tickMask = self.tickMask()
         switch tickMask {
         case 0b1011:
             drawSecondaryBeams(
@@ -145,6 +151,7 @@ public class BeamedNotesNode: SKShapeNode {
         whichHalf beamHalf: BeamHalf = .Whole) {
         if let beam = self.beam {
             let secondaryBeam = BeamFragmentNode(
+                owner: self,
                 notes: notes,
                 parentBeam: beam,
                 fromIndex: fromIndex,
@@ -164,4 +171,14 @@ public class BeamedNotesNode: SKShapeNode {
         drawSecondaryBeams()
         drawNotes()
     }
+    
+    // TODO: func tripletDistance...
+    func sixteenthNoteDistance() -> CGFloat {
+        return frame.size.width / 16 // FIXME: Hardcoded 4/4
+    }
+
+//    func width() -> CGFloat {
+//        let notePadding = sixteenthNoteDistance() / 2
+//        return staffXPadding + notePadding + (sixteenthNoteDistance() * CGFloat(4))
+//    }
 }

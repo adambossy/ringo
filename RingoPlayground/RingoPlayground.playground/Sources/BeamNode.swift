@@ -15,13 +15,17 @@ class BeamNode: SKShapeNode {
 
     var left: CGPoint = CGPoint(x: 0, y: 0)
     var right: CGPoint = CGPoint(x: 0, y: 0)
+    
+    weak var owner : BeamedNotesNode?
 
     public convenience init(
+        owner: BeamedNotesNode?,
         withNotes notes: [Note],
 //        rank: BeamRank = BeamRank.Primary,
         reverse: Bool = false) {
         self.init(rect: CGRect(x: 0, y: 0, width: 0, height: 0))
-
+        self.owner = owner
+        
         // Pre-condition: notes.count >= 2, in order to have two endpoints
         assert(notes.count >= 2)
         self.notes = notes
@@ -34,8 +38,8 @@ class BeamNode: SKShapeNode {
 
     // FIXME: This function might be useless for secondary and tertiary beams
     func endpoints() {
-        left = notePosition(notes[0])
-        right = notePosition(notes[self.notes.count - 1])
+        left = owner!.notePosition(notes[0])
+        right = owner!.notePosition(notes[self.notes.count - 1])
 
         massageEndpoints()
         setYOffset()
@@ -62,7 +66,7 @@ class BeamNode: SKShapeNode {
         // FIXME: Make magic 1.3 constant named `slopeDampeningFactor` or something to that effect
         return ((from.y - to.y) / 1.3) * (reverse ? -1 : 1)
     }
-
+/*
     // FIXME: Duplicated, don't change one without the other
     func notePosition(_ note: Note) -> CGPoint {
         return CGPoint(
@@ -77,7 +81,7 @@ class BeamNode: SKShapeNode {
         // FIXME: Codify magic constants
         return lineOffset + (hLineDistance / 2) * CGFloat(notePitch.rawValue - 1)
     }
-
+*/
     func setYOffset() {
         left.y += yOffset(forBeamRank: .Primary)
         right.y += yOffset(forBeamRank: .Primary)
@@ -105,7 +109,7 @@ class BeamNode: SKShapeNode {
         var newYOffset: CGFloat = 0
 
         for note in notes {
-            let notePosition = self.notePosition(note)
+            let notePosition = owner!.notePosition(note)
             let stemHeight = BeamedNotesNode.stemHeight(
                 notePosition: notePosition,
                 beamLeft: left,
