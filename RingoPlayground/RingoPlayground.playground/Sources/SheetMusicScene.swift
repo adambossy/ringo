@@ -64,6 +64,6 @@ public class SheetMusicScene : SKScene {
     }
     
     func staffWidth() -> CGFloat {
-        return self.size.width / CGFloat(numStaffs) - (kSheetMusicPaddingX * 2)
+        return self.size.width / CGFloat(numStaffs + 1) - (kSheetMusicPaddingX * 2)
     }
 }

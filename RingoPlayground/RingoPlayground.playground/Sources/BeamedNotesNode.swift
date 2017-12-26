@@ -14,7 +14,12 @@ public class BeamedNotesNode: SKShapeNode {
     var reverse: Bool = false
 
     public convenience init(notes: [Note], rect: CGRect, reverse: Bool = false) {
+        assert(rect.size.width > 0 && rect.size.height > 0)
+
         self.init(rect: rect)
+
+        // TODO: Figure out why it's necessary to set the position alongside the rect
+        position = CGPoint(x: rect.origin.x, y: rect.origin.y)
 
         self.notes = notes
 //        annotateTicks(forNotes: notes)
