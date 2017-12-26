@@ -59,13 +59,8 @@ public class BeamedNotesNode: SKShapeNode {
         var tickMask: Int = 0
         var lastTick: Int = (notes[0].tick / 4) * 4
         for note in notes {
-            if note.tick == lastTick {
-                continue
-            }
-            tickMask <<= 1
+            tickMask <<= note.tick - lastTick
             tickMask |= 1
-            // FIXME: Meter class
-            tickMask <<= lastTick - note.tick
             lastTick = note.tick
         }
         return tickMask
