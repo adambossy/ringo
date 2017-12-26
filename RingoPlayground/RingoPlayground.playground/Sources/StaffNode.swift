@@ -114,7 +114,7 @@ public class StaffNode: SKShapeNode {
     func add(notes: [Note], tick: Int) {
         let rect = CGRect(
             x: staffXPadding() + tickGroupWidth() * CGFloat(tick / 4),
-            y: -staffHeight,
+            y: 0,
             width: tickGroupWidth(),
             height: staffHeight
         )
