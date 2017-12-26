@@ -74,10 +74,14 @@ public class BeamedNotesNode: SKShapeNode {
     }
 
     // FIXME: Duplicated, don't change one without the others
+    func xAtTick(tick: Int) -> CGFloat {
+        return noteHeadRadius + (sixteenthNoteDistance() * CGFloat(tick)) + 1
+    }
+
     func notePosition(_ note: Note) -> CGPoint {
         let mainTick = note.tick / 4 * 4
         return CGPoint(
-            x: noteHeadRadius + (sixteenthNoteDistance() * CGFloat(note.tick - mainTick)) + 1,
+            x: xAtTick(tick: note.tick - mainTick),
             y: position.y + yOffset(forNotePitch: note.pitch)
         )
     }
@@ -123,43 +127,43 @@ public class BeamedNotesNode: SKShapeNode {
         switch tickMask {
         case 0b1011:
             drawSecondaryBeams(
-                fromIndex: 1,
-                toIndex: 2)
+                fromTick: 1,
+                toTick: 2)
         //        case 0b1100:
         //            self.drawBeam(fromTick: 0, toTick: 1, rank: BeamRank.Secondary)
         case 0b1110:
             drawSecondaryBeams(
-                fromIndex: 0,
-                toIndex: 1)
+                fromTick: 0,
+                toTick: 1)
         case 0b1101:
             drawSecondaryBeams(
-                fromIndex: 0,
-                toIndex: 1,
+                fromTick: 0,
+                toTick: 1,
                 whichHalf: .FirstHalf)
             drawSecondaryBeams(
-                fromIndex: 1,
-                toIndex: 2,
+                fromTick: 1,
+                toTick: 2,
                 whichHalf: .SecondHalf)
         case 0b1111:
             drawSecondaryBeams(
-                fromIndex: 0,
-                toIndex: 3)
+                fromTick: 0,
+                toTick: 3)
         default:
             break
         }
     }
 
     func drawSecondaryBeams(
-        fromIndex: Int,
-        toIndex: Int,
+        fromTick: Int,
+        toTick: Int,
         whichHalf beamHalf: BeamHalf = .Whole) {
         if let beam = self.beam {
             let secondaryBeam = BeamFragmentNode(
                 owner: self,
                 notes: notes,
                 parentBeam: beam,
-                fromIndex: fromIndex,
-                toIndex: toIndex,
+                fromTick: fromTick,
+                toTick: toTick,
                 rank: BeamRank.Secondary,
                 whichHalf: beamHalf,
                 reverse: reverse)

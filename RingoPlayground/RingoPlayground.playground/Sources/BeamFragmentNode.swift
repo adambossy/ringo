@@ -9,24 +9,24 @@ enum BeamHalf {
 class BeamFragmentNode: BeamNode {
 
     var parentBeam: BeamNode?
-    var fromIndex: Int = 0
-    var toIndex: Int = 0
+    var fromTick: Int = 0
+    var toTick: Int = 0
     var beamHalf: BeamHalf = .Whole
 
     public convenience init(
         owner: BeamedNotesNode,
         notes: [Note], // FIXME: this shouldn't be necessary to construct this class
         parentBeam: BeamNode,
-        fromIndex: Int,
-        toIndex: Int,
+        fromTick: Int,
+        toTick: Int,
         rank: BeamRank = BeamRank.Primary,
         whichHalf beamHalf: BeamHalf = .Whole,
         reverse: Bool = false) {
         self.init(owner: owner, withNotes: notes, reverse: reverse) // FIXME: Weird to pass an empty array here
 
         self.parentBeam = parentBeam
-        self.fromIndex = fromIndex
-        self.toIndex = toIndex
+        self.fromTick = fromTick
+        self.toTick = toTick
         self.beamHalf = beamHalf
 
         endpoints(rank: rank)
@@ -34,11 +34,8 @@ class BeamFragmentNode: BeamNode {
     }
 
     func endpoints(rank: BeamRank) {
-        let fromNote = notes[self.fromIndex]
-        var leftX = owner!.notePosition(fromNote).x
-
-        let toNote = notes[self.toIndex]
-        var rightX = owner!.notePosition(toNote).x
+        var leftX = owner!.xAtTick(tick: self.fromTick)
+        var rightX = owner!.xAtTick(tick: self.toTick)
 
         // Maybe factor the `half` logic into its own function
         if beamHalf == .FirstHalf {
