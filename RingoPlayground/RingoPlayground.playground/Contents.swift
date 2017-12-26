@@ -38,4 +38,3 @@ let sceneView = SKView(frame: CGRect(x: 0, y: 0, width: sceneWidth, height: scen
 sceneView.showsFPS = true
 sceneView.presentScene(scene)
 PlaygroundSupport.PlaygroundPage.current.liveView = sceneView
-

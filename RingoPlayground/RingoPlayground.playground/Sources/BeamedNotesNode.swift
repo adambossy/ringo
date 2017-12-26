@@ -80,8 +80,9 @@ public class BeamedNotesNode: SKShapeNode {
 
     // FIXME: Duplicated, don't change one without the others
     func notePosition(_ note: Note) -> CGPoint {
+        let mainTick = note.tick / 4 * 4
         return CGPoint(
-            x: noteHeadRadius + (sixteenthNoteDistance() * CGFloat(note.tick)) + 1,
+            x: noteHeadRadius + (sixteenthNoteDistance() * CGFloat(note.tick - mainTick)) + 1,
             y: position.y + yOffset(forNotePitch: note.pitch)
         )
     }
@@ -179,7 +180,7 @@ public class BeamedNotesNode: SKShapeNode {
     
     // TODO: func tripletDistance...
     func sixteenthNoteDistance() -> CGFloat {
-        return frame.size.width / 16 // FIXME: Hardcoded 4/4
+        return frame.size.width / 4 // FIXME: Hardcoded 4/4
     }
 
 //    func width() -> CGFloat {

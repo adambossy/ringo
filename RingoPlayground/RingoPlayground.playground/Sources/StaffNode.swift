@@ -82,13 +82,18 @@ public class StaffNode: SKShapeNode {
         var tickGroup : Int = 0
         var noteGroup = [Note]()
         for note in measure!.notes {
-            if note.tick > tickGroup + ticksPerGroup() {
+            if note.tick >= tickGroup + ticksPerGroup() {
                 add(notes: noteGroup, tick: tickGroup)
                 tickGroup += ticksPerGroup()
                 noteGroup = [Note]()
             }
 
             noteGroup.append(note)
+        }
+        
+        // Add the last group, which is likely unaccounted for
+        if noteGroup.count > 0 {
+            add(notes: noteGroup, tick: tickGroup)
         }
     }
 
@@ -108,7 +113,7 @@ public class StaffNode: SKShapeNode {
      */
     func add(notes: [Note], tick: Int) {
         let rect = CGRect(
-            x: tickGroupWidth() * CGFloat(tick),
+            x: tickGroupWidth() * CGFloat(tick / 4),
             y: -staffHeight,
             width: tickGroupWidth(),
             height: staffHeight
