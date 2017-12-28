@@ -166,9 +166,4 @@ public class BeamedNotesNode: SKShapeNode {
     func sixteenthNoteDistance() -> CGFloat {
         return frame.size.width / 4 // FIXME: Hardcoded 4/4
     }
-
-//    func width() -> CGFloat {
-//        let notePadding = sixteenthNoteDistance() / 2
-//        return staffXPadding + notePadding + (sixteenthNoteDistance() * CGFloat(4))
-//    }
 }
