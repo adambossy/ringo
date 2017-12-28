@@ -13,7 +13,6 @@ class BeamNode: SKShapeNode {
 
     private(set) var notes: [Note] = [Note]()
     private(set) var reverse: Bool = false
-//    private(set) var rank : BeamRank = .Primary
 
     var left: CGPoint = CGPoint(x: 0, y: 0)
     var right: CGPoint = CGPoint(x: 0, y: 0)
@@ -23,7 +22,6 @@ class BeamNode: SKShapeNode {
     public convenience init(
         owner: BeamedNotesNode?,
         withNotes notes: [Note],
-//        rank: BeamRank = BeamRank.Primary,
         reverse: Bool = false) {
         self.init(rect: CGRect(x: 0, y: 0, width: 0, height: 0))
         self.owner = owner
@@ -32,7 +30,6 @@ class BeamNode: SKShapeNode {
         assert(notes.count >= 2)
         self.notes = notes
         self.reverse = reverse
-//        self.rank = rank
 
         endpoints()
         draw(from: left, to: right)
