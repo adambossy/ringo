@@ -35,10 +35,28 @@ class BeamNode: SKShapeNode {
         draw(from: left, to: right)
     }
 
+    func noteWithHighestPitch(atIndex index: Int) -> Note {
+        // This function assumes notes are in order, sorted by the .tick attribute
+        let minTick = notes[index].tick
+        var highestNote : Note = notes[index]
+        for note in notes {
+            if note.tick != minTick {
+                break
+            }
+            if note.pitch.rawValue > highestNote.pitch.rawValue {
+                highestNote = note
+            }
+        }
+        return highestNote
+    }
+
     // FIXME: This function might be useless for secondary and tertiary beams
     func endpoints() {
-        left = owner!.notePosition(notes[0])
-        right = owner!.notePosition(notes[self.notes.count - 1])
+        let leftHighest = noteWithHighestPitch(atIndex: 0)
+        left = owner!.notePosition(leftHighest)
+
+        let rightHighest = noteWithHighestPitch(atIndex: self.notes.count - 1)
+        right = owner!.notePosition(rightHighest)
 
         massageEndpoints()
         setYOffset()
