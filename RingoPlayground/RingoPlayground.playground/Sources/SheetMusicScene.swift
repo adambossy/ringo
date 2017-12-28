@@ -1,7 +1,7 @@
 import Foundation
 import SpriteKit
 
-let kSheetMusicPaddingX: CGFloat = 100.0
+let kSheetMusicPaddingX: CGFloat = 50.0
 let kSheetMusicPaddingY: CGFloat = 100.0
 
 let staffsPerLine : Int = 3
@@ -20,10 +20,12 @@ public class SheetMusicScene : SKScene {
     
     public convenience init(song: Song, size: CGSize) {
         self.init(size: size)
+
         self.anchorPoint = CGPoint(x: 0, y: 1)
         self.backgroundColor = SKColor.white
 
         self.song = song
+        numStaffs = song.measures.count
         parseSong()
     }
     
@@ -37,33 +39,42 @@ public class SheetMusicScene : SKScene {
 //    }
     
     func parseSong() {
-        for measure in song!.measures {
-            add(measure: measure)
+        for (index, measure) in song!.measures.enumerated() {
+            add(index: index, measure: measure)
         }
     }
 
-    public func add(measure: Measure) {
-        let position = self.nextPosition()
+    public func add(index: Int, measure: Measure) {
+        let position = self.nextPosition(index: index)
         let rect = CGRect(
             x: position.x,
             y: position.y,
-            width: self.staffWidth(),
+            width: self.staffWidth(index: index),
             height: staffHeight
         )
+        print("rect", rect)
         let staff = StaffNode(measure: measure, rect: rect)
         addChild(staff)
-        
-        numStaffs += 1
     }
     
-    func nextPosition() -> CGPoint {
+    func nextPosition(index: Int) -> CGPoint {
         return CGPoint(
-            x: CGFloat(numStaffs % staffsPerLine) * staffWidth() + kSheetMusicPaddingX,
-            y: -CGFloat((numStaffs / staffsPerLine) + 1) * (staffHeight * 2)
+            x: CGFloat(index % staffsPerLine) * staffWidth(index: index) + kSheetMusicPaddingX,
+            y: -CGFloat((index / staffsPerLine) + 1) * (staffHeight * 2)
         )
     }
+
+    func staffsOnLine(forIndex index: Int) -> Int {
+        let threshold = (numStaffs / staffsPerLine * staffsPerLine)
+        if index >= threshold {
+            return numStaffs - threshold
+        } else {
+            return staffsPerLine
+        }
+    }
     
-    func staffWidth() -> CGFloat {
-        return self.size.width / CGFloat(numStaffs + 1) - (kSheetMusicPaddingX * 2)
+    func staffWidth(index: Int) -> CGFloat {
+        let staffsOnLine = self.staffsOnLine(forIndex: index)
+        return (self.size.width - (kSheetMusicPaddingX * 2)) / CGFloat(staffsOnLine)
     }
 }

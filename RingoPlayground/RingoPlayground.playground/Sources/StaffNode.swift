@@ -3,6 +3,7 @@ import SpriteKit
 
 let staffHeight: CGFloat = 100
 let numHLines: Int = 5
+let vLineWidth: CGFloat = 1
 let hLineHeight: CGFloat = 1
 var hLineY: CGFloat = hLineHeight / 2
 let hLineDistance = (staffHeight - (CGFloat(numHLines) * (hLineHeight - 1))) / CGFloat(numHLines - 1)
@@ -35,8 +36,8 @@ public class StaffNode: SKShapeNode {
         fillColor = SKColor.white
 
         drawHorizontalLines()
-        drawVerticalLine(atX: 0)
-        drawVerticalLine(atX: frame.size.width)
+        drawVerticalLine(atX: 1.5)
+        drawVerticalLine(atX: frame.size.width - 1.5)
         
         self.measure = measure
         parseMeasure()
@@ -47,11 +48,11 @@ public class StaffNode: SKShapeNode {
         for _ in 0 ..< numHLines {
             let path = CGMutablePath()
             let line = SKShapeNode()
-            path.move(to: CGPoint(x: 0, y: localHLineY))
-            path.addLine(to: CGPoint(x: frame.size.width, y: localHLineY))
+            path.move(to: CGPoint(x: vLineWidth, y: localHLineY))
+            path.addLine(to: CGPoint(x: frame.size.width - vLineWidth, y: localHLineY))
             line.path = path
             line.strokeColor = SKColor.black
-            line.lineWidth = 2
+            line.lineWidth = hLineHeight
             addChild(line)
             
             localHLineY -= hLineDistance
@@ -65,7 +66,7 @@ public class StaffNode: SKShapeNode {
         path.addLine(to: CGPoint(x: x, y: -staffHeight))
         line.path = path
         line.strokeColor = SKColor.black
-        line.lineWidth = hLineHeight
+        line.lineWidth = vLineWidth
         addChild(line)
     }
 

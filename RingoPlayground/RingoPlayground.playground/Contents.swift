@@ -2,7 +2,7 @@ import PlaygroundSupport
 import SpriteKit
 
 var measures = [Measure]()
-for tick in stride(from: 0, to: 16, by: 16) {
+for tick in stride(from: 0, to: 32, by: 16) {
     let measure = Measure(
         notes: [
             Note(tick: 0, pitch: CrashPitch, style: .HiHat),
