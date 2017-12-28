@@ -65,22 +65,7 @@ class BeamNode: SKShapeNode {
         // FIXME: Make magic 1.3 constant named `slopeDampeningFactor` or something to that effect
         return ((from.y - to.y) / 1.3) * (reverse ? -1 : 1)
     }
-/*
-    // FIXME: Duplicated, don't change one without the other
-    func notePosition(_ note: Note) -> CGPoint {
-        return CGPoint(
-            x: noteHeadRadius + (sixteenthNoteDistance * CGFloat(note.tick!)) + 1,
-            y: position.y + yOffset(forNotePitch: note.pitch)
-        )
-    }
 
-    // FIXME: Duplicated, don't change one without the other
-    func yOffset(forNotePitch notePitch: NotePitch) -> CGFloat {
-        // Subtract 1 from rawValue, since the NotePitch enum starts at E4 and we have to adjust by (hLineDistance / 2). If we add more pitches in the 4th octave, we should adjust by more.
-        // FIXME: Codify magic constants
-        return lineOffset + (hLineDistance / 2) * CGFloat(notePitch.rawValue - 1)
-    }
-*/
     func setYOffset() {
         left.y += yOffset(forBeamRank: .Primary)
         right.y += yOffset(forBeamRank: .Primary)
