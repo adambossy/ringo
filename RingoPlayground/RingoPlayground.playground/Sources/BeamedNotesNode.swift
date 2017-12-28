@@ -22,7 +22,6 @@ public class BeamedNotesNode: SKShapeNode {
         position = CGPoint(x: rect.origin.x, y: rect.origin.y)
 
         self.notes = notes
-//        annotateTicks(forNotes: notes)
         self.reverse = reverse
 
         draw()
@@ -37,23 +36,6 @@ public class BeamedNotesNode: SKShapeNode {
         let yAtNoteX = slope * xDelta
         return abs(yAtNoteX + (beamLeft.y - notePosition.y))
     }
-
-    /* Compute at which tick each note lands.  Compute this once and use it over and over.
-
-     Don't burden the user with being responsible for this, and don't create a hard validation problem for this class.
-     */
-//    func annotateTicks(forNotes _: [Note]) {
-//        if notes.count == 0 {
-//            return
-//        }
-//
-//        var tick: Int = 0
-//        // Use enumerated() so we can mutate note in the for loop
-//        for (index, _) in notes.enumerated() {
-//            notes[index].tick = tick
-//            tick += 16 / notes[index].value.rawValue // FIXME: Meter class
-//        }
-//    }
 
     func tickMask() -> Int {
         var tickMask: Int = 0
