@@ -43,7 +43,7 @@ var measures = [
             Note(tick: 12, pitch: SnarePitch),
             Note(tick: 12, pitch: HiHatPitch, style: .HiHat),
             Note(tick: 13, pitch: KickPitch),
-            Note(tick: 13, pitch: HiHatPitch, style: .HiHat),
+            Note(tick: 13, pitch: HiHatPitch, style: .OpenHiHat),
             Note(tick: 14, pitch: HiHatPitch, style: .HiHat),
             Note(tick: 15, pitch: HiHatPitch, style: .HiHat),
         ]
@@ -94,7 +94,7 @@ var measures = [
             Note(tick: 12, pitch: SnarePitch),
             Note(tick: 12, pitch: HiHatPitch, style: .HiHat),
             Note(tick: 13, pitch: KickPitch),
-            Note(tick: 13, pitch: HiHatPitch, style: .HiHat),
+            Note(tick: 13, pitch: HiHatPitch, style: .OpenHiHat),
             Note(tick: 14, pitch: HiHatPitch, style: .HiHat),
             Note(tick: 15, pitch: HiHatPitch, style: .HiHat),
         ]
@@ -104,7 +104,7 @@ var measures = [
             Note(tick: 0, pitch: KickPitch),
             Note(tick: 0, pitch: HiHatPitch, style: .HiHat),
             Note(tick: 1, pitch: KickPitch),
-            Note(tick: 1, pitch: HiHatPitch, style: .HiHat),
+            Note(tick: 1, pitch: HiHatPitch, style: .OpenHiHat),
             Note(tick: 2, pitch: HiHatPitch, style: .HiHat),
             Note(tick: 3, pitch: KickPitch),
             Note(tick: 3, pitch: HiHatPitch, style: .HiHat),

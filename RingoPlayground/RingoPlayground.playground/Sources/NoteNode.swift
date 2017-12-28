@@ -33,6 +33,7 @@ public enum NoteValue: Int {
 public enum NoteStyle: Int {
     case Default
     case HiHat
+    case OpenHiHat
 }
 
 public struct Note {
@@ -68,7 +69,7 @@ public class NoteNode: SKShapeNode {
         reverse: Bool = false) {
         switch myNote.style
         {
-        case .HiHat:
+        case .HiHat, .OpenHiHat:
             let path = CGMutablePath()
 
             path.move(to: CGPoint(x: -noteHeadRadius, y: -noteHeadRadius))
@@ -100,6 +101,14 @@ public class NoteNode: SKShapeNode {
         fillColor = SKColor.black
 
         drawStem(stemHeight: stemHeight)
+        
+        if myNote.style == .OpenHiHat {
+            let indicator = SKShapeNode(circleOfRadius: noteHeadRadius * 0.75)
+            indicator.position = CGPoint(x: noteHeadRadius * 0.5, y: stemHeight! * 1.25) // This shouldn't force unwrap stemHeight but I don't have a good default right now
+            indicator.strokeColor = SKColor.black
+            indicator.lineWidth = 1
+            addChild(indicator)
+        }
     }
 
     func drawStem(stemHeight: CGFloat? = nil) {
@@ -107,7 +116,7 @@ public class NoteNode: SKShapeNode {
 
         if let note = self.note {
             switch note.style {
-            case .HiHat:
+            case .HiHat, .OpenHiHat:
                 let y = noteHeadRadius * (reverse ? -1 : 1)
                 path.move(to: CGPoint(x: noteHeadRadius + 1, y: y))
             case .Default:

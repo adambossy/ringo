@@ -60,7 +60,7 @@ public class SheetMusicScene : SKScene {
     func nextPosition(index: Int) -> CGPoint {
         return CGPoint(
             x: CGFloat(index % staffsPerLine) * staffWidth(index: index) + kSheetMusicPaddingX,
-            y: -CGFloat((index / staffsPerLine) + 1) * (staffHeight * 2)
+            y: -CGFloat((index / staffsPerLine) + 1) * (staffHeight * 2.5)
         )
     }
 
