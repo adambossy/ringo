@@ -14,13 +14,11 @@ let beatsPerMeasure = 4
 let oneBeatValue = 4
 
 public struct Measure {
-    public init(notes: [Note], tick: Int) {
+    public init(notes: [Note]) {
         self.notes = notes
-        self.tick = tick
     }
 
     public var notes: [Note]
-    public var tick: Int
     // public var timeSignature // One day!
 }
 
