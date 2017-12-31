@@ -34,6 +34,7 @@ public enum NoteStyle: Int {
     case Default
     case HiHat
     case OpenHiHat
+    case Crash
 }
 
 public struct Note {
@@ -60,7 +61,8 @@ public struct Rest {
 public class NoteNode: SKShapeNode {
 
     var note: Note?
-    private(set) var reverse: Bool = false
+    var reverse: Bool = false
+    var stemHeight: CGFloat = 0
 
     public convenience init(
         withNote myNote: Note,
@@ -69,7 +71,7 @@ public class NoteNode: SKShapeNode {
         reverse: Bool = false) {
         switch myNote.style
         {
-        case .HiHat, .OpenHiHat:
+        case .HiHat, .OpenHiHat, .Crash:
             let path = CGMutablePath()
 
             path.move(to: CGPoint(x: -noteHeadRadius, y: -noteHeadRadius))
@@ -93,42 +95,44 @@ public class NoteNode: SKShapeNode {
             self.init(circleOfRadius: noteHeadRadius)
         }
 
-        note = myNote
+        self.note = myNote
         self.reverse = reverse
+        self.stemHeight = stemHeight ?? noteHeadRadius * 6
+
         position = myPosition
         lineWidth = 2
         strokeColor = SKColor.black
         fillColor = SKColor.black
 
-        drawStem(stemHeight: stemHeight)
+        drawStem()
         
+        // Special cases!
         if myNote.style == .OpenHiHat {
-            let indicator = SKShapeNode(circleOfRadius: noteHeadRadius * 0.75)
-            indicator.position = CGPoint(x: noteHeadRadius * 0.5, y: stemHeight! * 1.25) // This shouldn't force unwrap stemHeight but I don't have a good default right now
-            indicator.strokeColor = SKColor.black
-            indicator.lineWidth = 1
-            addChild(indicator)
+            drawOpenHihatIndicator()
+        } else if myNote.style == .Crash {
+            drawCrashStrikethrough()
         }
     }
 
-    func drawStem(stemHeight: CGFloat? = nil) {
+    func drawStem() {
         let path = CGMutablePath()
 
         if let note = self.note {
             switch note.style {
-            case .HiHat, .OpenHiHat:
+            case .HiHat, .OpenHiHat, .Crash:
+                // Render from top-right of note head
                 let y = noteHeadRadius * (reverse ? -1 : 1)
                 path.move(to: CGPoint(x: noteHeadRadius + 1, y: y))
             case .Default:
+                // Render from middle-right of note head (for now)
                 path.move(to: CGPoint(x: noteHeadRadius + 1, y: 0))
             }
         }
 
-        let myStemHeight = stemHeight ?? noteHeadRadius * 6
         path.addLine(
             to: CGPoint(
                 x: noteHeadRadius + 1,
-                y: myStemHeight * (reverse ? -1.0 : 1.0)
+                y: stemHeight * (reverse ? -1.0 : 1.0)
             )
         )
 
@@ -138,5 +142,32 @@ public class NoteNode: SKShapeNode {
         stem.lineWidth = 1
 
         addChild(stem)
+    }
+
+    func drawOpenHihatIndicator() {
+        let indicator = SKShapeNode(circleOfRadius: noteHeadRadius * 0.75)
+        indicator.position = CGPoint(x: noteHeadRadius * 0.5, y: stemHeight * 1.25)
+        indicator.strokeColor = SKColor.black
+        indicator.lineWidth = 1
+        addChild(indicator)
+    }
+
+    func drawCrashStrikethrough() {
+        let path = CGMutablePath()
+        
+        let fudgeFactor: CGFloat = 1.5
+        path.move(to: CGPoint(x: -noteHeadRadius * fudgeFactor, y: -0.5))
+        path.addLine(
+            to: CGPoint(
+                x: noteHeadRadius * fudgeFactor,
+                y: -0.5
+            )
+        )
+        
+        let strikethrough = SKShapeNode()
+        strikethrough.path = path
+        strikethrough.strokeColor = SKColor.black
+        strikethrough.lineWidth = 2
+        addChild(strikethrough)
     }
 }

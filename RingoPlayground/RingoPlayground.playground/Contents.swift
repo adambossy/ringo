@@ -4,7 +4,7 @@ import SpriteKit
 var measures = [
     Measure(
         notes: [
-            Note(tick: 0, pitch: CrashPitch, style: .HiHat),
+            Note(tick: 0, pitch: CrashPitch, style: .Crash),
             Note(tick: 0, pitch: KickPitch),
             Note(tick: 4, pitch: SnarePitch),
             Note(tick: 4, pitch: HiHatPitch, style: .HiHat),
@@ -124,6 +124,26 @@ var measures = [
             Note(tick: 13, pitch: HiHatPitch, style: .HiHat),
             Note(tick: 14, pitch: HiHatPitch, style: .HiHat),
             Note(tick: 15, pitch: HiHatPitch, style: .HiHat),
+        ]
+    ),
+    Measure(
+        notes: [
+            Note(tick: 0, pitch: KickPitch),
+            Note(tick: 0, pitch: CrashPitch, style: .Crash),
+            Note(tick: 2, pitch: SnarePitch),
+            Note(tick: 3, pitch: KickPitch),
+            Note(tick: 3, pitch: CrashPitch, style: .Crash),
+            Note(tick: 6, pitch: KickPitch),
+            Note(tick: 6, pitch: CrashPitch, style: .Crash),
+            Note(tick: 8, pitch: SnarePitch),
+            Note(tick: 9, pitch: KickPitch),
+            Note(tick: 9, pitch: CrashPitch, style: .Crash),
+            Note(tick: 11, pitch: SnarePitch),
+            Note(tick: 12, pitch: KickPitch),
+            Note(tick: 12, pitch: CrashPitch, style: .Crash),
+            Note(tick: 13, pitch: KickPitch),
+            Note(tick: 14, pitch: SnarePitch),
+            Note(tick: 15 , pitch: SnarePitch),
         ]
     )
 ]

@@ -107,8 +107,8 @@ public class BeamedNotesNode: SKShapeNode {
         switch tickMask {
         case 0b1011:
             drawSecondaryBeams(
-                fromTick: 1,
-                toTick: 2)
+                fromTick: 2,
+                toTick: 3)
         //        case 0b1100:
         //            self.drawBeam(fromTick: 0, toTick: 1, rank: BeamRank.Secondary)
         case 0b1110:
@@ -121,8 +121,8 @@ public class BeamedNotesNode: SKShapeNode {
                 toTick: 1,
                 whichHalf: .FirstHalf)
             drawSecondaryBeams(
-                fromTick: 1,
-                toTick: 2,
+                fromTick: 2,
+                toTick: 3,
                 whichHalf: .SecondHalf)
         case 0b1111:
             drawSecondaryBeams(
