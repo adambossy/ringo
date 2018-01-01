@@ -1,10 +1,10 @@
 import Foundation
 import SpriteKit
 
-let kSheetMusicPaddingX: CGFloat = 50.0
-let kSheetMusicPaddingY: CGFloat = 100.0
+let kSheetMusicPaddingX: CGFloat = 25.0
+let kSheetMusicPaddingY: CGFloat = 10.0
 
-let staffsPerLine : Int = 3
+let staffsPerLine : Int = 2
 
 public struct Song {
     public init(measures: [Measure]) {

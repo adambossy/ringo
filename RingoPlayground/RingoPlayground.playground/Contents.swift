@@ -145,12 +145,35 @@ var measures = [
             Note(tick: 14, pitch: SnarePitch),
             Note(tick: 15 , pitch: SnarePitch),
         ]
+    ),
+    Measure(
+        notes: [
+            Note(tick: 0, pitch: KickPitch),
+            Note(tick: 0, pitch: CrashPitch, style: .Crash),
+            Note(tick: 1, pitch: SnarePitch),
+            Note(tick: 2, pitch: SnarePitch),
+            Note(tick: 3, pitch: KickPitch),
+            Note(tick: 3, pitch: CrashPitch, style: .Crash),
+            Note(tick: 5, pitch: SnarePitch),
+            Note(tick: 6, pitch: KickPitch),
+            Note(tick: 6, pitch: CrashPitch, style: .Crash),
+            Note(tick: 7, pitch: SnarePitch),
+            Note(tick: 8, pitch: SnarePitch),
+            Note(tick: 9, pitch: KickPitch),
+            Note(tick: 9, pitch: CrashPitch, style: .Crash),
+            Note(tick: 11, pitch: SnarePitch),
+            Note(tick: 12, pitch: KickPitch),
+            Note(tick: 12, pitch: CrashPitch, style: .Crash),
+            Note(tick: 13, pitch: KickPitch),
+            Note(tick: 14, pitch: SnarePitch),
+            Note(tick: 15 , pitch: SnarePitch),
+        ]
     )
 ]
 let song = Song(measures: measures)
 
 let sceneWidth: CGFloat = 800
-let sceneHeight: CGFloat = 600
+let sceneHeight: CGFloat = 1200
 let scene = SheetMusicScene(song: song, size: CGSize(width: sceneWidth, height: sceneHeight))
 
 // Playground sturf
