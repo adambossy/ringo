@@ -52,7 +52,6 @@ public class SheetMusicScene : SKScene {
             width: self.staffWidth(index: index),
             height: staffHeight
         )
-        print("rect", rect)
         let staff = StaffNode(measure: measure, rect: rect)
         addChild(staff)
     }

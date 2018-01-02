@@ -38,13 +38,21 @@ public class BeamedNotesNode: SKShapeNode {
     }
 
     func tickMask() -> Int {
-        var tickMask: Int = 0
-        var lastTick: Int = (notes[0].tick / 4) * 4
+        if notes.count == 0 {
+            return 0
+        }
+
+        let lowerBound = (notes[0].tick / 4) * 4
+        let upperBound = ((notes[0].tick / 4) + 1) * 4
+
+        var tickMask = 0
+        var lastTick = lowerBound
         for note in notes {
             tickMask <<= note.tick - lastTick
             tickMask |= 1
             lastTick = note.tick
         }
+        tickMask <<= upperBound - lastTick - 1
         return tickMask
     }
 
@@ -105,17 +113,48 @@ public class BeamedNotesNode: SKShapeNode {
         // Draw the sixteenth note beams based on beaming rules which I can't find generalized rules for, hence the switch case
         let tickMask = self.tickMask()
         switch tickMask {
-        case 0b1011:
+        case 0b0000: // 0
+            break
+        case 0b0001: // 1
+            break
+        case 0b0010: // 2
+            break
+        case 0b0011: // 3
             drawSecondaryBeams(
                 fromTick: 2,
                 toTick: 3)
-        //        case 0b1100:
-        //            self.drawBeam(fromTick: 0, toTick: 1, rank: BeamRank.Secondary)
-        case 0b1110:
+        case 0b0100: // 4
+            break
+        case 0b0101: // 5
             drawSecondaryBeams(
-                fromTick: 0,
-                toTick: 1)
-        case 0b1101:
+                fromTick: 2,
+                toTick: 3,
+                whichHalf: .SecondHalf)
+        case 0b0110: // 6
+            drawSecondaryBeams(
+                fromTick: 1,
+                toTick: 2,
+                whichHalf: .FirstHalf)
+        case 0b0111: // 7
+            drawSecondaryBeams(
+                fromTick: 1,
+                toTick: 3)
+        case 0b1000: // 8
+            break
+        case 0b1001: // 9
+            drawSecondaryBeams(
+                fromTick: 2,
+                toTick: 3,
+                whichHalf: .SecondHalf)
+        case 0b1010: // 10
+            break
+        case 0b1011: // 11
+            drawSecondaryBeams(
+                fromTick: 2,
+                toTick: 3)
+        case 0b1100: // 12
+            break
+        case 0b1101: // 13
             drawSecondaryBeams(
                 fromTick: 0,
                 toTick: 1,
@@ -124,7 +163,11 @@ public class BeamedNotesNode: SKShapeNode {
                 fromTick: 2,
                 toTick: 3,
                 whichHalf: .SecondHalf)
-        case 0b1111:
+        case 0b1110: // 14
+            drawSecondaryBeams(
+                fromTick: 0,
+                toTick: 1)
+        case 0b1111: // 15
             drawSecondaryBeams(
                 fromTick: 0,
                 toTick: 3)
