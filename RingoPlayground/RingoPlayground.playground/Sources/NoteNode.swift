@@ -105,6 +105,7 @@ public class NoteNode: SKShapeNode {
         fillColor = SKColor.black
 
         drawStem()
+        drawFlag()
         
         // Special cases!
         if myNote.style == .OpenHiHat {
@@ -114,6 +115,34 @@ public class NoteNode: SKShapeNode {
         }
     }
 
+    func drawFlag() {
+        let path = NSBezierPath()
+
+        let startX = noteHeadRadius + 1
+        let startY = stemHeight
+        path.move(to: CGPoint(x: startX, y: startY + (20 * 0.75)))
+        path.curve(
+            to: CGPoint(x: startX + (20 * 0.75), y: stemHeight * 0.2),
+            controlPoint1: CGPoint(x: startX + (6 * 0.75), y: startY - (12 * 0.75)),
+            controlPoint2: CGPoint(x: startX + (40 * 0.75), y: (stemHeight * 0.8) * 0.75)
+        )
+        path.curve(
+            to: CGPoint(x: startX, y: stemHeight * 0.96),
+            controlPoint1: CGPoint(x: startX + (32 * 0.875), y: stemHeight * (0.8 * 0.875)),
+            controlPoint2: CGPoint(x: startX, y: stemHeight * (0.8 * 0.875))
+        )
+        path.close()
+
+        let flag = SKShapeNode()
+        flag.path = path.CGPath
+        flag.lineJoin = CGLineJoin.miter
+        flag.strokeColor = SKColor.black
+        flag.fillColor = SKColor.black
+        flag.lineWidth = 1
+        
+        addChild(flag)
+    }
+    
     func drawStem() {
         let path = CGMutablePath()
 
