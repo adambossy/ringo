@@ -105,9 +105,12 @@ public class NoteNode: SKShapeNode {
         drawStem()
 
         if (myNote.value == .Eighth) {
-            drawFlag()
+            drawPrimaryFlag()
+        } else if (myNote.value == .Sixteenth) {
+            drawPrimaryFlag()
+            drawSecondaryFlag()
         }
-        
+
         // Special cases!
         if myNote.style == .OpenHiHat {
             drawOpenHihatIndicator()
@@ -116,21 +119,29 @@ public class NoteNode: SKShapeNode {
         }
     }
 
-    func drawFlag() {
+    func drawPrimaryFlag() {
+        drawFlag(yOffset: 0.0)
+    }
+
+    func drawSecondaryFlag() {
+        drawFlag(yOffset: stemHeight * 0.375)
+    }
+
+    func drawFlag(yOffset: CGFloat) {
         let path = NSBezierPath()
 
         let startX = noteHeadRadius + 1
         let startY = stemHeight
-        path.move(to: CGPoint(x: startX, y: startY + (20 * 0.75)))
+        path.move(to: CGPoint(x: startX, y: startY + (20 * 0.75) - yOffset))
         path.curve(
-            to: CGPoint(x: startX + (20 * 0.75), y: stemHeight * 0.2),
-            controlPoint1: CGPoint(x: startX + (6 * 0.75), y: startY - (12 * 0.75)),
-            controlPoint2: CGPoint(x: startX + (40 * 0.75), y: (stemHeight * 0.8) * 0.75)
+            to: CGPoint(x: startX + (20 * 0.75), y: stemHeight * 0.2 - yOffset),
+            controlPoint1: CGPoint(x: startX + (6 * 0.75), y: startY - (12 * 0.75) - yOffset),
+            controlPoint2: CGPoint(x: startX + (40 * 0.75), y: (stemHeight * 0.8) * 0.75 - yOffset)
         )
         path.curve(
-            to: CGPoint(x: startX, y: stemHeight * 0.96),
-            controlPoint1: CGPoint(x: startX + (32 * 0.875), y: stemHeight * (0.8 * 0.875)),
-            controlPoint2: CGPoint(x: startX, y: stemHeight * (0.8 * 0.875))
+            to: CGPoint(x: startX, y: stemHeight * 0.96 - yOffset),
+            controlPoint1: CGPoint(x: startX + (32 * 0.875), y: stemHeight * (0.8 * 0.875) - yOffset),
+            controlPoint2: CGPoint(x: startX, y: stemHeight * (0.8 * 0.875) - yOffset)
         )
         path.close()
 
