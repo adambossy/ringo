@@ -116,15 +116,15 @@ public class BeamedNotesNode: SKShapeNode {
         case 0b0000: // 0
             break
         case 0b0001: // 1
-            break
+            notes[0].value = .Sixteenth
         case 0b0010: // 2
-            break
+            notes[0].value = .Eighth
         case 0b0011: // 3
             drawSecondaryBeams(
                 fromTick: 2,
                 toTick: 3)
         case 0b0100: // 4
-            break
+            break // TODO: Dotted eighth
         case 0b0101: // 5
             drawSecondaryBeams(
                 fromTick: 2,
@@ -147,13 +147,13 @@ public class BeamedNotesNode: SKShapeNode {
                 toTick: 3,
                 whichHalf: .SecondHalf)
         case 0b1010: // 10
-            break
+            break // TODO: May want to draw primary beam here instead of separately
         case 0b1011: // 11
             drawSecondaryBeams(
                 fromTick: 2,
                 toTick: 3)
         case 0b1100: // 12
-            break
+            break // TODO: May want to draw primary beam here instead of separately
         case 0b1101: // 13
             drawSecondaryBeams(
                 fromTick: 0,

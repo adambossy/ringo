@@ -95,6 +95,3 @@ PlaygroundSupport.PlaygroundPage.current.liveView = sceneView
 //flag.lineWidth = 2
 //
 //scene.addChild(flag)
-
-print("foobarbaz")
-

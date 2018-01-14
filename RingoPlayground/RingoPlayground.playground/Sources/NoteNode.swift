@@ -22,12 +22,11 @@ public let KickPitch = NotePitch.F4
 
 // FIXME: Make a Meter class to calculate the tick values of all these
 public enum NoteValue: Int {
-    case Whole = 1
-    case Half = 2
+    case Whole = 16
+    case Half = 8
     case Quarter = 4
-    case Eighth = 8
-    case Sixteenth = 16
-    case ThirtySecond = 32
+    case Eighth = 2
+    case Sixteenth = 1
 }
 
 public enum NoteStyle: Int {
@@ -41,12 +40,11 @@ public struct Note {
     public init(tick: Int, pitch: NotePitch, style: NoteStyle = .Default) {
         self.tick = tick
         self.pitch = pitch
-//        self.value = value
         self.style = style
     } // For Playground only
 
     public var pitch: NotePitch // A, B, C, D, E..
-//    public var value: NoteValue // Quarter, Eighth, Sixteenth, etc
+    public var value: NoteValue? // Quarter, Eighth, Sixteenth, etc
     public var style: NoteStyle // Normal, HiHat, etc
 
     // FIXME: This is currently being doubly-used at separate times during the program's control flow
@@ -105,7 +103,10 @@ public class NoteNode: SKShapeNode {
         fillColor = SKColor.black
 
         drawStem()
-        drawFlag()
+
+        if (myNote.value == .Eighth) {
+            drawFlag()
+        }
         
         // Special cases!
         if myNote.style == .OpenHiHat {
