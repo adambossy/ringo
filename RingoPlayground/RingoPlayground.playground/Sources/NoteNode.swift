@@ -29,6 +29,14 @@ public enum NoteValue: Int {
     case Sixteenth = 1
 }
 
+public enum RestValue: Int {
+    case Whole = 16
+    case Half = 8
+    case Quarter = 4
+    case Eighth = 2
+    case Sixteenth = 1
+}
+
 public enum NoteStyle: Int {
     case Default
     case HiHat

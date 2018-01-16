@@ -66,6 +66,14 @@ public class BeamedNotesNode: SKShapeNode {
         return noteHeadRadius + (sixteenthNoteDistance() * CGFloat(tick)) + 1
     }
 
+    func restPosition(tick: Int) -> CGPoint {
+        let mainTick = tick / 4 * 4
+        return CGPoint(
+            x: xAtTick(tick: tick - mainTick),
+            y: position.y + yOffset(forNotePitch: .B5)
+        )
+    }
+
     func notePosition(_ note: Note) -> CGPoint {
         let mainTick = note.tick / 4 * 4
         return CGPoint(
@@ -114,28 +122,35 @@ public class BeamedNotesNode: SKShapeNode {
         let tickMask = self.tickMask()
         switch tickMask {
         case 0b0000: // 0
-            break
+            drawRest(atTick: 0, value: .Quarter)
         case 0b0001: // 1
+            drawRest(atTick: 0, value: .Eighth) // TODO: Make dotted eighth
             notes[0].value = .Sixteenth
         case 0b0010: // 2
+            drawRest(atTick: 0, value: .Eighth)
             notes[0].value = .Eighth
         case 0b0011: // 3
+            drawRest(atTick: 0, value: .Eighth)
             drawSecondaryBeams(
                 fromTick: 2,
                 toTick: 3)
         case 0b0100: // 4
-            break // TODO: Dotted eighth
+            drawRest(atTick: 0, value: .Sixteenth)
+            notes[0].value = .Eighth // TODO Dotted eighth note
         case 0b0101: // 5
+            drawRest(atTick: 0, value: .Sixteenth)
             drawSecondaryBeams(
                 fromTick: 2,
                 toTick: 3,
                 whichHalf: .SecondHalf)
         case 0b0110: // 6
+            drawRest(atTick: 0, value: .Sixteenth)
             drawSecondaryBeams(
                 fromTick: 1,
                 toTick: 2,
                 whichHalf: .FirstHalf)
         case 0b0111: // 7
+            drawRest(atTick: 0, value: .Sixteenth)
             drawSecondaryBeams(
                 fromTick: 1,
                 toTick: 3)
@@ -153,7 +168,11 @@ public class BeamedNotesNode: SKShapeNode {
                 fromTick: 2,
                 toTick: 3)
         case 0b1100: // 12
-            break // TODO: May want to draw primary beam here instead of separately
+            drawSecondaryBeams(
+                fromTick: 0,
+                toTick: 1,
+                whichHalf: .FirstHalf)
+            // TODO: May want to draw primary beam here instead of separately
         case 0b1101: // 13
             drawSecondaryBeams(
                 fromTick: 0,
@@ -192,6 +211,28 @@ public class BeamedNotesNode: SKShapeNode {
                 reverse: reverse)
             addChild(secondaryBeam)
         }
+    }
+
+    func drawRest(atTick tick: Int, value: RestValue) {
+        var imageName : String
+
+        switch value {
+        case .Whole:
+            imageName = "WholeRest"
+        case .Half:
+            imageName = "HalfRest"
+        case .Quarter:
+            imageName = "QuarterRest"
+        case .Eighth:
+            imageName = "8thRest"
+        case .Sixteenth:
+            imageName = "16thRest"
+        }
+
+        let rest = SKSpriteNode(imageNamed: imageName)
+        rest.position = restPosition(tick: tick)
+        rest.setScale(0.2) // Fudge factor given my image sizes
+        addChild(rest)
     }
 
     func draw() {
