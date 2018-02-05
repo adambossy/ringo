@@ -74,24 +74,3 @@ let sceneView = SKView(frame: CGRect(x: 0, y: 0, width: sceneWidth, height: scen
 sceneView.showsFPS = true
 sceneView.presentScene(scene)
 PlaygroundSupport.PlaygroundPage.current.liveView = sceneView
-
-
-//let path = NSBezierPath()
-//
-//let stemHeight = 10.5 * 6
-//let startX = 10.5 + 1
-//let startY = stemHeight
-//path.move(to: CGPoint(x: startX, y: startY))
-//path.curve(
-//    to: CGPoint(x: startX + 20, y: 0),
-//    controlPoint1: CGPoint(x: startX + 10, y: stemHeight / 2),
-//    controlPoint2: CGPoint(x: startX + 20, y: stemHeight / 2))
-//path.close()
-//
-//let flag = SKShapeNode()
-//flag.path = path.CGPath
-//flag.lineJoin = CGLineJoin.miter
-//flag.strokeColor = SKColor.black
-//flag.lineWidth = 2
-//
-//scene.addChild(flag)
