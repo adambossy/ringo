@@ -125,10 +125,8 @@ public class BeamedNotesNode: SKShapeNode {
             drawRest(atTick: 0, value: .Quarter)
         case 0b0001: // 1
             drawRest(atTick: 0, value: .Eighth) // TODO: Make dotted eighth
-            notes[0].value = .Sixteenth
         case 0b0010: // 2
             drawRest(atTick: 0, value: .Eighth)
-            notes[0].value = .Eighth
         case 0b0011: // 3
             drawRest(atTick: 0, value: .Eighth)
             drawSecondaryBeams(
@@ -136,7 +134,6 @@ public class BeamedNotesNode: SKShapeNode {
                 toTick: 3)
         case 0b0100: // 4
             drawRest(atTick: 0, value: .Sixteenth)
-            notes[0].value = .Eighth // TODO Dotted eighth note
         case 0b0101: // 5
             drawRest(atTick: 0, value: .Sixteenth)
             drawSecondaryBeams(

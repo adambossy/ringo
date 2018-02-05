@@ -68,25 +68,31 @@ public class StaffNode: SKShapeNode {
         addChild(line)
     }
 
-//    func annotateValues(noteGroup: inout [Note]) {
-//        // Hydrate notes with note values based on tick deltas of subsequent notes
-//        if noteGroup.count == 0 {
-//            return
-//        }
-//
-//        if noteGroup.count > 1 {
-//            for index in 0..<noteGroup.count - 1 {
-//                let thisNote = noteGroup[index]
-//                let nextNote = noteGroup[index + 1]
-//                noteGroup[index].value = NoteValue(rawValue: nextNote.tick - thisNote.tick)
-//            }
-//        }
-//
-//        let lastNote = noteGroup[noteGroup.count - 1]
-//        // Presume we have 4 sixteenth note ticks per group
-//        let nextGroupBoundary = ((lastNote.tick / 4) + 1) * 4
-//        noteGroup[noteGroup.count - 1].value = NoteValue(rawValue: nextGroupBoundary - lastNote.tick)
-//    }
+    func nextGroupBoundary(tick: Int) -> Int {
+        // Presume we have 4 sixteenth note ticks per group
+        return ((tick / 4) + 1) * 4
+    }
+
+    func annotateValues(noteGroup: inout [Note]) {
+        // Hydrate notes with note values based on tick deltas of subsequent notes
+        if noteGroup.count == 0 {
+            return
+        }
+
+        if noteGroup.count > 1 {
+            for index in 0..<noteGroup.count - 1 {
+                let thisNote = noteGroup[index]
+                let nextNote = noteGroup[index + 1]
+                let nextBoundary = nextGroupBoundary(tick: thisNote.tick)
+                let nextTick = min(nextBoundary, nextNote.tick)
+                noteGroup[index].value = NoteValue(rawValue: nextTick - thisNote.tick)
+            }
+        }
+
+        let lastNote = noteGroup[noteGroup.count - 1]
+        let nextBoundary = nextGroupBoundary(tick: lastNote.tick)
+        noteGroup[noteGroup.count - 1].value = NoteValue(rawValue: nextBoundary - lastNote.tick)
+    }
 
     func parseMeasure() {
         // 12/4: 0, 4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44 (48)
@@ -98,23 +104,30 @@ public class StaffNode: SKShapeNode {
         // 12/8: 0, 3, 6, 9 (12)
         // 9/8: 0, 3, 6 (9)
         // 6/8: 0, 3 (6)
-        var tickGroup : Int = 0
-        var noteGroup = [Note]()
-        for note in measure!.notes {
-            if note.tick >= tickGroup + ticksPerGroup() {
-//                annotateValues(noteGroup: &noteGroup)
-                add(notes: noteGroup, tick: tickGroup)
-                tickGroup += ticksPerGroup()
-                noteGroup = [Note]()
+        if let measure = measure {
+            var nextTick : Int = 0
+            var tickGroup : Int = 0
+            var noteGroup = [Note]()
+            let notes = measure.notes
+            for i in 0..<notes.count {
+                var note = notes[i]
+
+                if note.tick >= tickGroup + ticksPerGroup() {
+                    annotateValues(noteGroup: &noteGroup)
+                    add(notes: noteGroup, tick: tickGroup)
+                    tickGroup += ticksPerGroup()
+                    nextTick = tickGroup
+                    noteGroup = [Note]()
+                }
+
+                noteGroup.append(note)
             }
 
-            noteGroup.append(note)
-        }
-
-        // Add the last group, which is likely unaccounted for
-        if noteGroup.count > 0 {
-//            annotateValues(noteGroup: &noteGroup)
-            add(notes: noteGroup, tick: tickGroup)
+            // Add the last group, which is likely unaccounted for
+            if noteGroup.count > 0 {
+                annotateValues(noteGroup: &noteGroup)
+                add(notes: noteGroup, tick: tickGroup)
+            }
         }
     }
 

@@ -23,8 +23,11 @@ public let KickPitch = NotePitch.F4
 // FIXME: Make a Meter class to calculate the tick values of all these
 public enum NoteValue: Int {
     case Whole = 16
+    case DottedHalf = 12
     case Half = 8
+    case DottedQuarter = 6
     case Quarter = 4
+    case DottedEighth = 3
     case Eighth = 2
     case Sixteenth = 1
 }
