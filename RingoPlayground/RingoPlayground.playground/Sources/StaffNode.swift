@@ -109,7 +109,7 @@ public class StaffNode: SKShapeNode {
             var noteGroup = [Note]()
             let notes = measure.notes
             for i in 0..<notes.count {
-                var note = notes[i]
+                let note = notes[i]
 
                 if note.tick >= tickGroup + ticksPerGroup() {
                     annotateValues(noteGroup: &noteGroup)

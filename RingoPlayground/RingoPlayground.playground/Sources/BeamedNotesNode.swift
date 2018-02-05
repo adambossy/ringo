@@ -129,7 +129,7 @@ public class BeamedNotesNode: SKShapeNode {
         case 0b0000: // 0
             drawRest(atTick: 0, value: .Quarter)
         case 0b0001: // 1
-            drawRest(atTick: 0, value: .Eighth) // TODO: Make dotted eighth
+            drawRest(atTick: 0, value: .DottedEighth)
             noteNodes[0].showFlag = true
         case 0b0010: // 2
             drawRest(atTick: 0, value: .Eighth)
@@ -177,7 +177,6 @@ public class BeamedNotesNode: SKShapeNode {
                 fromTick: 0,
                 toTick: 1,
                 whichHalf: .FirstHalf)
-            // TODO: May want to draw primary beam here instead of separately
         case 0b1101: // 13
             drawSecondaryBeams(
                 fromTick: 0,
@@ -228,6 +227,8 @@ public class BeamedNotesNode: SKShapeNode {
             imageName = "HalfRest"
         case .Quarter:
             imageName = "QuarterRest"
+        case .DottedEighth:
+            fallthrough
         case .Eighth:
             imageName = "8thRest"
         case .Sixteenth:
@@ -237,7 +238,22 @@ public class BeamedNotesNode: SKShapeNode {
         let rest = SKSpriteNode(imageNamed: imageName)
         rest.position = restPosition(tick: tick)
         rest.setScale(0.2) // Fudge factor given my image sizes
+
+        if (value == .DottedEighth) {
+            drawDot(forRest: rest)
+        }
+
         addChild(rest)
+    }
+
+    func drawDot(forRest rest: SKSpriteNode) {
+        // Copied from NoteNode
+        let dotRadius = noteHeadRadius / 2.5
+        let dot = SKShapeNode(circleOfRadius: dotRadius)
+        dot.fillColor = SKColor.black
+        dot.position = CGPoint(x: noteHeadRadius * 10, y: noteHeadRadius * 5 - dotRadius)
+        dot.setScale(5)
+        rest.addChild(dot)
     }
 
     func draw() {

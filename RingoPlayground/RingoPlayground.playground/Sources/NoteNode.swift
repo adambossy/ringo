@@ -36,6 +36,7 @@ public enum RestValue: Int {
     case Whole = 16
     case Half = 8
     case Quarter = 4
+    case DottedEighth
     case Eighth = 2
     case Sixteenth = 1
 }
