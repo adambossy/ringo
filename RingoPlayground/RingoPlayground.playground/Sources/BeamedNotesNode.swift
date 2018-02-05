@@ -6,11 +6,11 @@ let beamWidth: CGFloat = 12
 // This operates on quarter note-level (in 4/4 time) groupings of notes
 public class BeamedNotesNode: SKShapeNode {
 
-    var noteNodes: [NoteNode]?
     var beam: BeamNode?
 //    var childBeams : [BeamNode]?
 
     var notes: [Note] = [Note]()
+    var noteNodes: [NoteNode] = [NoteNode]()
     var reverse: Bool = false
 
     public convenience init(notes: [Note], rect: CGRect, reverse: Bool = false) {
@@ -98,10 +98,15 @@ public class BeamedNotesNode: SKShapeNode {
                 stemHeight: stemHeight,
                 reverse: reverse
             )
-            addChild(node)
+            add(noteNode: node)
         }
     }
 
+    func add(noteNode: NoteNode) {
+        addChild(noteNode)
+        noteNodes.append(noteNode)
+    }
+    
     func drawPrimaryBeams() {
         /* Draw the primary (eighth note) beam connecting the first note to the last note in the set */
         if notes.count > 1 && notes[0].tick != notes[notes.count - 1].tick {
@@ -125,8 +130,10 @@ public class BeamedNotesNode: SKShapeNode {
             drawRest(atTick: 0, value: .Quarter)
         case 0b0001: // 1
             drawRest(atTick: 0, value: .Eighth) // TODO: Make dotted eighth
+            noteNodes[0].showFlag = true
         case 0b0010: // 2
             drawRest(atTick: 0, value: .Eighth)
+            noteNodes[0].showFlag = true
         case 0b0011: // 3
             drawRest(atTick: 0, value: .Eighth)
             drawSecondaryBeams(
@@ -134,6 +141,7 @@ public class BeamedNotesNode: SKShapeNode {
                 toTick: 3)
         case 0b0100: // 4
             drawRest(atTick: 0, value: .Sixteenth)
+            noteNodes[0].showFlag = true
         case 0b0101: // 5
             drawRest(atTick: 0, value: .Sixteenth)
             drawSecondaryBeams(
@@ -236,9 +244,10 @@ public class BeamedNotesNode: SKShapeNode {
         fillColor = SKColor.clear // Make invisible
         strokeColor = SKColor.clear
 
+        // This order may seem funky but it's important. The beam determines how tall the height that each note's stem should be. The notes create noteNodes, and drawSecondaryBeams adds secondary beams along with additional styling
         drawPrimaryBeams()
-        drawSecondaryBeams()
         drawNotes()
+        drawSecondaryBeams()
     }
     
     // TODO: func tripletDistance...

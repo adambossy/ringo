@@ -71,6 +71,18 @@ public class NoteNode: SKShapeNode {
 
     var note: Note?
     var reverse: Bool = false
+    public var showFlag : Bool = false {
+        didSet {
+            if let note = note {
+                if (note.value == .Eighth || note.value == .DottedEighth) {
+                    drawPrimaryFlag()
+                } else if (note.value == .Sixteenth) {
+                    drawPrimaryFlag()
+                    drawSecondaryFlag()
+                }
+            }
+        }
+    }
     var stemHeight: CGFloat = 0
 
     public convenience init(
@@ -115,14 +127,10 @@ public class NoteNode: SKShapeNode {
 
         drawStem()
 
-        if (myNote.value == .Eighth) {
-            drawPrimaryFlag()
-        } else if (myNote.value == .Sixteenth) {
-            drawPrimaryFlag()
-            drawSecondaryFlag()
+        if (myNote.value == .DottedEighth || myNote.value == .DottedQuarter || myNote.value == .DottedHalf) {
+            drawDot()
         }
 
-        // Special cases!
         if myNote.style == .OpenHiHat {
             drawOpenHihatIndicator()
         } else if myNote.style == .Crash {
@@ -194,6 +202,14 @@ public class NoteNode: SKShapeNode {
         stem.lineWidth = 1
 
         addChild(stem)
+    }
+
+    func drawDot() {
+        let dotRadius = noteHeadRadius / 2.5
+        let dot = SKShapeNode(circleOfRadius: dotRadius)
+        dot.fillColor = SKColor.black
+        dot.position = CGPoint(x: noteHeadRadius * 2, y: noteHeadRadius / 2 - dotRadius)
+        addChild(dot)
     }
 
     func drawOpenHihatIndicator() {

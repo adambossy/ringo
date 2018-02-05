@@ -105,7 +105,6 @@ public class StaffNode: SKShapeNode {
         // 9/8: 0, 3, 6 (9)
         // 6/8: 0, 3 (6)
         if let measure = measure {
-            var nextTick : Int = 0
             var tickGroup : Int = 0
             var noteGroup = [Note]()
             let notes = measure.notes
@@ -116,7 +115,6 @@ public class StaffNode: SKShapeNode {
                     annotateValues(noteGroup: &noteGroup)
                     add(notes: noteGroup, tick: tickGroup)
                     tickGroup += ticksPerGroup()
-                    nextTick = tickGroup
                     noteGroup = [Note]()
                 }
 
