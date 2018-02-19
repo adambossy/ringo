@@ -22,6 +22,7 @@ public class SheetMusicScene : SKScene {
         self.init(size: size)
 
         self.anchorPoint = CGPoint(x: 0, y: 1)
+        self.scaleMode = SKSceneScaleMode.aspectFill
         self.backgroundColor = SKColor.white
 
         self.song = song
