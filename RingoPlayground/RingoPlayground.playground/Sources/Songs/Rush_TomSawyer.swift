@@ -169,4 +169,4 @@ var measures = [
             ]
     )
 ]
-let Rush_TomSawyer = Song(measures: measures)
+public let Rush_TomSawyer = Song(measures: measures)

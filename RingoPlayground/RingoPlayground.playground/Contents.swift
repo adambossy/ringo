@@ -67,7 +67,8 @@ let song = Song(measures: measures)
 
 let sceneWidth: CGFloat = 800
 let sceneHeight: CGFloat = 1200
-let scene = SheetMusicScene(song: song, size: CGSize(width: sceneWidth, height: sceneHeight))
+let scene = SheetMusicScene(song: Rush_TomSawyer, size: CGSize(width: sceneWidth, height: sceneHeight))
+//let scene = SheetMusicScene(song: song, size: CGSize(width: sceneWidth, height: sceneHeight))
 
 // Playground sturf
 let sceneView = SKView(frame: CGRect(x: 0, y: 0, width: sceneWidth, height: sceneHeight))
