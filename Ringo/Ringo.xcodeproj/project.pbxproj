@@ -22,6 +22,7 @@
 		66814B0C203B897F00760725 /* NoteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66814B03203B897F00760725 /* NoteNode.swift */; };
 		66814B0D203B897F00760725 /* Rush_TomSawyer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66814B04203B897F00760725 /* Rush_TomSawyer.swift */; };
 		66814B0E203B897F00760725 /* StaffNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66814B05203B897F00760725 /* StaffNode.swift */; };
+		66814B1D203B976900760725 /* Keycode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66814B1C203B976900760725 /* Keycode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		66814B03203B897F00760725 /* NoteNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NoteNode.swift; path = ../../../RingoPlayground/RingoPlayground.playground/Sources/NoteNode.swift; sourceTree = "<group>"; };
 		66814B04203B897F00760725 /* Rush_TomSawyer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Rush_TomSawyer.swift; path = ../../../RingoPlayground/RingoPlayground.playground/Sources/Songs/Rush_TomSawyer.swift; sourceTree = "<group>"; };
 		66814B05203B897F00760725 /* StaffNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StaffNode.swift; path = ../../../RingoPlayground/RingoPlayground.playground/Sources/StaffNode.swift; sourceTree = "<group>"; };
+		66814B1C203B976900760725 /* Keycode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keycode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 				66814AD6203B87C200760725 /* Main.storyboard */,
 				66814AD9203B87C200760725 /* Info.plist */,
 				66814ADA203B87C200760725 /* Ringo.entitlements */,
+				66814B1C203B976900760725 /* Keycode.swift */,
 			);
 			path = Ringo;
 			sourceTree = "<group>";
@@ -302,6 +305,7 @@
 				66814B0E203B897F00760725 /* StaffNode.swift in Sources */,
 				66814B0C203B897F00760725 /* NoteNode.swift in Sources */,
 				66814B0A203B897F00760725 /* BeamedNotesNode.swift in Sources */,
+				66814B1D203B976900760725 /* Keycode.swift in Sources */,
 				66814AD1203B87C200760725 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

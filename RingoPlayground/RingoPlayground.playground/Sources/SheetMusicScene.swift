@@ -1,3 +1,4 @@
+import AVFoundation
 import Foundation
 import SpriteKit
 
@@ -5,6 +6,8 @@ let kSheetMusicPaddingX: CGFloat = 25.0
 let kSheetMusicPaddingY: CGFloat = 10.0
 
 let staffsPerLine : Int = 2
+
+var player: AVAudioPlayer?
 
 public struct Song {
     public init(measures: [Measure]) {
@@ -28,16 +31,26 @@ public class SheetMusicScene : SKScene {
         self.song = song
         numStaffs = song.measures.count
         parseSong()
+        playSong()
     }
-    
-    // Declare the number of staffs to render on each line instead of a pixel width (and then size to fit parent)
-//    public convenience init(numStaffs: Int = 3) {
-//
-//    }
 
-//    public required init?(coder: NSCoder) {
-//        super.init(coder: coder)
-//    }
+    func playSong() {
+        if let asset = NSDataAsset(name:NSDataAsset.Name(rawValue: "Rush_TomSawyer")) {
+            do {
+                player = try AVAudioPlayer(data:asset.data, fileTypeHint:"mp3")
+                player?.play()
+
+                Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(SheetMusicScene.printTime), userInfo: nil, repeats: true)
+            } catch let error as NSError {
+                print(error.localizedDescription)
+            }
+        }
+    }
+
+    @objc
+    func printTime() {
+        print("currentTime ", player?.currentTime as Any)
+    }
     
     func parseSong() {
         for (index, measure) in song!.measures.enumerated() {
@@ -76,5 +89,21 @@ public class SheetMusicScene : SKScene {
     func staffWidth(index: Int) -> CGFloat {
         let staffsOnLine = self.staffsOnLine(forIndex: index)
         return (self.size.width - (kSheetMusicPaddingX * 2)) / CGFloat(staffsOnLine)
+    }
+
+    override public func keyDown(with event: NSEvent) {
+        print("keycode", event.keyCode)
+        switch UInt16(event.keyCode) {
+        case Keycode.d:
+            print("d")
+        case Keycode.f:
+            print("f")
+        case Keycode.j:
+            print("j")
+        case Keycode.k:
+            print("k")
+        default:
+            break
+        }
     }
 }
