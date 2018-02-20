@@ -65,7 +65,7 @@ public class StaffNode: SKShapeNode {
             line.lineWidth = hLineHeight
             addChild(line)
             
-            localHLineY -= hLineDistance
+            localHLineY += hLineDistance
         }
     }
 
@@ -73,7 +73,7 @@ public class StaffNode: SKShapeNode {
         let path = CGMutablePath()
         let line = SKShapeNode()
         path.move(to: CGPoint(x: x, y: 0))
-        path.addLine(to: CGPoint(x: x, y: -staffHeight))
+        path.addLine(to: CGPoint(x: x, y: staffHeight))
         line.path = path
         line.strokeColor = SKColor.black
         line.lineWidth = vLineWidth
