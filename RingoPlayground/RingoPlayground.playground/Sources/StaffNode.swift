@@ -36,11 +36,14 @@ public class StaffNode: SKShapeNode {
     }
 
     public convenience init(measure: Measure, rect: CGRect) {
-        self.init(rect: rect)
+        let rect_ = CGRect(x: 0, y: 0, width: rect.size.width, height: rect.size.height)
+        self.init(rect: rect_)
 
         // TODO: Figure out why it's necessary to set the position alongside the rect
         position = CGPoint(x: rect.origin.x, y: rect.origin.y)
         fillColor = SKColor.white
+        strokeColor = SKColor.red
+        lineWidth = 2
 
         drawHorizontalLines()
         drawVerticalLine(atX: 1.5)

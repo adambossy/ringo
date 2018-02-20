@@ -32,7 +32,7 @@ public class SheetMusicScene : SKScene {
         self.song = song
         numStaffs = song.measures.count
     }
-    
+
     public override func didMove(to view: SKView) {
         parseSong()
         playSong()
@@ -103,7 +103,7 @@ public class SheetMusicScene : SKScene {
     @objc
     func startMetronome() {
 //        Timer.scheduledTimer(timeInterval: tickDuration() * 16, target: self, selector: #selector(SheetMusicScene.nextStaff), userInfo: nil, repeats: true) //
-        Timer.scheduledTimer(timeInterval: tickDuration(), target: self, selector: #selector(SheetMusicScene.printTick), userInfo: nil, repeats: true) //
+//        Timer.scheduledTimer(timeInterval: tickDuration(), target: self, selector: #selector(SheetMusicScene.printTick), userInfo: nil, repeats: true) //
     }
 
     @objc
