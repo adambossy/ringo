@@ -25,6 +25,15 @@ public struct Measure {
 public class StaffNode: SKShapeNode {
     
     var measure: Measure?
+    var active: Bool = false {
+        didSet {
+            if active {
+                fillColor = SKColor.lightGray
+            } else {
+                fillColor = SKColor.white
+            }
+        }
+    }
 
     public convenience init(measure: Measure, rect: CGRect) {
         self.init(rect: rect)
@@ -160,5 +169,49 @@ public class StaffNode: SKShapeNode {
 
     func tickGroupWidth() -> CGFloat {
         return (frame.size.width - (staffXPadding() * 2)) / CGFloat(oneBeatValue)
+    }
+
+    // MARK Handle user input
+    
+    func createPlayNode() -> SKShapeNode {
+        let n = SKShapeNode(circleOfRadius: noteHeadRadius)
+
+        n.fillColor = SKColor.red
+                    n.lineWidth = 0
+
+        let fadeOut = SKAction.fadeOut(withDuration: 0.5)
+        let scale = SKAction.scale(by: 5.0, duration: 0.5)
+        let fadeAndScale = SKAction.group([fadeOut, scale])
+        let actions = [fadeAndScale, .removeFromParent()]
+        let fadeScaleAndRemove = SKAction.sequence(actions)
+        n.run(fadeScaleAndRemove)
+
+        return n
+    }
+
+    // COPIED FROM BeamedNotesNode
+
+    func yOffset(forNotePitch notePitch: NotePitch) -> CGFloat {
+        // Subtract 1 from rawValue, since the NotePitch enum starts at E4 and we have to adjust by (hLineDistance / 2). If we add more pitches in the 4th octave, we should adjust by more.
+        // FIXME: Codify magic constants
+        return lineOffset + (hLineDistance / 2) * CGFloat(notePitch.rawValue - 1) - staffHeight
+    }
+    
+    func sixteenthNoteDistance() -> CGFloat {
+        return tickGroupWidth() / 4
+    }
+
+    func xAtTick(tick: CGFloat) -> CGFloat {
+        return noteHeadRadius + (sixteenthNoteDistance() * tick) + 1
+    }
+
+    // ---
+
+    func userPlayed(atTick tick: Double, withPitch pitch: NotePitch) {
+        // `tick` is a Double anywhere within the context of user input, because the user's input will be imprecise
+        let n = createPlayNode()
+        n.position = CGPoint(x: xAtTick(tick: CGFloat(tick)), y: yOffset(forNotePitch: pitch))
+        print("pos", n.position)
+        addChild(n)
     }
 }

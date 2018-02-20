@@ -62,7 +62,7 @@ public class BeamedNotesNode: SKShapeNode {
         return lineOffset + (hLineDistance / 2) * CGFloat(notePitch.rawValue - 1) - staffHeight
     }
 
-    func xAtTick(tick: Int) -> CGFloat {
+    func xAtTick(tick: Int) -> CGFloat { // TODO Rename x(atTick:)
         return noteHeadRadius + (sixteenthNoteDistance() * CGFloat(tick)) + 1
     }
 
