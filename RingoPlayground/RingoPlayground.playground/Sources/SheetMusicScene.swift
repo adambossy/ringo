@@ -192,6 +192,10 @@ public class SheetMusicScene : SKScene {
                 camera?.run(SKAction.move(by: CGVector(dx: 0, dy: 100), duration: 0.5))
             case Keycode.downArrow:
                 camera?.run(SKAction.move(by: CGVector(dx: 0, dy: -100), duration: 0.5))
+            case Keycode.leftArrow:
+                camera?.run(SKAction.move(by: CGVector(dx: -100, dy: 0), duration: 0.5))
+            case Keycode.rightArrow:
+                camera?.run(SKAction.move(by: CGVector(dx: 100, dy: 0), duration: 0.5))
             default:
                 break
             }
