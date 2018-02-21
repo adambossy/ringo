@@ -14,8 +14,8 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let sceneWidth: CGFloat = 800
-        let sceneHeight: CGFloat = 1200
+        let sceneWidth: CGFloat = self.view.frame.width
+        let sceneHeight: CGFloat = self.view.frame.height
         let scene = SheetMusicScene(song: Rush_TomSawyer, size: CGSize(width: sceneWidth, height: sceneHeight))
         
         // Playground sturf
