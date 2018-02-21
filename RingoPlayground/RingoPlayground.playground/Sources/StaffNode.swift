@@ -197,7 +197,7 @@ public class StaffNode: SKShapeNode {
     func yOffset(forNotePitch notePitch: NotePitch) -> CGFloat {
         // Subtract 1 from rawValue, since the NotePitch enum starts at E4 and we have to adjust by (hLineDistance / 2). If we add more pitches in the 4th octave, we should adjust by more.
         // FIXME: Codify magic constants
-        return lineOffset + (hLineDistance / 2) * CGFloat(notePitch.rawValue - 1) - staffHeight
+        return lineOffset + (hLineDistance / 2) * CGFloat(notePitch.rawValue - 1)
     }
     
     func sixteenthNoteDistance() -> CGFloat {
