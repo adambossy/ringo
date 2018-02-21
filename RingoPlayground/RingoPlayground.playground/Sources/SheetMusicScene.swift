@@ -8,6 +8,7 @@ let kSheetMusicPaddingY: CGFloat = 10.0
 let staffsPerLine : Int = 2
 
 var player: AVAudioPlayer?
+var camera: SKCameraNode?
 
 public struct Song {
     public init(measures: [Measure]) {
@@ -34,6 +35,14 @@ public class SheetMusicScene : SKScene {
     }
 
     public override func didMove(to view: SKView) {
+        super.didMove(to: view)
+
+        let strongCameraRef = SKCameraNode()
+        strongCameraRef.position = CGPoint(x: NSMidX(self.frame), y: 0)
+
+        self.camera = strongCameraRef
+        self.addChild(strongCameraRef)
+
         parseSong()
         playSong()
     }
@@ -179,6 +188,10 @@ public class SheetMusicScene : SKScene {
                 staffNode.userPlayed(atTick: tick, withPitch: HiHatPitch)
             case Keycode.k:
                 staffNode.userPlayed(atTick: tick, withPitch: CrashPitch)
+            case Keycode.upArrow:
+                camera?.run(SKAction.move(by: CGVector(dx: 0, dy: 100), duration: 0.5))
+            case Keycode.downArrow:
+                camera?.run(SKAction.move(by: CGVector(dx: 0, dy: -100), duration: 0.5))
             default:
                 break
             }
