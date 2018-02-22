@@ -228,13 +228,11 @@ public class SheetMusicScene : SKScene {
 
     func activeStaffIndex() -> Int {
         let x = Int(currentTick() / 16.0)
-        print("!!!!! currentTick", currentTick())
         return x
     }
 
     func activeStaffNode() -> StaffNode? {
         let staffIndex = activeStaffIndex()
-        print("!!!!!!! activeStaffIndex", activeStaffIndex())
         if staffIndex < staffs.count {
             return staffs[staffIndex]
         }
@@ -243,7 +241,6 @@ public class SheetMusicScene : SKScene {
     
     @objc
     func nextStaff() {
-        print("nextStaff")
         activeStaff?.active = false
         activeStaff = activeStaffNode()
         activeStaff?.active = true
@@ -262,7 +259,6 @@ public class SheetMusicScene : SKScene {
     func currentTick() -> Double { // TODO Maybe this should return an Int, not sure yet
         if !songStarted {
             if let deviceCurrentTime = beepPlayer?.deviceCurrentTime, let beepsStartedInterval = self.beepsStartedInterval {
-                print("deviceCurrentTime", deviceCurrentTime)
                 return (deviceCurrentTime - beepsStartedInterval) / tickDuration()
             }
         } else {
@@ -277,7 +273,6 @@ public class SheetMusicScene : SKScene {
     func currentTickInMeasure() -> Double {
         let staffIndex = activeStaffIndex()
         let tick = currentTick() - (Double(staffIndex) * 16)
-        print("staffIndex", staffIndex, "tick", tick, "currentTick", currentTick())
         return tick
     }
     
