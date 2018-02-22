@@ -42,7 +42,6 @@ public class StaffNode: SKShapeNode {
         // TODO: Figure out why it's necessary to set the position alongside the rect
         position = CGPoint(x: rect.origin.x, y: rect.origin.y)
         fillColor = SKColor.white
-        strokeColor = SKColor.red
         lineWidth = 2
 
         drawHorizontalLines()
@@ -214,7 +213,8 @@ public class StaffNode: SKShapeNode {
         // `tick` is a Double anywhere within the context of user input, because the user's input will be imprecise
         let n = createPlayNode()
         n.position = CGPoint(x: xAtTick(tick: CGFloat(tick)), y: yOffset(forNotePitch: pitch))
-        print("pos", n.position)
+        print("tick", tick)
+//        print("pos", n.position)
         addChild(n)
     }
 }

@@ -6,6 +6,8 @@ let kSheetMusicPaddingX: CGFloat = 25.0
 let kSheetMusicPaddingY: CGFloat = 10.0
 
 let staffsPerLine : Int = 2
+let countdownStaffs : Int = 2 // Two measures
+let startDelay = 1.0 // Hardcoding startDelay for Tom Sawyer
 
 var player: AVAudioPlayer?
 var camera: SKCameraNode?
@@ -20,9 +22,17 @@ public struct Song {
 public class SheetMusicScene : SKScene {
 
     var numStaffs : Int = 0
-    var song : Song?
     var staffs = [StaffNode]()
-    
+    var activeStaff : StaffNode?
+
+    var song : Song?
+    var songStarted : Bool = false
+
+    var beepTimer : Timer?
+    var beepPlayer : AVAudioPlayer?
+    var beepsStartedInterval : TimeInterval?
+    var countdownBeeps : Int = 0
+
     public convenience init(song: Song, size: CGSize) {
         self.init(size: size)
 
@@ -43,15 +53,26 @@ public class SheetMusicScene : SKScene {
         self.camera = strongCameraRef
         self.addChild(strongCameraRef)
 
-        parseSong()
-        playSong()
+        layoutSong()
+        start()
     }
 
     // MARK Layout functions
 
-    func parseSong() {
+    func layoutSong() {
+        layoutCountdownStaffs()
+        layoutMeasures()
+    }
+
+    func layoutCountdownStaffs() {
+        for index in 0..<countdownStaffs {
+            add(index: index, measure: Measure(notes: [Note]()))
+        }
+    }
+
+    func layoutMeasures() {
         for (index, measure) in song!.measures.enumerated() {
-            add(index: index, measure: measure)
+            add(index: index + countdownStaffs, measure: measure)
         }
     }
 
@@ -89,20 +110,100 @@ public class SheetMusicScene : SKScene {
         return (self.size.width - (kSheetMusicPaddingX * 2)) / CGFloat(staffsOnLine)
     }
 
-    // MARK Music playback
+    // MARK Game mechanics
+
+    func start() {
+        // Put ALL schedulerTimer calls in this function instead of chaining them, as would be cleaner or more logical perhaps, to help mitigate clock drift
+
+        loadBeep()
+        playBeep()
+        startBeeps()
+
+        let countdownDoneInterval = beatDuration() * Double(countdownStaffs) * 4.0
+        Timer.scheduledTimer(
+            timeInterval: countdownDoneInterval - startDelay,
+            target: self,
+            selector: #selector(SheetMusicScene.playSong),
+            userInfo: nil,
+            repeats: false
+        )
+        Timer.scheduledTimer(
+            timeInterval: countdownDoneInterval,
+            target: self,
+            selector: #selector(SheetMusicScene.songDidStart),
+            userInfo: nil,
+            repeats: false)
+
+        activeStaff = staffs[0]
+        nextStaff()
+
+        Timer.scheduledTimer(
+            timeInterval: 0.01, // Inexplicable why this should be 0.01
+            target: self,
+            selector: #selector(SheetMusicScene.startWithDelay),
+            userInfo: nil,
+            repeats: false)
+    }
+
+    @objc
+    func startWithDelay() {
+        Timer.scheduledTimer(
+            timeInterval: beatDuration() * 4,
+            target: self,
+            selector: #selector(SheetMusicScene.nextStaff),
+            userInfo: nil,
+            repeats: true)
+    }
+
+    func startBeeps() {
+        beepTimer = Timer.scheduledTimer(
+            timeInterval: beatDuration(),
+            target: self,
+            selector: #selector(SheetMusicScene.playBeep),
+            userInfo: nil,
+            repeats: true
+        )
+    }
+
+    func loadBeep() {
+        if let asset = NSDataAsset(name:NSDataAsset.Name(rawValue: "beep-7")) {
+            do {
+                beepPlayer = try AVAudioPlayer(data:asset.data, fileTypeHint:"mp3")
+                beepPlayer?.prepareToPlay()
+            } catch let error as NSError {
+                print(error.localizedDescription)
+            }
+        }
+    }
     
+    // MARK Music playback
+
+    @objc
+    func playBeep() {
+        if beepsStartedInterval == nil {
+            beepsStartedInterval = beepPlayer?.deviceCurrentTime
+        }
+
+        if countdownBeeps < countdownStaffs * 4 {
+            beepPlayer?.play()
+
+            let staffIndex = countdownBeeps / 4
+            let staffNode = staffs[staffIndex]
+            let tick = Double(countdownBeeps * 4).truncatingRemainder(dividingBy: 16)
+            staffNode.userPlayed(atTick: tick, withPitch: SnarePitch)
+
+            countdownBeeps += 1
+        } else {
+            beepTimer?.invalidate()
+        }
+    }
+
+    @objc
     func playSong() {
         if let asset = NSDataAsset(name:NSDataAsset.Name(rawValue: "Rush_TomSawyer")) {
             do {
                 player = try AVAudioPlayer(data:asset.data, fileTypeHint:"mp3")
                 player?.play()
-                
-                Timer.scheduledTimer(
-                    timeInterval: 0.4,
-                    target: self,
-                    selector: #selector(SheetMusicScene.startMetronome),
-                    userInfo: nil,
-                    repeats: false) // Hardcoding Tom Sawyer start delay as 0.4
             } catch let error as NSError {
                 print(error.localizedDescription)
             }
@@ -110,26 +211,19 @@ public class SheetMusicScene : SKScene {
     }
 
     @objc
-    func startMetronome() {
-//        Timer.scheduledTimer(timeInterval: tickDuration() * 16, target: self, selector: #selector(SheetMusicScene.nextStaff), userInfo: nil, repeats: true) //
-//        Timer.scheduledTimer(timeInterval: tickDuration(), target: self, selector: #selector(SheetMusicScene.printTick), userInfo: nil, repeats: true) //
-    }
-
-    @objc
-    func printTick() {
-        let tick = currentTick()
-        print("tick", tick)
-        if tick.truncatingRemainder(dividingBy: 16) < 1 {
-//            nextStaff()
-        }
+    func songDidStart() {
+        songStarted = true
     }
 
     func activeStaffIndex() -> Int {
-        return Int(currentTick() / 16.0)
+        let x = Int(currentTick() / 16.0)
+        print("!!!!! currentTick", currentTick())
+        return x
     }
 
     func activeStaffNode() -> StaffNode? {
         let staffIndex = activeStaffIndex()
+        print("!!!!!!! activeStaffIndex", activeStaffIndex())
         if staffIndex < staffs.count {
             return staffs[staffIndex]
         }
@@ -138,21 +232,10 @@ public class SheetMusicScene : SKScene {
     
     @objc
     func nextStaff() {
-        for staff in staffs {
-            staff.active = false
-        }
-
-        let staffIndex = activeStaffIndex()
-//        print("staffIndex", staffIndex, " % on line", staffIndex % staffsOnLine(forIndex: staffIndex))
-        
-        if staffIndex % staffsOnLine(forIndex: staffIndex) == 0 {
-            let moveUp_ = SKAction.move(by: CGVector(dx: 0, dy: staffHeight * 2.5), duration: 0.5)
-            for staffNode in staffs {
-                staffNode.run(moveUp_)
-            }
-        }
-        
-        staffs[staffIndex].active = true
+        print("nextStaff")
+        activeStaff?.active = false
+        activeStaff = activeStaffNode()
+        activeStaff?.active = true
     }
     
     func beatDuration() -> Double { // Move to metronome class?
@@ -166,18 +249,30 @@ public class SheetMusicScene : SKScene {
     // MARK Render user playback
 
     func currentTick() -> Double { // TODO Maybe this should return an Int, not sure yet
-        if let currentTime = player?.currentTime {
-            let startDelay = 1.0 // Hardcoding startDelay for Tom Sawyer
-            let numTick = (currentTime - startDelay) / tickDuration()
-            return numTick
+        if !songStarted {
+            if let deviceCurrentTime = beepPlayer?.deviceCurrentTime, let beepsStartedInterval = self.beepsStartedInterval {
+                print("deviceCurrentTime", deviceCurrentTime)
+                return (deviceCurrentTime - beepsStartedInterval) / tickDuration()
+            }
+        } else {
+            if let currentTime = player?.currentTime {
+                let countdownOffset = Double(countdownStaffs * 16)
+                return (currentTime - startDelay) / tickDuration() + countdownOffset
+            }
         }
         return 0
     }
     
+    func currentTickInMeasure() -> Double {
+        let staffIndex = activeStaffIndex()
+        let tick = currentTick() - (Double(staffIndex) * 16)
+        print("staffIndex", staffIndex, "tick", tick, "currentTick", currentTick())
+        return tick
+    }
+    
     override public func keyDown(with event: NSEvent) {
         if let staffNode = activeStaffNode() {
-            let staffIndex = activeStaffIndex()
-            let tick = currentTick() - (Double(staffIndex) * 16)
+            let tick = currentTickInMeasure()
             
             switch UInt16(event.keyCode) {
             case Keycode.d:
