@@ -117,10 +117,12 @@ public class SheetMusicScene : SKScene {
     func start() {
         // Put ALL schedulerTimer calls in this function instead of chaining them, as would be cleaner or more logical perhaps, to help mitigate clock drift
 
+        // Initiate countdown
         loadBeep()
         playBeep()
         startBeeps()
 
+        // Start song
         let countdownDoneInterval = beatDuration() * Double(countdownStaffs) * 4.0
         Timer.scheduledTimer(
             timeInterval: countdownDoneInterval - startDelay,
@@ -136,15 +138,22 @@ public class SheetMusicScene : SKScene {
             userInfo: nil,
             repeats: false)
 
+        // Staff highlighting
         activeStaff = staffs[0]
         nextStaff()
-
         Timer.scheduledTimer(
             timeInterval: 0.01, // Inexplicable why this should be 0.01
             target: self,
             selector: #selector(SheetMusicScene.startWithDelay),
             userInfo: nil,
             repeats: false)
+
+        // Move camera
+        // May want to adjust speed based on staffs per current line each time we hit a new line
+        // once we support odd time signatures and the time signature changes up mid-song
+        let panDuration = beatDuration() * Double(4 * staffsPerLine)
+        let move = SKAction.move(by: CGVector(dx: 0, dy: -staffHeight * 2.5), duration: panDuration)
+        camera?.run(SKAction.repeatForever(move))
     }
 
     @objc
