@@ -97,7 +97,9 @@ public class SheetMusicScene : SKScene {
     }
 
     func staffsOnLine(forIndex index: Int) -> Int {
-        let threshold = (numStaffs / staffsPerLine * staffsPerLine)
+        let threshold = (numStaffs + countdownStaffs) / staffsPerLine * staffsPerLine
+        // Threshold is a terrible variable name. This if check determines whether the staff at
+        // index `index` is on the last line and whether we should stretch it as a result
         if index >= threshold {
             return numStaffs - threshold
         } else {
