@@ -23,14 +23,15 @@ public struct Measure {
 }
 
 public class StaffNode: SKShapeNode {
-    
+
+    var rect_: CGRect?
     var measure: Measure?
     var active: Bool = false {
         didSet {
             if active {
                 fillColor = SKColor.lightGray
             } else {
-                fillColor = SKColor.white
+                fillColor = SKColor.clear
             }
         }
     }
@@ -39,15 +40,16 @@ public class StaffNode: SKShapeNode {
         let rect_ = CGRect(x: 0, y: 0, width: rect.size.width, height: rect.size.height)
         self.init(rect: rect_)
 
+        self.rect_ = rect_
         // TODO: Figure out why it's necessary to set the position alongside the rect
         position = CGPoint(x: rect.origin.x, y: rect.origin.y)
-        fillColor = SKColor.white
+        fillColor = SKColor.clear
         lineWidth = 2
 
         drawHorizontalLines()
-        drawVerticalLine(atX: 1.5)
-        drawVerticalLine(atX: frame.size.width - 1.5)
-        
+        drawVerticalLine(atX: 0)
+        drawVerticalLine(atX: rect.size.width)
+
         self.measure = measure
         parseMeasure()
     }
@@ -58,7 +60,7 @@ public class StaffNode: SKShapeNode {
             let path = CGMutablePath()
             let line = SKShapeNode()
             path.move(to: CGPoint(x: vLineWidth, y: localHLineY))
-            path.addLine(to: CGPoint(x: frame.size.width - vLineWidth, y: localHLineY))
+            path.addLine(to: CGPoint(x: rect_!.size.width - vLineWidth, y: localHLineY))
             line.path = path
             line.strokeColor = SKColor.black
             line.lineWidth = hLineHeight
@@ -166,11 +168,11 @@ public class StaffNode: SKShapeNode {
     }
 
     func staffXPadding() -> CGFloat {
-        return (frame.size.width / CGFloat(beatsPerMeasure * oneBeatValue)) / 4.0 // Trailing "/ 4" is fudge factor
+        return (rect_!.size.width / CGFloat(beatsPerMeasure * oneBeatValue)) / 4.0 // Trailing "/ 4" is fudge factor
     }
 
     func tickGroupWidth() -> CGFloat {
-        return (frame.size.width - (staffXPadding() * 2)) / CGFloat(oneBeatValue)
+        return (rect_!.size.width - (staffXPadding() * 2)) / CGFloat(oneBeatValue)
     }
 
     // MARK Handle user input
@@ -213,8 +215,6 @@ public class StaffNode: SKShapeNode {
         // `tick` is a Double anywhere within the context of user input, because the user's input will be imprecise
         let n = createPlayNode()
         n.position = CGPoint(x: xAtTick(tick: CGFloat(tick)), y: yOffset(forNotePitch: pitch))
-        print("tick", tick)
-//        print("pos", n.position)
         addChild(n)
     }
 }

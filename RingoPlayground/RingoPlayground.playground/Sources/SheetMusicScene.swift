@@ -101,7 +101,7 @@ public class SheetMusicScene : SKScene {
         // Threshold is a terrible variable name. This if check determines whether the staff at
         // index `index` is on the last line and whether we should stretch it as a result
         if index >= threshold {
-            return numStaffs - threshold
+            return numStaffs + countdownStaffs - threshold
         } else {
             return staffsPerLine
         }
