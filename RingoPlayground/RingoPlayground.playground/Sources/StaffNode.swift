@@ -176,12 +176,24 @@ public class StaffNode: SKShapeNode {
     }
 
     // MARK Handle user input
-    
-    func createPlayNode() -> SKShapeNode {
+
+    func color(forNearestNoteDistance nearestNoteDistance: Double?) -> SKColor {
+        if let nearestNoteDistance = nearestNoteDistance {
+            print("red", 255.0 * (min(nearestNoteDistance, 3.0) / 3.0))
+            return SKColor.init(
+                red: CGFloat(min(nearestNoteDistance, 3.0) / 3.0),
+                green: CGFloat(1.0 / min(nearestNoteDistance, 3.0) / 3.0),
+                blue: 0,
+                alpha: 1)
+        }
+        return SKColor.init(red: 0, green: 255, blue: 0, alpha: 1)
+    }
+
+    func createPlayNode(withColor color: SKColor) -> SKShapeNode {
         let n = SKShapeNode(circleOfRadius: noteHeadRadius)
 
-        n.fillColor = SKColor.red
-                    n.lineWidth = 0
+        n.fillColor = color
+        n.lineWidth = 0
 
         let fadeOut = SKAction.fadeOut(withDuration: 0.5)
         let scale = SKAction.scale(by: 5.0, duration: 0.5)
@@ -213,8 +225,28 @@ public class StaffNode: SKShapeNode {
 
     func userPlayed(atTick tick: Double, withPitch pitch: NotePitch) {
         // `tick` is a Double anywhere within the context of user input, because the user's input will be imprecise
-        let n = createPlayNode()
+        let nearestNoteDistance = self.nearestNoteDistance(atTick: tick, withPitch: pitch)
+        let color = self.color(forNearestNoteDistance: nearestNoteDistance)
+        print("nearestNoteDistance", nearestNoteDistance as Any)
+//        print("color", color as Any)
+
+        let n = createPlayNode(withColor: color)
         n.position = CGPoint(x: xAtTick(tick: CGFloat(tick)), y: yOffset(forNotePitch: pitch))
         addChild(n)
+    }
+    
+    // FIXME Not sure this should live in this class
+    func nearestNoteDistance(atTick tick: Double, withPitch pitch: NotePitch) -> Double? {
+        var minDistance : Double? = nil
+        if let measure = self.measure {
+            for note in measure.notes {
+                if note.pitch != pitch {
+                    continue
+                }
+                let distance = abs(tick - Double(note.tick))
+                minDistance = min(distance, minDistance ?? distance)
+            }
+        }
+        return minDistance
     }
 }
